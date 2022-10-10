@@ -1,0 +1,38 @@
+body {
+    font-family: "Helvetica";
+    margin: auto;
+    box-sizing: border-box;
+    padding: 5rem;
+}
+
+.form-textinput {
+    display: grid;
+    width: 60%;
+    margin: auto;
+}
+
+.form-textinput-label {
+    grid-row: 1;
+    margin: auto;
+    padding: 1.5rem;
+    font-weight: 200;
+    font-size: 1.2rem;
+}
+
+input {
+    font-family: Helvetica;
+    font-size: 1.2rem;
+    text-align: justify;
+    color: darkslategrey;
+    grid-row: 2;
+    border: none;
+    border-radius: 5px;
+    padding: .2rem;
+    margin: .2rem;
+    background: #dfefef;
+    height: 1.5rem;
+}
+
+*:focus {
+    outline: none;
+}

@@ -1,0 +1,6 @@
+<div fragment="question">
+    <p th:text="${question.questionText}"></p>
+    <div th:each="answer : ${question.questionAnswers}">
+        <div replace="fragments/inputTextField :: form-textinput"></div>
+    </div>
+</div>

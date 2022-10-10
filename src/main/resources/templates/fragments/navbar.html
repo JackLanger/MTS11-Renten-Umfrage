@@ -1,0 +1,8 @@
+<div class="navbar" th:fragment="navbar">
+    <h2 th:text="${title}">title</h2>
+    <ul>
+        <li th:each="item : ${paths}">
+            <a class="navigation-link" th:href="${item.value}" th:text="${item.key}"></a>
+        </li>
+    </ul>
+</div>

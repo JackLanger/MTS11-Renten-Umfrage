@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments/head :: head">
+    <link href="/static/styles/main.css" rel="stylesheet">
+</head>
+<body>
+<div th:replace="fragments/navbar :: navbar"/>
+<div>
+    <h1>Rente in deutschland</h1>
+    <h3> Eine Umfrage der MTS 11 des OSZIMT Berlin </h3>
+    <p></p>
+
+    <!--    <div replace="fragment/inputTextField :: textinput"></div>-->
+    <div class="form-textinput" fragment="textinput">
+        <label class="form-textinput-label" th:text="${answer.answerOption}">TextinputField</label>
+        <input class="form-textinput" placeholder="10.000 EURO" type="text">
+    </div>
+
+</div>
+</body>
+</html>
