@@ -1,7 +1,9 @@
 package osz.imt.mts.mts11umfrage.models;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -32,5 +34,8 @@ public class UserAnswers {
   @JoinColumn(name = "question_answer_id")
   private QuestionAnswer questionAnswer;
 
+  @Basic(fetch = FetchType.LAZY)
+  @Column(nullable = false)
   private String userAnswerValue;
+
 }
