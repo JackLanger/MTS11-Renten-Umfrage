@@ -2,7 +2,16 @@ CREATE TABLE t_question
 (
     p_question_id int NOT NULL,
     question_text varchar(255),
+    type_type_id  int,
     CONSTRAINT pk_t_question PRIMARY KEY (p_question_id)
+)
+GO
+
+CREATE TABLE t_question_type
+(
+    type_id int NOT NULL,
+    value   varchar(255),
+    CONSTRAINT pk_t_question_type PRIMARY KEY (type_id)
 )
 GO
 
@@ -25,6 +34,10 @@ CREATE TABLE t_user_answers
 )
 GO
 
+
+ALTER TABLE t_question
+    ADD CONSTRAINT FK_T_QUESTION_ON_TYPE_TYPE FOREIGN KEY (type_type_id) REFERENCES t_question_type (type_id)
+GO
 
 ALTER TABLE t_question_answer
     ADD CONSTRAINT FK_T_QUESTION_ANSWER_ON_QUESTION_P_QUESTION FOREIGN KEY (question_p_question_id) REFERENCES t_question (p_question_id)
