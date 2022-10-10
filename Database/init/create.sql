@@ -1,9 +1,8 @@
--- Active: 1647363853103@@localhost@1433
-CREATE DATABASE eGameDarling;
+CREATE DATABASE umfrage;
 GO
--- Create login eGameDarling for tests.
-CREATE LOGIN jack
-WITH PASSWORD = 'jack',
+-- Create login umfrage for tests.
+CREATE LOGIN umfrage
+WITH PASSWORD = 'umfrage',
 CHECK_POLICY = OFF,
 CHECK_EXPIRATION = OFF;
 GO
@@ -11,10 +10,10 @@ GO
 USE eGameDarling
 GO
 
-CREATE USER jack
-    FROM LOGIN jack
+CREATE USER umfrage
+    FROM LOGIN umfrage
     WITH DEFAULT_SCHEMA=dbo
     GO
 -- set privilage
-USE eGameDarling 
-        ALTER ROLE db_owner ADD MEMBER jack;
+USE umfrage
+        ALTER ROLE db_owner ADD MEMBER umfrage;
