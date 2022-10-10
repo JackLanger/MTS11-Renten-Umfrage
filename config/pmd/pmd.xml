@@ -1,0 +1,113 @@
+<?xml version="1.0"?>
+
+<ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         name="Custom Rules"
+         xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
+         xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 https://pmd.sourceforge.io/ruleset_2_0_0.xsd">
+
+    <description>
+        VFL PMD ruleset.
+    </description>
+
+    <!-- Best practices -->
+    <rule ref="category/java/bestpractices.xml">
+        <!--Rule disabled - We use slf4j and this uses a lazy valuation on the logging statements.-->
+        <exclude name="GuardLogStatement"/>
+        <!-- Most Tests here need more than one assert. -->
+        <exclude name="JUnitTestContainsTooManyAsserts"/>
+        <!-- Most Tests have many simple assertions, which do not need messages. -->
+        <exclude name="JUnitAssertionsShouldIncludeMessage"/>
+    </rule>
+    <!--Ignore LOGGER variable if unused-->
+    <rule ref="category/java/bestpractices.xml/UnusedPrivateField">
+        <properties>
+            <property name="violationSuppressXPath" value="//VariableDeclaratorId[@Name='LOGGER']"/>
+        </properties>
+    </rule>
+
+    <!-- Code Style -->
+    <rule ref="category/java/codestyle.xml">
+        <!--Rule disabled - We don't want to declare a constructor always.-->
+        <exclude name="AtLeastOneConstructor"/>
+        <!--Generic names should have a meaningful name. -->
+        <exclude name="GenericsNaming"/>
+    </rule>
+    <!-- Minimal letters of class names set to 4 because of class city -->
+    <rule ref="category/java/codestyle.xml/ShortClassName">
+        <properties>
+            <property name="minimum" value="4"/>
+        </properties>
+    </rule>
+    <!-- Ignore the only one return value for the (generated) equals methods -->
+    <rule ref="category/java/codestyle.xml/OnlyOneReturn">
+        <properties>
+            <property name="violationSuppressXPath"
+                      value="//MethodDeclaration[@Name='equals']"/>
+        </properties>
+    </rule>
+    <rule ref="category/java/codestyle.xml/LongVariable">
+        <properties>
+            <property name="minimum" value="25"/>
+        </properties>
+    </rule>
+
+
+    <!-- Design -->
+    <rule ref="category/java/design.xml">
+        <exclude name="LoosePackageCoupling"/>
+        <exclude name="DataClass"/>
+        <exclude name="LawOfDemeter"/>
+        <exclude name="ImmutableField"/>
+    </rule>
+
+    <rule ref="category/java/design.xml/ImmutableField">
+        <properties>
+            <!-- Ignore @Test methods -->
+            <property name="violationSuppressXPath" value="
+        //ClassOrInterfaceBodyDeclaration/Annotation/MarkerAnnotation//Name[@Image='Autowired']"/>
+        </properties>
+    </rule>
+
+    <rule ref="category/java/design.xml/TooManyMethods">
+        <properties>
+            <!-- Ignore @Test methods -->
+            <property name="violationSuppressXPath" value="
+        //ClassOrInterfaceBodyDeclaration/Annotation/MarkerAnnotation//Name[@Image='Test']"/>
+        </properties>
+    </rule>
+    <!-- Ignore UseUtilityClass for @SpringBootApplication -->
+    <rule ref="category/java/design.xml/UseUtilityClass">
+        <properties>
+            <property name="violationSuppressXPath"
+                      value="//ClassOrInterfaceDeclaration/preceding-sibling::Annotation/MarkerAnnotation/Name[@Image='SpringBootApplication']"/>
+        </properties>
+    </rule>
+
+    <!-- Documentation -->
+    <rule ref="category/java/documentation.xml"></rule>
+    <rule ref="category/java/documentation.xml/CommentSize">
+        <properties>
+            <property name="maxLineLength" value="100"/>
+            <property name="maxLines" value="14"/>
+        </properties>
+    </rule>
+
+    <!-- Error prone -->
+    <rule ref="category/java/errorprone.xml">
+        <!-- Ignore DataflowAnomalyAnalysis because often variables need to be redefined. -->
+        <exclude name="DataflowAnomalyAnalysis"/>
+    </rule>
+
+    <!-- Multi threading -->
+    <rule ref="category/java/multithreading.xml"></rule>
+
+    <!-- Performance -->
+    <rule ref="category/java/performance.xml">
+        <!-- Ignore this as many objects need to be instantiated in loops.-->
+        <exclude name="AvoidInstantiatingObjectsInLoops"/>
+    </rule>
+
+    <!-- Security -->
+    <rule ref="category/java/security.xml"></rule>
+
+</ruleset>
