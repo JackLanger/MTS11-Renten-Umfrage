@@ -1,26 +1,118 @@
+element {
+    --form-input-bg: #dfefef;
+    --font-main-default: Helvetica;
+    --font-size-default: 17px;
+    --font-size-default-mobile: 14px;
+    --font-size-small: 12px;
+    --font-size-large: 24px;
+}
+
+.navbar {
+    position: relative;
+    margin: auto 0;
+    padding: 0;
+    top: 0;
+    display: inline-list-item;
+    text-align: justify;
+    background: linear-gradient(to right, darkslategrey, darkcyan);
+}
+
+.navbar-li {
+    margin: auto;
+}
+
+.navbar-li > li {
+    font-size: 17px;
+    cursor: pointer;
+    margin: 0;
+    padding: 15px;
+    display: table-cell;
+    border-radius: 0;
+    font-weight: bold;
+    background: #dfefef;
+    /*letter-spacing: 2px;*/
+}
+
+.navbar-li > li:hover {
+    background: darkcyan;
+    color: white;
+}
+
 body {
     font-family: "Helvetica";
     margin: auto;
     box-sizing: border-box;
+    padding: 0;
+    line-height: 1.7;
+}
+
+article {
     padding: 5rem;
+    max-width: 85ch;
+    margin: auto;
+}
+
+p {
+    padding: 2rem;
+    max-width: 75ch;
+}
+
+.para-cols-3 {
+    column-count: 3;
+    text-align: justify;
+    justify-content: space-between;
+}
+
+.container {
+    padding: 3rem;
+    width: 50%;
+    margin: auto;
+    align-content: space-around;
+    display: inline-grid;
+}
+
+.radio-container {
+    padding: 0;
+    justify-content: center;
+}
+
+
+input[type="radio"] {
+    margin-top: -1px;
+    vertical-align: middle;
+}
+
+input[type="checkbox"] {
+    margin-top: 1px;
+    vertical-align: middle;
 }
 
 .form-textinput {
-    display: grid;
     width: 60%;
     margin: auto;
+    text-align: center;
+}
+
+.form-label {
+    margin: auto 1.5rem;
+    padding: 1rem 1.5rem;
 }
 
 .form-textinput-label {
-    grid-row: 1;
-    margin: auto;
-    padding: 1.5rem;
     font-weight: 200;
     font-size: 1.2rem;
 }
 
+.form-checkbox-label {
+    cursor: pointer;
+}
+
+
+.form-radio-label {
+    cursor: pointer;
+}
+
 input {
-    font-family: Helvetica;
     font-size: 1.2rem;
     text-align: justify;
     color: darkslategrey;
@@ -29,10 +121,54 @@ input {
     border-radius: 5px;
     padding: .2rem;
     margin: .2rem;
+    /*background: var(--form-input-bg);*/
     background: #dfefef;
     height: 1.5rem;
 }
 
+.form-submit {
+    padding: 10px;
+    height: 40px;
+    cursor: pointer;
+}
+
+.form-submit:hover {
+    background: darkcyan;
+    color: white;
+}
+
 *:focus {
     outline: none;
+}
+
+.range-container {
+    width: 70%;
+}
+
+.form-range-labels {
+    list-style-type: none;
+    width: 100%;
+    margin-bottom: 0px;
+    margin-right: 0px;
+    padding-left: 25px;
+    padding-right: 0px;
+    text-align: justify;
+    display: flex;
+    flex-grow: 1;
+    justify-content: space-between;
+}
+
+.form-range-input {
+    width: 100%;
+    margin-left: 25px;
+    cursor: pointer;
+}
+
+ul > li {
+    display: inline-block;
+    font-size: 10px;
+    padding: 7px;
+    margin: 5px;
+    border-radius: 5px;
+    background: #dfefef;
 }
