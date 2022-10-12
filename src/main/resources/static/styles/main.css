@@ -44,12 +44,15 @@ body {
     box-sizing: border-box;
     padding: 0;
     line-height: 1.7;
+    background: linear-gradient(to right, white, lightgray, white);
 }
 
 article {
     padding: 5rem;
     max-width: 85ch;
     margin: auto;
+    background: white;
+    box-shadow: rgba(0, 0, 0, .1) 2px 2px 7px;
 }
 
 p {

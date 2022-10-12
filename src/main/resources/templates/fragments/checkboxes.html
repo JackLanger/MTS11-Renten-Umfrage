@@ -1,0 +1,16 @@
+<form action="#" method="post" th:action="@{/questions/multiplechoice}"
+      th:fragment="checkboxesForm">
+
+    <label class="form-textinput-label form-label" th:content="${question.questionText}"></label>
+    <div class="container">
+        <div class="checkbox-container" th:each="answer : ${question.questionAnswers}">
+            <input class="form-checkbox-input" th:id="${answer.id}" th:name="${answer.id}"
+                   type="checkbox">
+            <label class="form-checkbox-label form-label" th:content="${answer.answerOption}"
+                   th:for="${answer.id}">Checkbox 2</label>
+        </div>
+        <input th:value="${submitButtonText}" type="submit">
+
+        <p th:text="${questioncount}"></p>
+    </div>
+</form>

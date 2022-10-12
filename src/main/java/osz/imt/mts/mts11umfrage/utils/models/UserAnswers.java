@@ -1,4 +1,4 @@
-package osz.imt.mts.mts11umfrage.models;
+package osz.imt.mts.mts11umfrage.utils.models;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;

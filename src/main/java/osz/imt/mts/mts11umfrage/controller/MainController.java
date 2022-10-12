@@ -1,12 +1,16 @@
 package osz.imt.mts.mts11umfrage.controller;
 
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
-import osz.imt.mts.mts11umfrage.models.Question;
-import osz.imt.mts.mts11umfrage.models.QuestionAnswer;
 import osz.imt.mts.mts11umfrage.service.QuestionService;
+import osz.imt.mts.mts11umfrage.utils.QuestionTypes;
+import osz.imt.mts.mts11umfrage.utils.models.Question;
+import osz.imt.mts.mts11umfrage.utils.models.QuestionAnswer;
 
 /**
  * Main Controller of the website.
@@ -33,5 +37,44 @@ public class MainController {
     mav.addObject("question", new Question());
     return mav;
   }
+
+  @GetMapping("/question/{id}")
+  public ModelAndView question(@PathVariable int id) {
+
+    Optional<Question> questionOptional = service.findQuestionById(id);
+    Question question = questionOptional.orElseThrow();
+    QuestionTypes type = null;
+
+    type = question.getType().getType();
+
+    String submitbuttonText = id == 20 ? "danke" : "weiter";
+
+    return switch (type) {
+      case MULTIPLECHOICE -> getQuestion("multiplechoice", id, question, submitbuttonText);
+      case SINGLEANSWER -> getQuestion("singleAnswer", id, question, submitbuttonText);
+      default -> getQuestion("booleanQuestion", id, question, submitbuttonText);
+    };
+  }
+
+
+  @PostMapping("/")
+  public ModelAndView landingPagePost(Question question) {
+    // ..
+    return landingPage();
+  }
+
+
+  private ModelAndView getQuestion(String view, int id, Question question,
+                                   String submittbuttonText) {
+
+    ModelAndView mav = new ModelAndView(view);
+
+    mav.addObject("submittButtonText", submittbuttonText);
+    mav.addObject("question", question);
+    mav.addObject("questioncount", String.format("Frage %s/20", id));
+
+    return mav;
+  }
+
 
 }

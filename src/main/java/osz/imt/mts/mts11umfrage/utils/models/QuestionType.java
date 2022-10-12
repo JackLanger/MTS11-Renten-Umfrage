@@ -1,4 +1,4 @@
-package osz.imt.mts.mts11umfrage.models;
+package osz.imt.mts.mts11umfrage.utils.models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +10,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import osz.imt.mts.mts11umfrage.utils.QuestionTypes;
 
 /**
  * Question Type entity.
@@ -32,5 +33,7 @@ public class QuestionType {
   private int typeId;
 
   private String value;
+
+  private QuestionTypes type;
 
 }

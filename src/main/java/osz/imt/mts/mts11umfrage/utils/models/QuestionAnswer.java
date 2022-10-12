@@ -1,4 +1,4 @@
-package osz.imt.mts.mts11umfrage.models;
+package osz.imt.mts.mts11umfrage.utils.models;
 
 import java.util.List;
 import javax.persistence.Column;
@@ -39,6 +39,5 @@ public class QuestionAnswer {
   private List<UserAnswers> userAnswers = new java.util.ArrayList<>();
 
   private String answerOption;
-  private String htmlElement;
 
 }
