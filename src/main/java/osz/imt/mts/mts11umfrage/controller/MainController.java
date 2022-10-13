@@ -4,13 +4,15 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import osz.imt.mts.mts11umfrage.service.QuestionService;
+import osz.imt.mts.mts11umfrage.service.UserAnswersService;
 import osz.imt.mts.mts11umfrage.utils.QuestionTypes;
 import osz.imt.mts.mts11umfrage.utils.models.Question;
-import osz.imt.mts.mts11umfrage.utils.models.QuestionAnswer;
+import osz.imt.mts.mts11umfrage.utils.models.UserAnswers;
 
 /**
  * Main Controller of the website.
@@ -22,23 +24,39 @@ import osz.imt.mts.mts11umfrage.utils.models.QuestionAnswer;
 public class MainController {
 
   private final QuestionService service;
+  private final UserAnswersService answerService;
 
   @Autowired
-  public MainController(QuestionService service) {
+  public MainController(QuestionService service, UserAnswersService answersService) {
 
     this.service = service;
+    this.answerService = answersService;
   }
 
   @GetMapping("/")
   public ModelAndView landingPage() {
 
     var mav = new ModelAndView("index");
-    mav.addObject("answer", new QuestionAnswer());
-    mav.addObject("question", new Question());
     return mav;
   }
 
-  @GetMapping("/question/{id}")
+  @GetMapping("/0")
+  public ModelAndView genericUserData() {
+
+    ModelAndView mav = new ModelAndView("genericdata");
+
+    return mav;
+  }
+
+  @PostMapping("/0")
+  public ModelAndView genericUserDataSave(@ModelAttribute UserAnswers userAnswers) {
+
+    answerService.save(userAnswers);
+
+    return question(1);
+  }
+
+  @GetMapping("/{id}")
   public ModelAndView question(@PathVariable int id) {
 
     Optional<Question> questionOptional = service.findQuestionById(id);
@@ -47,7 +65,7 @@ public class MainController {
 
     type = question.getType().getType();
 
-    String submitbuttonText = id == 20 ? "danke" : "weiter";
+    String submitbuttonText = ++id == 20 ? "danke" : "weiter";
 
     return switch (type) {
       case MULTIPLECHOICE -> getQuestion("multiplechoice", id, question, submitbuttonText);
@@ -56,11 +74,10 @@ public class MainController {
     };
   }
 
-
   @PostMapping("/")
   public ModelAndView landingPagePost(Question question) {
     // ..
-    return landingPage();
+    return genericUserData();
   }
 
 
@@ -72,6 +89,7 @@ public class MainController {
     mav.addObject("submittButtonText", submittbuttonText);
     mav.addObject("question", question);
     mav.addObject("questioncount", String.format("Frage %s/20", id));
+    mav.addObject("id", ++id);
 
     return mav;
   }

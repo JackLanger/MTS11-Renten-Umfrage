@@ -1,5 +1,6 @@
 element {
     --form-input-bg: #dfefef;
+    --form-hover-bg: #cedede;
     --font-main-default: Helvetica;
     --font-size-default: 17px;
     --font-size-default-mobile: 14px;
@@ -52,7 +53,7 @@ article {
     max-width: 85ch;
     margin: auto;
     background: white;
-    box-shadow: rgba(0, 0, 0, .1) 2px 2px 7px;
+    box-shadow: rgba(0, 0, 0, .1) 0 0 7px;
 }
 
 p {
@@ -66,12 +67,35 @@ p {
     justify-content: space-between;
 }
 
+.link-button {
+    padding: 1.2rem;
+    background: darkcyan;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.link-button:hover {
+    background: darkslategrey;
+}
+
+.link-button:active {
+    color: white;
+}
+
+.form-input-text-container {
+    margin: 1.5rem;
+    width: 100%;
+    display: inline-block;
+}
+
 .container {
+    display: flow;
     padding: 3rem;
     width: 50%;
     margin: auto;
     align-content: space-around;
-    display: inline-grid;
 }
 
 .radio-container {
@@ -82,6 +106,7 @@ p {
 
 input[type="radio"] {
     margin-top: -1px;
+    margin-right: 0;
     vertical-align: middle;
 }
 
@@ -91,13 +116,21 @@ input[type="checkbox"] {
 }
 
 .form-textinput {
-    width: 60%;
+    width: 100%;
+    max-width: 50ch;
     margin: auto;
     text-align: center;
+    background: #dfefef;
+    cursor: text;
+    color: darkslategrey;
+}
+
+.form-textinput:hover {
+    background: #cedede;
 }
 
 .form-label {
-    margin: auto 1.5rem;
+    /*margin: auto 1.5rem;*/
     padding: 1rem 1.5rem;
 }
 
@@ -113,30 +146,36 @@ input[type="checkbox"] {
 
 .form-radio-label {
     cursor: pointer;
+    padding: 0;
 }
 
 input {
     font-size: 1.2rem;
     text-align: justify;
     color: darkslategrey;
+    height: auto;
     grid-row: 2;
     border: none;
     border-radius: 5px;
-    padding: .2rem;
+    padding: .5rem;
     margin: .2rem;
     /*background: var(--form-input-bg);*/
-    background: #dfefef;
+    background: darkcyan;
+    color: white;
     height: 1.5rem;
 }
 
 .form-submit {
-    padding: 10px;
+    padding: 10px 15px;
+    text-align: center;
     height: 40px;
+    vertical-align: center;
     cursor: pointer;
+    float: right;
 }
 
 .form-submit:hover {
-    background: darkcyan;
+    background: darkslategrey;
     color: white;
 }
 
@@ -151,10 +190,10 @@ input {
 .form-range-labels {
     list-style-type: none;
     width: 100%;
-    margin-bottom: 0px;
-    margin-right: 0px;
+    margin-bottom: 0;
+    margin-right: 0;
     padding-left: 25px;
-    padding-right: 0px;
+    padding-right: 0;
     text-align: justify;
     display: flex;
     flex-grow: 1;
@@ -174,4 +213,41 @@ ul > li {
     margin: 5px;
     border-radius: 5px;
     background: #dfefef;
+}
+
+.form-select {
+    background: #dfefef;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    font-weight: normal;
+    padding: .5rem;
+    cursor: pointer;
+}
+
+.form-select select {
+    display: none;
+}
+
+.select-option {
+    background: white;
+    border-color: darkslategrey transparent transparent transparent;
+    color: darkslategrey;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: lighter;
+    transition: .3s;
+}
+
+.select-option:hover {
+    background: #cedede;
+}
+
+.form-select:hover {
+    background: #cedede;
+}
+
+.form-select:focus {
+    border: none;
+    border-radius: 5px;
 }

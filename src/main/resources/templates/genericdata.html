@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments/head :: head">
+    <meta charset="UTF-8">
+    <title>Umfrage zur Rente in Deutschland</title>
+    <link href="/static/styles/main.css" rel="stylesheet">
+</head>
+<body>
+<article>
+    <h1>Fragen zur Person</h1>
+    <form action="/question/0" method="post">
+
+        <div class="container">
+            <div class="form-input-text-container" style="max-width: 10ch">
+                <label class="form-textinput-label form-label" for="income">Geschlecht</label>
+                <select class="form-select" id="sex-select">
+                    <option class="select-option">männlich</option>
+                    <option class="select-option">weiblich</option>
+                    <option class="select-option">diverse</option>
+                </select>
+            </div>
+
+            <div class="form-input-text-container">
+                <label class="form-textinput-label form-label" for="income">Jährliches
+                    Bruttoeinkommen</label>
+                <input class="form-textinput" id="income" placeholder="10.000 EURO"
+                       type="number">
+            </div>
+            <div class="form-input-text-container">
+                <label class="form-textinput-label form-label" for="age">Alter</label>
+                <input class="form-textinput" id="age" max="100" placeholder="25"
+                       style="max-width:3.5rem"
+                       type="number">
+            </div>
+        </div>
+
+        <input class="form-submit" type="submit" value="next">
+    </form>
+</article>
+</body>
+</html>
