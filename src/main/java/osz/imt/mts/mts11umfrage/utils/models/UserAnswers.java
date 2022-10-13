@@ -1,5 +1,6 @@
 package osz.imt.mts.mts11umfrage.utils.models;
 
+import java.util.UUID;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -37,5 +38,8 @@ public class UserAnswers {
   @Basic(fetch = FetchType.LAZY)
   @Column(nullable = false)
   private String userAnswerValue;
+
+  @Column(name = "f_user_session_id")
+  private UUID userId;
 
 }

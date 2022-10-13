@@ -7,15 +7,14 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import osz.imt.mts.mts11umfrage.utils.QuestionTypes;
 
 /**
  * Data model of a Question used in the survey.
@@ -39,8 +38,6 @@ public class Question {
   private String questionText;
   @OneToMany(fetch = FetchType.EAGER, mappedBy = "question")
   private List<QuestionAnswer> questionAnswers = new java.util.ArrayList<>();
-  @OneToOne
-  @JoinColumn(name = "type_type_id")
-  private QuestionType type;
+  private QuestionTypes type;
 
 }

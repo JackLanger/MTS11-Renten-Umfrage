@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import osz.imt.mts.mts11umfrage.service.QuestionService;
 import osz.imt.mts.mts11umfrage.service.UserAnswersService;
+import osz.imt.mts.mts11umfrage.utils.MockData;
 import osz.imt.mts.mts11umfrage.utils.QuestionTypes;
 import osz.imt.mts.mts11umfrage.utils.models.Question;
 import osz.imt.mts.mts11umfrage.utils.models.UserAnswers;
@@ -51,21 +52,20 @@ public class MainController {
   @PostMapping("/0")
   public ModelAndView genericUserDataSave(@ModelAttribute UserAnswers userAnswers) {
 
-    answerService.save(userAnswers);
+//    answerService.save(userAnswers);
 
-    return question(1);
+    return question(0);
   }
 
   @GetMapping("/{id}")
   public ModelAndView question(@PathVariable int id) {
 
-    Optional<Question> questionOptional = service.findQuestionById(id);
+    Optional<Question> questionOptional = Optional.of(
+        MockData.QUESTION);//service.findQuestionById(id);
     Question question = questionOptional.orElseThrow();
-    QuestionTypes type = null;
+    QuestionTypes type = question.getType();
 
-    type = question.getType().getType();
-
-    String submitbuttonText = ++id == 20 ? "danke" : "weiter";
+    String submitbuttonText = id == 20 ? "danke" : "weiter";
 
     return switch (type) {
       case MULTIPLECHOICE -> getQuestion("multiplechoice", id, question, submitbuttonText);
@@ -88,8 +88,8 @@ public class MainController {
 
     mav.addObject("submittButtonText", submittbuttonText);
     mav.addObject("question", question);
-    mav.addObject("questioncount", String.format("Frage %s/20", id));
-    mav.addObject("id", ++id);
+    mav.addObject("questioncount", String.format("Frage %s/20", ++id));
+    mav.addObject("id", id);
 
     return mav;
   }
