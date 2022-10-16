@@ -2,11 +2,11 @@ package osz.imt.mts.mts11umfrage.utils;
 
 import java.util.ArrayList;
 import java.util.List;
-import osz.imt.mts.mts11umfrage.utils.models.Question;
-import osz.imt.mts.mts11umfrage.utils.models.QuestionAnswer;
+import osz.imt.mts.mts11umfrage.models.Question;
+import osz.imt.mts.mts11umfrage.models.QuestionAnswer;
 
 /**
- * .
+ * .todo:Delete once Service works
  *
  * <p>Created by: Jack</p>
  * <p>Date: 13.10.2022</p>

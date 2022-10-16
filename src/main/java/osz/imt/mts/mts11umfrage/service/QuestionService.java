@@ -3,10 +3,10 @@ package osz.imt.mts.mts11umfrage.service;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import osz.imt.mts.mts11umfrage.models.Question;
 import osz.imt.mts.mts11umfrage.repository.QuestionAnswerRepository;
 import osz.imt.mts.mts11umfrage.repository.QuestionRepository;
 import osz.imt.mts.mts11umfrage.repository.UserAnswersRepository;
-import osz.imt.mts.mts11umfrage.utils.models.Question;
 
 /**
  * Service responsible for fetching question data.
@@ -51,5 +51,6 @@ public class QuestionService {
 
     return questionRepo.findById(id);
   }
+
 
 }

@@ -1,19 +1,22 @@
 package osz.imt.mts.mts11umfrage.controller;
 
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import osz.imt.mts.mts11umfrage.dto.UserAnswerDto;
+import osz.imt.mts.mts11umfrage.models.Question;
+import osz.imt.mts.mts11umfrage.models.UserAnswer;
 import osz.imt.mts.mts11umfrage.service.QuestionService;
 import osz.imt.mts.mts11umfrage.service.UserAnswersService;
 import osz.imt.mts.mts11umfrage.utils.MockData;
 import osz.imt.mts.mts11umfrage.utils.QuestionTypes;
-import osz.imt.mts.mts11umfrage.utils.models.Question;
-import osz.imt.mts.mts11umfrage.utils.models.UserAnswers;
 
 /**
  * Main Controller of the website.
@@ -45,33 +48,58 @@ public class MainController {
   public ModelAndView genericUserData() {
 
     ModelAndView mav = new ModelAndView("genericdata");
+    mav.addObject("answer", new UserAnswerDto());
 
     return mav;
   }
 
   @PostMapping("/0")
-  public ModelAndView genericUserDataSave(@ModelAttribute UserAnswers userAnswers) {
+  public ModelAndView genericUserDataSave(@RequestParam UserAnswer userAnswers) {
 
 //    answerService.save(userAnswers);
 
     return question(0);
   }
 
-  @GetMapping("/{id}")
-  public ModelAndView question(@PathVariable int id) {
 
-    Optional<Question> questionOptional = Optional.of(
-        MockData.QUESTION);//service.findQuestionById(id);
-    Question question = questionOptional.orElseThrow();
+  /**
+   * Question endpoint
+   *
+   * @param id of the previous question
+   * @return ModelAndView containing the current question element
+   */
+  @GetMapping("/question")
+  public ModelAndView question(int id) {
+
+//    var opt = service.findQuestionById(id);
+//
+//    opt.orElseThrow();
+
+    List<Question> questions = new ArrayList<>();
+    questions.add(MockData.QUESTION);
+
+    Question question = questions.get(id++);
     QuestionTypes type = question.getType();
 
     String submitbuttonText = id == 20 ? "danke" : "weiter";
 
     return switch (type) {
       case MULTIPLECHOICE -> getQuestion("multiplechoice", id, question, submitbuttonText);
-      case SINGLEANSWER -> getQuestion("singleAnswer", id, question, submitbuttonText);
-      default -> getQuestion("booleanQuestion", id, question, submitbuttonText);
+      case SINGLEANSWER -> getQuestion("singleanswer", id, question, submitbuttonText);
+      case INPUT -> getQuestion("inputquestion", id, question, submitbuttonText);
+      case Boolean -> getQuestion("booleanQuestion", id, question, submitbuttonText);
+      default -> genericUserData();
     };
+  }
+
+  @PostMapping(value = "/question",
+      consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE },
+      produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+  public ModelAndView questionAnswer(@RequestBody UserAnswerDto answer) {
+
+//    answerService.save(answer);
+
+    return question(answer.getId());
   }
 
   @PostMapping("/")

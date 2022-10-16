@@ -1,7 +1,7 @@
 package osz.imt.mts.mts11umfrage.dto;
 
 import java.io.Serializable;
-import osz.imt.mts.mts11umfrage.utils.models.QuestionAnswer;
+import osz.imt.mts.mts11umfrage.models.QuestionAnswer;
 
 /**
  * A DTO for the {@link QuestionAnswer} entity

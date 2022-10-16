@@ -1,7 +1,10 @@
-package osz.imt.mts.mts11umfrage.utils.models;
+package osz.imt.mts.mts11umfrage.models;
 
+import java.util.UUID;
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,8 +23,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "t_question_answer")
-public class QuestionAnswer {
+@Table(name = "t_user_answers")
+public class UserAnswer {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,9 +32,14 @@ public class QuestionAnswer {
   private Integer id;
 
   @ManyToOne
-  @JoinColumn(name = "question_p_question_id")
-  private Question question;
-  
-  private String answerOption;
+  @JoinColumn(name = "question_answer_id")
+  private QuestionAnswer questionAnswer;
+
+  @Basic(fetch = FetchType.LAZY)
+  @Column(nullable = false)
+  private String userAnswerValue;
+
+  @Column(name = "f_user_session_id")
+  private UUID userId;
 
 }
