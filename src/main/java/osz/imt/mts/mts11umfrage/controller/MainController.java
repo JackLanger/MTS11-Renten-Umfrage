@@ -3,18 +3,19 @@ package osz.imt.mts.mts11umfrage.controller;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import osz.imt.mts.mts11umfrage.dto.QuestionDto;
 import osz.imt.mts.mts11umfrage.dto.UserAnswerDto;
+import osz.imt.mts.mts11umfrage.dto.UserDto;
 import osz.imt.mts.mts11umfrage.models.Question;
-import osz.imt.mts.mts11umfrage.models.UserAnswer;
 import osz.imt.mts.mts11umfrage.service.QuestionService;
 import osz.imt.mts.mts11umfrage.service.UserAnswersService;
+import osz.imt.mts.mts11umfrage.service.UserManagementService;
+import osz.imt.mts.mts11umfrage.service.UserService;
 import osz.imt.mts.mts11umfrage.utils.MockData;
 import osz.imt.mts.mts11umfrage.utils.QuestionTypes;
 
@@ -29,12 +30,17 @@ public class MainController {
 
   private final QuestionService service;
   private final UserAnswersService answerService;
+  private final UserManagementService userManager;
+  private final UserService userService;
 
   @Autowired
-  public MainController(QuestionService service, UserAnswersService answersService) {
+  public MainController(QuestionService service, UserAnswersService answersService,
+                        UserManagementService userManager, UserService userService) {
 
     this.service = service;
     this.answerService = answersService;
+    this.userManager = userManager;
+    this.userService = userService;
   }
 
   @GetMapping("/")
@@ -48,15 +54,15 @@ public class MainController {
   public ModelAndView genericUserData() {
 
     ModelAndView mav = new ModelAndView("genericdata");
-    mav.addObject("answer", new UserAnswerDto());
+    mav.addObject("user", new UserDto());
 
     return mav;
   }
 
   @PostMapping("/0")
-  public ModelAndView genericUserDataSave(@RequestParam UserAnswer userAnswers) {
+  public ModelAndView genericUserDataSave(@ModelAttribute UserDto user) {
 
-//    answerService.save(userAnswers);
+    userManager.store(userService.save(user));
 
     return question(0);
   }
@@ -75,11 +81,11 @@ public class MainController {
 //
 //    opt.orElseThrow();
 
-    List<Question> questions = new ArrayList<>();
+    List<QuestionDto> questions = new ArrayList<>();
     questions.add(MockData.QUESTION);
 
-    Question question = questions.get(id++);
-    QuestionTypes type = question.getType();
+    QuestionDto question = questions.get(id);
+    QuestionTypes type = question.getQuestionType();
 
     String submitbuttonText = id == 20 ? "danke" : "weiter";
 
@@ -92,14 +98,12 @@ public class MainController {
     };
   }
 
-  @PostMapping(value = "/question",
-      consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE },
-      produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
-  public ModelAndView questionAnswer(@RequestBody UserAnswerDto answer) {
+  @PostMapping(value = "/question")
+  public ModelAndView questionAnswer(@ModelAttribute UserAnswerDto answer) {
 
 //    answerService.save(answer);
-
-    return question(answer.getId());
+    int id = answer.getId() + 1;
+    return question(id);
   }
 
   @PostMapping("/")
@@ -109,14 +113,19 @@ public class MainController {
   }
 
 
-  private ModelAndView getQuestion(String view, int id, Question question,
+  private ModelAndView getQuestion(String view, int id, QuestionDto question,
                                    String submittbuttonText) {
 
     ModelAndView mav = new ModelAndView(view);
 
+    UserAnswerDto answer = UserAnswerDto.builder().questionId(id)
+                                        .userId(userManager.getUserId())
+                                        .build();
+
     mav.addObject("submittButtonText", submittbuttonText);
     mav.addObject("question", question);
     mav.addObject("questioncount", String.format("Frage %s/20", ++id));
+    mav.addObject("answer", answer);
     mav.addObject("id", id);
 
     return mav;

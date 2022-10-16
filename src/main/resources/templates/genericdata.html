@@ -8,15 +8,19 @@
 <body>
 <article>
 	<h1>Fragen zur Person</h1>
-	<form action="/0" method="post">
+	<form action="/0" method="post"
+		  th:object="${user}"
+	>
 
 		<div class="container">
 			<div class="form-input-text-container" style="max-width: 10ch">
 				<label class="form-textinput-label form-label" for="income">Geschlecht</label>
-				<select class="form-select" id="sex-select">
-					<option class="select-option">männlich</option>
-					<option class="select-option">weiblich</option>
-					<option class="select-option">diverse</option>
+				<select class="form-select" id="sex-select"
+						th:field="*{sex}"
+				>
+					<option class="select-option" th:value="männlich">männlich</option>
+					<option class="select-option" th:value="weiblich">weiblich</option>
+					<option class="select-option" th:value="diverse">diverse</option>
 				</select>
 			</div>
 
@@ -25,13 +29,16 @@
 					Bruttoeinkommen</label>
 				<input class="form-textinput" id="income" placeholder="10.000 EURO"
 					   required
+					   th:field="*{salary}"
 					   type="number"
 				>
 			</div>
 			<div class="form-input-text-container">
 				<label class="form-textinput-label form-label" for="age">Alter</label>
 				<input class="form-textinput" id="age" max="100" placeholder="25"
+					   required
 					   style="max-width:3.5rem"
+					   th:field="*{age}"
 					   type="number">
 			</div>
 		</div>

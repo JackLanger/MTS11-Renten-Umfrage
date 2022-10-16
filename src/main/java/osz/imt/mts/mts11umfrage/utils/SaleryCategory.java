@@ -6,7 +6,7 @@ package osz.imt.mts.mts11umfrage.utils;
  * <p>Created by: Jack</p>
  * <p>Date: 14.10.2022</p>
  */
-public enum SeleryCategory {
+public enum SaleryCategory {
   NONE("Keins"),
   LESS_THAN_10K("weniger als 10.000 €"),
   TEN_TO_TWENTY_K("10.000 - 20.000 €"),
@@ -27,7 +27,7 @@ public enum SeleryCategory {
     return saleryCategory;
   }
 
-  SeleryCategory(String saleryCategory) {
+  SaleryCategory(String saleryCategory) {
 
     this.saleryCategory = saleryCategory;
   }
