@@ -32,7 +32,7 @@ import osz.imt.mts.mts11umfrage.utils.QuestionTypes;
 public class Question {
 
   @Id
-  @Column(name = "p_questionId")
+  @Column(name = "p_question_id", nullable = false)
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
   private String questionText;

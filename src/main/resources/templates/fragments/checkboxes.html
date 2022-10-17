@@ -1,25 +1,24 @@
 <form action="#" method="post" th:action="@{/question}"
-      th:fragment="checkboxesForm"
-      th:object="${userAnswerDto}"
+	  th:fragment="checkboxesForm"
+	  th:object="${answer}"
 >
 
-    <label class="form-textinput-label form-label" th:text="${question.questionText}"></label>
-    <div class="container">
-        <div class="checkbox-container" th:each="answer : ${question.questionAnswers}">
-            <input style="disply:none" th:field="${questionAnswerOptionId}" th:value="${id}"
-                   type="number">
-            <input class="form-checkbox-input"
-                   th:field="${answerValue}"
-                   th:id="${answer.id}"
-                   th:name="${answer.id}"
-                   type="checkbox">
-            <!--th:field="*{}-->"
-            <label class="form-checkbox-label form-label" th:content="${answer.answerOption}"
-                   th:for="${answer.id}"
-                   th:text="${answer.answerOption}">Checkbox 2</label>
-        </div>
-        <input th:text="${submitButtonText}" type="submit">
+	<label class="form-textinput-label form-label" th:text="${question.questionText}"></label>
+	<div class="container">
+		<div class="checkbox-container" th:each="answer : ${question.questionAnswers}">
+			<input class="form-checkbox-input"
+				   th:field="*{answerValue}"
+				   th:id="${answer.id}"
+				   th:name="${answer.id}"
+				   th:value="false"
+				   type="checkbox">
+			<!--th:field="*{}-->"
+			<label class="form-checkbox-label form-label" th:content="${answer.answerOption}"
+				   th:for="${answer.id}"
+				   th:text="${answer.answerOption}">Checkbox 2</label>
+		</div>
+		<input th:text="${submitButtonText}" type="submit">
 
-        <p th:text="${questioncount}"></p>
-    </div>
+		<p th:text="${questioncount}"></p>
+	</div>
 </form>

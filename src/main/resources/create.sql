@@ -1,6 +1,22 @@
+use umfrage
+go
+
+CREATE TABLE t_users
+(
+    p_id              uniqueidentifier DEFAULT NEWID(),
+    salary            int NOT NULL,
+    family_status     int NOT NULL,
+    education_level   int NOT NULL,
+    employment_status varchar(255),
+    sex               varchar(255),
+    age               int NOT NULL,
+    CONSTRAINT pk_t_users PRIMARY KEY (p_id)
+)
+GO
+
 CREATE TABLE t_question
 (
-    p_question_id int NOT NULL,
+    p_question_id int IDENTITY (1, 1) NOT NULL,
     question_text varchar(255),
     type          int,
     CONSTRAINT pk_t_question PRIMARY KEY (p_question_id)
