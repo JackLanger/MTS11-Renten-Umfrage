@@ -35,6 +35,7 @@ CREATE TABLE t_user_answer
     question_answer_id int,
     user_answer_value  varchar(255)        NOT NULL,
     f_user_session_id  uniqueidentifier,
+    date               datetime,
     CONSTRAINT pk_useranswer PRIMARY KEY (id)
 )
 GO

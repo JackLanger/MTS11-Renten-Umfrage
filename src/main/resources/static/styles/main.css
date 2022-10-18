@@ -74,6 +74,7 @@ p {
     text-decoration: none;
     border-radius: 5px;
     cursor: pointer;
+    float: right;
 }
 
 .link-button:hover {

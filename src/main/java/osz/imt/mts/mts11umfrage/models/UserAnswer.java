@@ -1,5 +1,6 @@
 package osz.imt.mts.mts11umfrage.models;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -41,5 +42,8 @@ public class UserAnswer {
 
   @Column(name = "f_user_session_id")
   private UUID userId;
+
+  @Column(name = "date")
+  private LocalDateTime date;
 
 }
