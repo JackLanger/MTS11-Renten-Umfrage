@@ -1,4 +1,4 @@
-package osz.imt.mts.mts11umfrage.utils;
+package osz.imt.mts.mts11umfrage.data;
 
 /**
  * Question Type Enumeration.
