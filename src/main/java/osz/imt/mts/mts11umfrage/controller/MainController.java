@@ -1,5 +1,6 @@
 package osz.imt.mts.mts11umfrage.controller;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,16 +9,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
+import osz.imt.mts.mts11umfrage.data.EducationLevel;
+import osz.imt.mts.mts11umfrage.data.EmploymentStatus;
+import osz.imt.mts.mts11umfrage.data.FamiliyStatus;
+import osz.imt.mts.mts11umfrage.data.QuestionTypes;
+import osz.imt.mts.mts11umfrage.data.SaleryCategory;
+import osz.imt.mts.mts11umfrage.data.Sex;
 import osz.imt.mts.mts11umfrage.dto.QuestionDto;
 import osz.imt.mts.mts11umfrage.dto.UserAnswerDto;
-import osz.imt.mts.mts11umfrage.dto.UserDto;
+import osz.imt.mts.mts11umfrage.dto.UserDataDto;
 import osz.imt.mts.mts11umfrage.models.Question;
 import osz.imt.mts.mts11umfrage.service.QuestionService;
 import osz.imt.mts.mts11umfrage.service.UserAnswersService;
 import osz.imt.mts.mts11umfrage.service.UserManagementService;
 import osz.imt.mts.mts11umfrage.service.UserService;
 import osz.imt.mts.mts11umfrage.utils.MockData;
-import osz.imt.mts.mts11umfrage.utils.QuestionTypes;
 
 /**
  * Main Controller of the website.
@@ -53,17 +59,23 @@ public class MainController {
   @GetMapping("/0")
   public ModelAndView genericUserData() {
 
-    ModelAndView mav = new ModelAndView("genericdata");
-    mav.addObject("user", new UserDto());
+    ModelAndView mav = new ModelAndView("userdata");
+    mav.addObject("user", new UserDataDto());
+    mav.addObject("familyStatus", FamiliyStatus.values());
+    mav.addObject("sex", Sex.values());
+    mav.addObject("education", EducationLevel.values());
+    mav.addObject("employment", EmploymentStatus.values());
+    mav.addObject("salary", SaleryCategory.values());
+    mav.addObject("twentyfive", LocalDate.now().minusYears(25));
+    mav.addObject("max", LocalDate.now());
 
     return mav;
   }
 
   @PostMapping("/0")
-  public ModelAndView genericUserDataSave(@ModelAttribute UserDto user) {
+  public ModelAndView genericUserDataSave(@ModelAttribute UserDataDto user) {
 
     userManager.store(userService.save(user));
-
     return question(0);
   }
 

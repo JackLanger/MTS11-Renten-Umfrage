@@ -14,7 +14,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import osz.imt.mts.mts11umfrage.utils.QuestionTypes;
+import osz.imt.mts.mts11umfrage.data.QuestionTypes;
 
 /**
  * Data model of a Question used in the survey.

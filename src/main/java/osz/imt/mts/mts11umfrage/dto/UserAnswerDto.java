@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * DTO element for a user answer.
+ * DTO element for a user_data answer.
  *
  * <p>Created by: Jack</p>
  * <p>Date: 13.10.2022</p>

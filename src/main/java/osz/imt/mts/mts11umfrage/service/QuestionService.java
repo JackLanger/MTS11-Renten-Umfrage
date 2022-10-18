@@ -26,7 +26,7 @@ public class QuestionService {
    */
   private final QuestionAnswerRepository answerRepo;
   /**
-   * User answers repository.
+   * UserData answers repository.
    */
   private final UserAnswersRepository userAnswerRepo;
 

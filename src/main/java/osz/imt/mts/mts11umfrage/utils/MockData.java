@@ -2,6 +2,7 @@ package osz.imt.mts.mts11umfrage.utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import osz.imt.mts.mts11umfrage.data.QuestionTypes;
 import osz.imt.mts.mts11umfrage.dto.QuestionAnswerDto;
 import osz.imt.mts.mts11umfrage.dto.QuestionDto;
 
