@@ -4,9 +4,9 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 /**
- * User management service to collect user session id and store in memory while user not yet
- * finished with the survey. User id can be stored or fetched via the cookies and or cached in local
- * memory.
+ * UserData management service to collect user_data session id and store in memory while user_data
+ * not yet finished with the survey. UserData id can be stored or fetched via the cookies and or
+ * cached in local memory.
  */
 @Service
 public class UserManagementService {

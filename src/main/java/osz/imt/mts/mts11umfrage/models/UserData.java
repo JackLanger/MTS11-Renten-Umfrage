@@ -4,7 +4,6 @@ import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -12,26 +11,28 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 
 @Entity
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 @Builder
-@Table(name = "t_users")
-public class User {
+@Table(name = "t_user_data", catalog = "umfrage", schema = "dbo")
+public class UserData {
 
   // check values if saved in db or as numeric value in order to hardcode and map to enum value.
   @Id
-  @Column(name = "p_id")
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id", nullable = false, unique = true, updatable = false)
+  @ColumnDefault("NEWID()")
+  @GeneratedValue
   private UUID id;
-  private int salary;
   private int familyStatus;
   private int educationLevel;
-  private String employmentStatus;
+  private int employmentStatus;
   private String sex;
   private int age;
+  private int salary;
 
 }
