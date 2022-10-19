@@ -1,55 +1,39 @@
 use umfrage
 go
 
-CREATE TABLE dbo.t_question
+CREATE TABLE t_question
 (
-    p_question_id uniqueidentifier default NEWID(),
-    question_text varchar(255),
-    type          int NOT NULL,
-    CONSTRAINT pk_t_question PRIMARY KEY (p_question_id)
+	id            int IDENTITY (1, 1) NOT NULL,
+	question_text varchar(255),
+	question_type int,
+	CONSTRAINT pk_question PRIMARY KEY (id)
 )
 GO
 
-CREATE TABLE dbo.t_question_answer
+CREATE TABLE t_question_answer
 (
-    p_id                   uniqueidentifier default NEWID(),
-    question_p_question_id uniqueidentifier,
-    answer_option          varchar(255),
-    CONSTRAINT pk_t_question_answer PRIMARY KEY (p_id)
+	id                     int IDENTITY (1, 1) NOT NULL,
+	question_p_question_id int,
+	answer_option          varchar(255),
+	answer_value           int                 NOT NULL,
+	CONSTRAINT pk_questionanswer PRIMARY KEY (id)
+)
+GO
+CREATE TABLE t_user_answer
+(
+	id                 uniqueidentifier default NEWID(),
+	question_answer_id int,
+	f_user_session_id  uniqueidentifier,
+	date               datetime,
+	CONSTRAINT pk_useranswer PRIMARY KEY (id)
 )
 GO
 
-CREATE TABLE dbo.t_user_answer
-(
-    p_id               int IDENTITY (1, 1) NOT NULL,
-    question_answer_id uniqueidentifier,
-    user_answer_value  varchar(255)        NOT NULL,
-    f_user_session_id  uniqueidentifier,
-    date               datetime,
-    CONSTRAINT pk_t_user_answer PRIMARY KEY (p_id)
-)
-GO
-
-CREATE TABLE dbo.t_user_data
-(
-    p_id              uniqueidentifier default NEWID(),
-    family_status     int NOT NULL,
-    education_level   int NOT NULL,
-    employment_status int NOT NULL,
-    sex               varchar(255),
-    age               int NOT NULL,
-    salary            int NOT NULL,
-    CONSTRAINT pk_t_user_data PRIMARY KEY (p_id)
-)
-GO
-
-ALTER TABLE dbo.t_user_data
-    ADD CONSTRAINT uc_t_user_data_p UNIQUE (p_id)
-GO
 ALTER TABLE t_question_answer
-    ADD CONSTRAINT FK_T_QUESTION_ANSWER_ON_QUESTION_P_QUESTION FOREIGN KEY (question_p_question_id) REFERENCES t_question (p_question_id)
+	ADD CONSTRAINT FK_QUESTIONANSWER_ON_QUESTION_P_QUESTION FOREIGN KEY (question_p_question_id) REFERENCES t_question (id)
 GO
+
 
 ALTER TABLE t_user_answer
-    ADD CONSTRAINT FK_T_USER_ANSWER_ON_QUESTION_ANSWER FOREIGN KEY (question_answer_id) REFERENCES t_question_answer (p_id)
+	ADD CONSTRAINT FK_USERANSWER_ON_QUESTION_ANSWER FOREIGN KEY (question_answer_id) REFERENCES t_question_answer (id)
 GO

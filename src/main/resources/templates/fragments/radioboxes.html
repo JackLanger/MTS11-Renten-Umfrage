@@ -1,0 +1,17 @@
+<form th:action="/question" th:fragment="radioboxes" th:object="${userAnswer}">
+
+    <div class="radio-container">
+        <div class="radio-wrapper" th:each="answer:${questionAnswers}">
+            <input class="form-btn-radio-input" name="select"
+                   th:field="*{answerValue}" th:id="|option-${answer.answerValue}|"
+                   th:value="${answer.answerValue}"
+                   type="radio">
+            <label th:class="|option option-${answer.answerValue}|"
+                   th:for="|option-${answer.answerValue}|">
+                <span th:text="${answer.answerOption}">Student</span>
+            </label>
+        </div>
+    </div>
+
+    <input th:text="${next}" type="submit">
+</form>

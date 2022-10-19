@@ -21,9 +21,18 @@ import lombok.Setter;
 public class UserAnswerDto {
 
 
+  /**
+   * The User id, this is used to validate the question and find users that did not finish the whole
+   * survey.
+   */
   private UUID userId;
+  /**
+   * The answer given for the given quesstion.
+   */
   private String answerValue;
-  private int id;
+  /**
+   * The Id of the question.
+   */
   private int questionId;
 
 }

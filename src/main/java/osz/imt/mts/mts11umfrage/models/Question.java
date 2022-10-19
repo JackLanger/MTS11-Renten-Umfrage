@@ -1,8 +1,9 @@
 package osz.imt.mts.mts11umfrage.models;
 
 import java.util.List;
-import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,6 +16,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import osz.imt.mts.mts11umfrage.data.QuestionTypes;
+import osz.imt.mts.mts11umfrage.dto.QuestionDto;
 
 /**
  * Data model of a Question used in the survey.
@@ -32,12 +34,27 @@ import osz.imt.mts.mts11umfrage.data.QuestionTypes;
 public class Question {
 
   @Id
-  @Column(name = "p_question_id", nullable = false)
+//  @Column(name = "p_question_id")
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
   private String questionText;
   @OneToMany(fetch = FetchType.EAGER, mappedBy = "question")
   private List<QuestionAnswer> questionAnswers = new java.util.ArrayList<>();
-  private QuestionTypes type;
+  @Enumerated(EnumType.ORDINAL)
+  private QuestionTypes questionType;
+
+  public QuestionDto toDto() {
+
+    var dto = QuestionDto.builder()
+                         .id(this.id)
+                         .questionText(this.getQuestionText())
+                         .questionType(this.questionType)
+                         .build();
+
+    for (QuestionAnswer questionAnswer : questionAnswers) {
+      dto.addQuestionAnswer(questionAnswer.toDto());
+    }
+    return dto;
+  }
 
 }

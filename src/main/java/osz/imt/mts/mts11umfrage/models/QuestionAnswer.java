@@ -1,6 +1,5 @@
 package osz.imt.mts.mts11umfrage.models;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,6 +12,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import osz.imt.mts.mts11umfrage.dto.QuestionAnswerDto;
 
 @Builder
 @AllArgsConstructor
@@ -23,15 +23,40 @@ import lombok.Setter;
 @Table(name = "t_question_answer")
 public class QuestionAnswer {
 
+  /**
+   * Primary key for the option. Is Integer value but can be changed to a UUID if need be.
+   */
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id", nullable = false)
   private Integer id;
-
+  /**
+   * The Question of the answer option. Question to Answer is best described as a parent child
+   * relation.
+   */
   @ManyToOne
   @JoinColumn(name = "question_p_question_id")
   private Question question;
-
+  /**
+   * String value for the option.
+   */
   private String answerOption;
+  /**
+   * Qualitative value for the option.
+   */
+  private int answerValue;
+
+  /**
+   * Returns the Dto Version of this entry.
+   *
+   * @return {@link QuestionAnswerDto}
+   */
+  public QuestionAnswerDto toDto() {
+
+    return QuestionAnswerDto.builder()
+                            .id(this.id)
+                            .answerOption(this.answerOption)
+                            .answerValue(this.answerValue)
+                            .build();
+  }
 
 }

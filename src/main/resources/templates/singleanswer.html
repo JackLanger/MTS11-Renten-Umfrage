@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments/head :: head">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<article>
+    <form th:replace="fragments/radioboxes::radioboxes"></form>
+    <p th:text="|${question.id+1}/25|"></p>
+</article>
+</body>
+</html>

@@ -3,7 +3,7 @@ package osz.imt.mts.mts11umfrage.service;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import osz.imt.mts.mts11umfrage.models.Question;
+import osz.imt.mts.mts11umfrage.dto.QuestionDto;
 import osz.imt.mts.mts11umfrage.repository.QuestionAnswerRepository;
 import osz.imt.mts.mts11umfrage.repository.QuestionRepository;
 import osz.imt.mts.mts11umfrage.repository.UserAnswersRepository;
@@ -22,10 +22,6 @@ public class QuestionService {
    */
   private final QuestionRepository questionRepo;
   /**
-   * The Question answer repository.
-   */
-  private final QuestionAnswerRepository answerRepo;
-  /**
    * UserData answers repository.
    */
   private final UserAnswersRepository userAnswerRepo;
@@ -34,7 +30,6 @@ public class QuestionService {
    * Creates a new Question service and poplates the respective repositories.
    *
    * @param questionRepo   {@link QuestionRepository}
-   * @param answerRepo     {@link QuestionAnswerRepository}
    * @param userAnswerRepo {@link UserAnswersRepository}
    */
   @Autowired
@@ -42,14 +37,15 @@ public class QuestionService {
                          QuestionAnswerRepository answerRepo,
                          UserAnswersRepository userAnswerRepo) {
 
-    this.answerRepo = answerRepo;
     this.questionRepo = questionRepo;
     this.userAnswerRepo = userAnswerRepo;
   }
 
-  public Optional<Question> findQuestionById(int id) {
+  public Optional<QuestionDto> findQuestionById(int id) {
 
-    return questionRepo.findById(id);
+    var result = questionRepo.findById(id);
+
+    return result.isPresent() ? Optional.of(result.get().toDto()) : Optional.empty();
   }
 
 
