@@ -29,51 +29,53 @@ VALUES (1, N'Geschlecht', 3),
        (25, N'Hat diese Umfrage Sie angeregt für Ihre Rente Maßnahmen zu ergreifen?', 1)
 SET IDENTITY_INSERT dbo.t_question OFF
 
-INSERT INTO dbo.t_question_answer (question_p_question_id, answer_option)
-VALUES (1, N'männlich'),       -- geschlecht
-       (1, N'weiblich'),
-       (1, N'diverse'),
-       (2, N'Ledig'),          -- familienstand
-       (2, N'Verheiratet'),
-       (2, N'Eingetragene Lebenspartnerschaft'),
-       (2, N'Geschieden'),
-       (2, N'Verwitwet'),
-       (4, N'Ohne Abschluss'), -- abschluss
-       (4, N'Hauptschulabschluss'),
-       (4, N'Mittlere Reife/ Realschulabschluss'),
-       (4, N'Hochschulreife'),
-       (4, N'Nachschulischer Abschluss'),
-       (4, N'Ausbildung'),
-       (4, N'Studium'),
-       (5, N'Schüler*in'),     -- berufsgruppe
-       (5, N'Auszubildende*r'),
-       (5, N'Student*in'),
-       (5, N'Angestellte*r'),
-       (5, N'Selbstständige*r'),
-       (5, N'Beamte*r'),
-       (5, N'Rentner*in/Pensionär*in'),
-       (7, N'Familie'),        -- umfeld
-       (7, N'Freunde'),
-       (7, N'Beruf'),
-       (7, N'Schule'),
-       (7, N'Rentenbescheid'),
-       (7, N'Werbekampagne'),
-       (7, N'Politik'),
-       (7, N'Soziale Medien'),
-       (7, N'Sonstige'),
-       (7, N'Rente? noch nie gehört.'),
-       (22, N'Betriebliche Altersvorsorge'),
-       (22, N'Private Rentenversicherung'),
-       (22, N'Lebensversicherung Anlagen'),
-       (22, N'Immobilien und Wertgegenstände'),
-       (22, N'Andere'),
-       (22, N'Keine'),
-       (24, N'Nichts'),        -- income
-       (24, N'weniger als 50€'),
-       (24, N'50-99 €'),
-       (24, N'100-199 €'),
-       (24, N'200-299 €'),
-       (24, N'300-499 €'),
-       (24, N'500-999 €'),
-       (24, N'mehr als 1000 €')
+SET IDENTITY_INSERT dbo.t_question_answer ON
+INSERT INTO dbo.t_question_answer (id, question_p_question_id, answer_option)
+VALUES (1, 1, N'männlich'),       -- geschlecht
+       (2, 1, N'weiblich'),
+       (3, 1, N'diverse'),
+       (4, 2, N'Ledig'),          -- familienstand
+       (5, 2, N'Verheiratet'),
+       (6, 2, N'Eingetragene Lebenspartnerschaft'),
+       (7, 2, N'Geschieden'),
+       (8, 2, N'Verwitwet'),
+       (9, 4, N'Ohne Abschluss'), -- abschluss
+       (10, 4, N'Hauptschulabschluss'),
+       (11, 4, N'Mittlere Reife/ Realschulabschluss'),
+       (12, 4, N'Hochschulreife'),
+       (13, 4, N'Nachschulischer Abschluss'),
+       (14, 4, N'Ausbildung'),
+       (15, 4, N'Studium'),
+       (16, 5, N'Schüler*in'),    -- berufsgruppe
+       (17, 5, N'Auszubildende*r'),
+       (18, 5, N'Student*in'),
+       (19, 5, N'Angestellte*r'),
+       (20, 5, N'Selbstständige*r'),
+       (21, 5, N'Beamte*r'),
+       (22, 5, N'Rentner*in/Pensionär*in'),
+       (23, 7, N'Familie'),       -- umfeld
+       (24, 7, N'Freunde'),
+       (25, 7, N'Beruf'),
+       (26, 7, N'Schule'),
+       (27, 7, N'Rentenbescheid'),
+       (28, 7, N'Werbekampagne'),
+       (29, 7, N'Politik'),
+       (30, 7, N'Soziale Medien'),
+       (31, 7, N'Sonstige'),
+       (32, 7, N'Rente? noch nie gehört.'),
+       (33, 22, N'Betriebliche Altersvorsorge'),
+       (34, 22, N'Private Rentenversicherung'),
+       (35, 22, N'Lebensversicherung Anlagen'),
+       (36, 22, N'Immobilien und Wertgegenstände'),
+       (37, 22, N'Andere'),
+       (38, 22, N'Keine'),
+       (39, 24, N'Nichts'),       -- income
+       (40, 24, N'weniger als 50€'),
+       (41, 24, N'50-99 €'),
+       (42, 24, N'100-199 €'),
+       (43, 24, N'200-299 €'),
+       (44, 24, N'300-499 €'),
+       (45, 24, N'500-999 €'),
+       (46, 24, N'mehr als 1000 €')
 
+SET IDENTITY_INSERT dbo.t_question_answer Off

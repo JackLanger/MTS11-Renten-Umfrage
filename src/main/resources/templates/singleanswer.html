@@ -6,8 +6,14 @@
 </head>
 <body>
 <article>
-    <form th:replace="fragments/radioboxes::radioboxes"></form>
-    <p th:text="|${question.id+1}/25|"></p>
+    <div class="stack">
+        <div>
+            <form th:replace="fragments/radioboxes :: boxes"></form>
+        </div>
+        <div class="footnote">
+            <p style="text-align: right" th:text="|${question.id}/25|"></p>
+        </div>
+    </div>
 </article>
 </body>
 </html>

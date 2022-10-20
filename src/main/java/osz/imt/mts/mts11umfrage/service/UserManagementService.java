@@ -1,6 +1,9 @@
 package osz.imt.mts.mts11umfrage.service;
 
 import java.util.UUID;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 /**
@@ -12,6 +15,8 @@ import org.springframework.stereotype.Service;
 public class UserManagementService {
   // TODO(Moritz): 16.10.2022 implement
 
+  @Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
+  @Cacheable("UUID")
   public UUID getUserId() {
     // TODO(...): 16.10.2022 Implement
     return UUID.randomUUID();

@@ -33,6 +33,10 @@ public class QuestionDto implements Serializable {
    */
   public void addQuestionAnswer(QuestionAnswerDto answerDto) {
 
+    if (questionAnswers == null) {
+      questionAnswers = new ArrayList<>();
+    }
+    
     questionAnswers.add(answerDto);
   }
 

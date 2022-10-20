@@ -92,18 +92,18 @@ p {
 }
 
 .container {
-    display: flow;
+    display: flex;
     padding: 3rem;
     width: 50%;
     margin: auto;
     align-content: space-around;
+    height: 2.5rem;
+    align-items: center;
+    justify-content: space-evenly;
+    border-radius: 5px;
+    flex-wrap: nowrap;
+    flex-direction: column;
 }
-
-.radio-container {
-    padding: 0;
-    justify-content: center;
-}
-
 
 input[type="radio"] {
     margin-top: -1px;
@@ -232,8 +232,8 @@ ul > li {
 
 .select-option {
     background: white;
-    border-color: darkslategrey transparent transparent transparent;
-    color: darkslategrey;
+    border-color: var(--primary) transparent transparent transparent;
+    color: var(--primary);
     cursor: pointer;
     font-size: 14px;
     font-weight: lighter;
@@ -263,17 +263,21 @@ ul > li {
 }
 
 .radio-container {
-    display: inline-flex;
+    display: flex;
     height: 2.5rem;
     width: auto;
     align-items: center;
     justify-content: space-evenly;
     border-radius: 5px;
     padding: 20px 15px;
+    align-content: center;
+    flex-wrap: nowrap;
+    flex-direction: column;
 }
 
 .radio-container .option {
-    background: var(--form-input-bg);
+    background: var(--white);
+    border: 1px solid var(--secondary);
     height: 100%;
     width: 100%;
     display: flex;
@@ -306,7 +310,8 @@ input[type="radio"] {
 #option-8 :checked:checked ~ .option-8,
 #option-9 :checked:checked ~ .option-9,
 #option-10:checked:checked ~ .option-10 {
-    background: darkslategrey;
+    background: var(--primary);
+    color: var(--white);
 }
 
 #option-0:checked:checked ~ .option-0 .dot,
@@ -320,7 +325,8 @@ input[type="radio"] {
 #option-8 :checked:checked ~ .option-8 .dot,
 #option-9 :checked:checked ~ .option-9 .dot,
 #option-10:checked:checked ~ .option-10 .dot {
-    background: #fff;
+    background: var(--primary);
+    color: var(--white);
 }
 
 #option-0:checked:checked ~ .option-0 .dot::before,
@@ -339,8 +345,7 @@ input[type="radio"] {
 }
 
 .wrapper .option span {
-    font-size: 20px;
-    color: darkslategrey;
+    color: var(--dark);
 }
 
 #option-0:checked:checked ~ .option-0 span,
@@ -354,5 +359,5 @@ input[type="radio"] {
 #option-8 :checked:checked ~ .option-8 span,
 #option-9 :checked:checked ~ .option-9 span,
 #option-10:checked:checked ~ .option-10 span {
-    color: #fff;
+    color: var(--white);
 }

@@ -1,9 +1,13 @@
 package osz.imt.mts.mts11umfrage.service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import osz.imt.mts.mts11umfrage.dto.QuestionDto;
+import osz.imt.mts.mts11umfrage.dto.UserAnswerDto;
+import osz.imt.mts.mts11umfrage.models.UserAnswer;
 import osz.imt.mts.mts11umfrage.repository.QuestionAnswerRepository;
 import osz.imt.mts.mts11umfrage.repository.QuestionRepository;
 import osz.imt.mts.mts11umfrage.repository.UserAnswersRepository;
@@ -48,5 +52,22 @@ public class QuestionService {
     return result.isPresent() ? Optional.of(result.get().toDto()) : Optional.empty();
   }
 
+
+  public UUID saveAnswer(UserAnswerDto dto) {
+
+    var entity = new UserAnswer();
+
+    // fetch the answer from the questions.
+    var answer = questionRepo.findById(dto.getQuestionId())
+                             .get()
+                             .getQuestionAnswers()
+                             .get(dto.getAnswerValue());
+
+    entity.setQuestionAnswer(answer);
+    entity.setUserId(UUID.fromString(dto.getUserId()));
+    entity.setDate(LocalDateTime.now());
+
+    return userAnswerRepo.save(entity).getUserId();
+  }
 
 }

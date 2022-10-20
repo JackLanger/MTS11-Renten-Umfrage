@@ -21,19 +21,19 @@ CREATE TABLE t_question_answer
 GO
 CREATE TABLE t_user_answer
 (
-	id                 uniqueidentifier default NEWID(),
+	id                 uniqueidentifier NOT NULL,
 	question_answer_id int,
 	f_user_session_id  uniqueidentifier,
-	date               datetime,
-	CONSTRAINT pk_useranswer PRIMARY KEY (id)
+	date               datetime default GETDATE(),
+	CONSTRAINT pk_t_user_answer PRIMARY KEY (id)
 )
 GO
+
 
 ALTER TABLE t_question_answer
 	ADD CONSTRAINT FK_QUESTIONANSWER_ON_QUESTION_P_QUESTION FOREIGN KEY (question_p_question_id) REFERENCES t_question (id)
 GO
 
-
 ALTER TABLE t_user_answer
-	ADD CONSTRAINT FK_USERANSWER_ON_QUESTION_ANSWER FOREIGN KEY (question_answer_id) REFERENCES t_question_answer (id)
+	ADD CONSTRAINT FK_T_USER_ANSWER_ON_QUESTIONANSWER FOREIGN KEY (question_answer_id) REFERENCES t_question_answer (id)
 GO
