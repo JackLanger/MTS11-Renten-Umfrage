@@ -3,8 +3,8 @@ package osz.imt.mts.mts11umfrage.service;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import osz.imt.mts.mts11umfrage.models.UserAnswer;
 import osz.imt.mts.mts11umfrage.repository.UserAnswersRepository;
-import osz.imt.mts.mts11umfrage.utils.models.UserAnswers;
 
 /**
  * .
@@ -23,15 +23,15 @@ public class UserAnswersService {
     this.repository = repository;
   }
 
-  public UserAnswers save(UserAnswers answers) {
+  public UserAnswer save(UserAnswer answers) {
 
     return repository.save(answers);
   }
 
-  public int saveAll(List<UserAnswers> answers) {
+  public int saveAll(List<UserAnswer> answers) {
 
     int count = 0;
-    for (UserAnswers answer : answers) {
+    for (UserAnswer answer : answers) {
       if (repository.save(answer) != null) {
         count++;
       }

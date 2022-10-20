@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments/head :: head">
+    <meta charset="UTF-8">
+    <title>Umfrage zur Rente in Deutschland</title>
+    <link href="/static/styles/main.css" rel="stylesheet">
+</head>
+<body>
+<article>
+    <h1>Fragen zur Person</h1>
+    <form action="/0" method="post"
+          th:object="${user}"
+    >
+        <!--        sex-->
+
+        <div class="container">
+            <div class="form-input-text-container" style="max-width: 10ch">
+                <label class="form-textinput-label form-label" for="sex-select">Geschlecht</label>
+                <select class="form-select" id="sex-select"
+                        th:field="*{sex}"
+                >
+                    <option class="select-option" th:each="opt : ${sex}" th:text="${opt.value}"
+                            th:value="${opt.value}"></option>
+                </select>
+            </div>
+
+            <!--        familyStatus-->
+            <div class="form-input-text-container" style="max-width: 10ch">
+                <label class="form-textinput-label form-label"
+                       for="family-select">Familienstand</label>
+                <select class="form-select" id="family-select"
+                        th:field="*{familyStatus}"
+                >
+                    <option class="select-option" th:each="opt : ${familyStatus}"
+                            th:text="${opt.value}" th:value="${opt.key}"></option>
+                </select>
+            </div>
+
+            <!--            education-->
+
+            <div class="form-input-text-container" style="max-width: 10ch">
+                <label class="form-textinput-label form-label"
+                       for="education-select">Bildungsstand</label>
+                <select class="form-select" id="education-select"
+                        th:field="*{educationLevel}"
+                >
+                    <option class="select-option" th:each="opt : ${education}"
+                            th:text="${opt.value}" th:value="${opt.key}"></option>
+                </select>
+            </div>
+
+            <!--            employment-->
+
+            <div class="form-input-text-container" style="max-width: 10ch">
+                <label class="form-textinput-label form-label"
+                       for="employment-select">Berufsgruppe</label>
+                <select class="form-select" id="employment-select"
+                        th:field="*{employmentStatus}"
+                >
+                    <option class="select-option" th:each="opt : ${employment}"
+                            th:text="${opt.value}" th:value="${opt.key}"></option>
+                </select>
+            </div>
+
+            <!--            salery-->
+
+            <h3>Brutto Jahreseinkommen</h3>
+            <div class="radio-container">
+                <div class="radio-wrapper" th:each="opt:${salary}">
+                    <input class="form-btn-radio-input" name="select"
+                           th:field="*{salary}" th:id="|option-${opt.key}|" th:value="${opt.key}"
+                           type="radio">
+                    <label th:class="|option option-${opt.key}|"
+                           th:for="|option-${opt.key}|">
+                        <span th:text="${opt.value}">Student</span>
+                    </label>
+                </div>
+            </div>
+
+
+            <div class="form-input-text-container">
+                <label class="form-textinput-label form-label" for="age">Geburtsdatum</label>
+                <input class="form-textinput" id="age" min="1900-01-01"
+                       placeholder="25"
+                       required
+                       th:field="*{age}"
+                       th:max="${max}" th:value="${twentyfive}"
+                       type="date">
+            </div>
+        </div>
+
+        <input class="form-submit" type="submit" value="next">
+    </form>
+</article>
+</body>
+</html>

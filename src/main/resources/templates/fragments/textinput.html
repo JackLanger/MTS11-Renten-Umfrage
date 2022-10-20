@@ -3,6 +3,8 @@
 <div class="container" th:fragment="textinput">
     <label class="form-textinput-label form-label" for="inp" th:content="${question.questionText}">TextinputField</label>
     <input class="form-textinput" id="inp"
+           required
            th:placeholder="${placeholder}"
-           th:type="${question.type}">
+           th:type="${question.type}"
+    >
 </div>

@@ -1,4 +1,4 @@
-package osz.imt.mts.mts11umfrage.utils;
+package osz.imt.mts.mts11umfrage.data;
 
 /**
  * Question Type Enumeration.
@@ -22,7 +22,11 @@ public enum QuestionTypes {
   /**
    * A Multiple choice question. Multiple answers can be selected.
    */
-  MULTIPLECHOICE(4);
+  MULTIPLECHOICE(4),
+  /**
+   * An Input question answer.
+   */
+  INPUT(5);
 
   /**
    * The Type of the question.

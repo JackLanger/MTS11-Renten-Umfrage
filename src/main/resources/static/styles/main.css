@@ -1,4 +1,4 @@
-element {
+:root {
     --form-input-bg: #dfefef;
     --form-hover-bg: #cedede;
     --font-main-default: Helvetica;
@@ -74,6 +74,7 @@ p {
     text-decoration: none;
     border-radius: 5px;
     cursor: pointer;
+    float: right;
 }
 
 .link-button:hover {
@@ -250,4 +251,108 @@ ul > li {
 .form-select:focus {
     border: none;
     border-radius: 5px;
+}
+
+.form-btn-radio-input {
+    background: #dfefef;
+    display: inline-block;
+    padding: .5rem;
+    margin: .2rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.radio-container {
+    display: inline-flex;
+    height: 2.5rem;
+    width: auto;
+    align-items: center;
+    justify-content: space-evenly;
+    border-radius: 5px;
+    padding: 20px 15px;
+}
+
+.radio-container .option {
+    background: var(--form-input-bg);
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin: 0 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 0 10px;
+    /*transition: all 0.3s ease;*/
+}
+
+
+input[type="radio"] {
+    display: none;
+}
+
+.radio-wrapper {
+    margin: 1.1rem;
+}
+
+#option-0:checked:checked ~ .option-0,
+#option-1:checked:checked ~ .option-1,
+#option-2:checked:checked ~ .option-2,
+#option-3:checked:checked ~ .option-3,
+#option-4:checked:checked ~ .option-4,
+#option-5:checked:checked ~ .option-5,
+#option-6:checked:checked ~ .option-6,
+#option-7:checked:checked ~ .option-7,
+#option-8 :checked:checked ~ .option-8,
+#option-9 :checked:checked ~ .option-9,
+#option-10:checked:checked ~ .option-10 {
+    background: darkslategrey;
+}
+
+#option-0:checked:checked ~ .option-0 .dot,
+#option-1:checked:checked ~ .option-1 .dot,
+#option-2:checked:checked ~ .option-2 .dot,
+#option-3:checked:checked ~ .option-3 .dot,
+#option-4:checked:checked ~ .option-4 .dot,
+#option-5:checked:checked ~ .option-5 .dot,
+#option-6:checked:checked ~ .option-6 .dot,
+#option-7:checked:checked ~ .option-7 .dot,
+#option-8 :checked:checked ~ .option-8 .dot,
+#option-9 :checked:checked ~ .option-9 .dot,
+#option-10:checked:checked ~ .option-10 .dot {
+    background: #fff;
+}
+
+#option-0:checked:checked ~ .option-0 .dot::before,
+#option-1:checked:checked ~ .option-1 .dot::before,
+#option-2:checked:checked ~ .option-2 .dot::before,
+#option-3:checked:checked ~ .option-3 .dot::before,
+#option-4:checked:checked ~ .option-4 .dot::before,
+#option-5:checked:checked ~ .option-5 .dot::before,
+#option-6:checked:checked ~ .option-6 .dot::before,
+#option-7:checked:checked ~ .option-7 .dot::before,
+#option-8 :checked:checked ~ .option-8 .dot::before,
+#option-9 :checked:checked ~ .option-9 .dot::before,
+#option-10:checked:checked ~ .option-10 .dot::before {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.wrapper .option span {
+    font-size: 20px;
+    color: darkslategrey;
+}
+
+#option-0:checked:checked ~ .option-0 span,
+#option-1:checked:checked ~ .option-1 span,
+#option-2:checked:checked ~ .option-2 span,
+#option-3:checked:checked ~ .option-3 span,
+#option-4:checked:checked ~ .option-4 span,
+#option-5:checked:checked ~ .option-5 span,
+#option-6:checked:checked ~ .option-6 span,
+#option-7:checked:checked ~ .option-7 span,
+#option-8 :checked:checked ~ .option-8 span,
+#option-9 :checked:checked ~ .option-9 span,
+#option-10:checked:checked ~ .option-10 span {
+    color: #fff;
 }
