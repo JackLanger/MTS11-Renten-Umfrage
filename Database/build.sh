@@ -76,14 +76,21 @@ fi
 if [[ $NO_VOLUMES == 1 ]];then
   docker volume rm umfrage-db-data
   docker volume rm umfrage-db-backup
+  docker volume rm umfrage-db-log
+  docker volume rm umfrage-db-secrets
   createVolumes
 fi
 
 # check if volume flag is set
 if [[ $NO_VOLUME == 0 ]];then
-  docker run -p 1433:1433 -d -v umfrage-db-data:/var/opt/mssql/data -v umfrage-db-backup:/var/opt/mssql/backup --name=umfrage-db mts11.umfrage.db
+  docker run -p 1433:1433 -d \
+  -v umfrage-db-data:/var/opt/mssql/data \
+  -v umfrage-db-backup:/var/opt/mssql/backup \
+  -v umfrage-db-secrets:/var/opt/mssql/secrets \
+  -v umfrage-db-log:/var/opt/mssql/log \
+  --name=umfrage-db mts11.umfrage.db
 else
-  docker run -p 1433:1433 -d --name=umfrage-db mts11.umfrage.db
+  docker run -p 1433:1433 -d --name=mts11.umfrage.db mts11.umfrage.db
 fi
 
 unset BUILD

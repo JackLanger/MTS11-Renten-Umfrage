@@ -1,3 +1,5 @@
+use umfrage
+SET IDENTITY_INSERT dbo.t_question ON
 INSERT INTO dbo.t_question (id, question_text, question_type)
 -- allgemein
 VALUES (1, N'Geschlecht', 1),
@@ -198,3 +200,4 @@ VALUES (1, N'männlich', 0, 'a'),      -- geschlecht
        (24, N'300-499 €', 5, 'span'),
        (24, N'500-999 €', 6, 'span'),
        (24, N'mehr als 1000 €', 7, 'span')
+SET IDENTITY_INSERT dbo.t_question_answer OFF

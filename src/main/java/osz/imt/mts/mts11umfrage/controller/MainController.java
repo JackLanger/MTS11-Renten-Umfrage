@@ -30,36 +30,66 @@ import osz.imt.mts.mts11umfrage.utils.ViewNameUtils;
  * <p>Date: 10.10.2022</p>
  */
 @Controller
+@SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
 public class MainController {
 
 
+  /**
+   * Name for the submitbutton text object to pass down to the view.
+   */
   public static final String SUBMIT_BUTTON_TEXT = "submittButtonText";
+  /**
+   * userSessionId.
+   */
   private static final String USER_SESSION_ID = "userSessionId";
+  /**
+   * questionId.
+   */
   private static final String QUESTION_ID = "questionId";
+  /**
+   * Next/weiter.
+   */
   private static final String NEXT = "weiter";
+  /**
+   * Thanks/danke. Last question was answered.
+   */
   private static final String THANKS = "danke";
+  /**
+   * questionAnswers.
+   */
   private static final String QUESTION_ANSWERS = "questionAnswers";
+  /**
+   * userAnswers.
+   */
   private static final String USER_ANSWER = "userAnswer";
+  /**
+   * question.
+   */
   private static final String QUESTION = "question";
 
   /**
-   * Index endpoint
+   * Index endpoint.
    */
-  private static final String HOME = "/home";
+  private static final String HOME_ENDPOINT = "/home";
 
   /**
    * Endpoint for first question.
    */
-  private static final String START = "/0";
+  private static final String START_ENDPOINT = "/0";
   /**
    * Endpoint for all followup questions.
    */
-  private static final String QUESTIONS = "/question";
+  private static final String QUESTIONS_ENDPOINT = "/question";
+
+  /**
+   * Redirection Endpoint .
+   */
   private static final String REDIRECT = "/";
+
   /**
    * {@link QuestionService} responsible for saving answers and fetching questions.
    */
-  private final QuestionService service;
+  private final transient QuestionService service;
 
   /**
    * Creates a new Controller.
@@ -67,14 +97,14 @@ public class MainController {
    * @param service the Question service.
    */
   @Autowired
-  public MainController(QuestionService service) {
+  public MainController(final QuestionService service) {
 
     this.service = service;
   }
 
-  private static Cookie createCookie(String name, String value) {
+  private static Cookie createCookie(final String name, final String value) {
 
-    Cookie cookie = new Cookie(name, value);
+    final Cookie cookie = new Cookie(name, value);
     cookie.setMaxAge(60 * 60);    // expires in an hour
     cookie.setSecure(true);
     cookie.setHttpOnly(true);   // not available for DOM manipulation
@@ -87,55 +117,73 @@ public class MainController {
    *
    * @return index page.
    */
-  @GetMapping(HOME)
+  @GetMapping(HOME_ENDPOINT)
   public ModelAndView landingPage() {
 
-    String disclaimer = "disclaimer text from server";
+    String disclaimer;
     try {
       disclaimer = Files.readString(Path.of("src/main/resources/cookie-disclaimer.txt"));
-    } catch (IOException e) {
-      throw new RuntimeException(e);
+    } catch (final IOException e) {
+      disclaimer = "could not find a disclaimer please contact an admin.";
     }
 
-    ModelAndView mav = new ModelAndView("index");
-    String confirmButtonText = "Umfrage starten";
+    final ModelAndView mav = new ModelAndView("index");
+    final String confirmButtonText = "Umfrage starten";
     mav.addObject("disclaimer", disclaimer);
     mav.addObject("confirmBtnTxt", confirmButtonText);
     return mav;
   }
 
-  @PostMapping(HOME)
-  public ModelAndView landingPage(HttpServletResponse response) {
+  /**
+   * Endpoint for the postrequest from the landing page. This endpoint is responsible for cookie
+   * creation and therefore critical.
+   *
+   * @param response the response from the server {@link HttpServletResponse}
+   * @return redirects user to beginning of survey.
+   */
+  @PostMapping(HOME_ENDPOINT)
+  public ModelAndView landingPage(final HttpServletResponse response) {
 
-    ModelAndView mav;
     // generate and add cookies
-    List<Cookie> cookies = List.of(
+    final List<Cookie> cookies = List.of(
         createCookie(USER_SESSION_ID, UUID.randomUUID().toString()),
         createCookie(QUESTION_ID, "1")
     );
 
-    for (Cookie cookie : cookies) {
+    for (final Cookie cookie : cookies) {
       response.addCookie(cookie);
     }
 
     return startSurvey();
   }
 
+  /**
+   * Redirects the user to the last question he visited or to the index page of the website.
+   *
+   * @param sessionId  the user session id
+   * @param questionId the question id
+   * @return respective view
+   */
   @GetMapping(REDIRECT)
-  public ModelAndView redirect(HttpServletResponse response,
-                               @Nullable @CookieValue(name = USER_SESSION_ID) String sessionId,
-                               @Nullable @CookieValue(name = QUESTION_ID) String questionId) {
+  public ModelAndView redirect(
+      @Nullable @CookieValue(name = USER_SESSION_ID) final String sessionId,
+      @Nullable @CookieValue(name = QUESTION_ID) final String questionId) {
 
-    if (ValidationUtils.isBlankOrNull(sessionId) || ValidationUtils.isBlankOrNull(questionId)) {
-      return landingPage();
-    }
+
+    final ModelAndView mav;
     // will never be blank or null as checked above.
-    int qId;
-    qId = Integer.parseInt(questionId);
-    if (qId > 1) {
-      return question(response, questionId);
+    if (ValidationUtils.isBlankOrNull(sessionId) || ValidationUtils.isBlankOrNull(questionId)) {
+      mav = landingPage();
+    } else {
+      // question id is not null
+      assert questionId != null;
+      if (Integer.parseInt(questionId) > 1) {
+        mav = question(questionId);
+      } else {
+        mav = startSurvey();
+      }
     }
-    return startSurvey();
+    return mav;
   }
 
   /**
@@ -143,11 +191,11 @@ public class MainController {
    *
    * @return {@link ModelAndView} to gender selection
    */
-  @GetMapping(START)
+  @GetMapping(START_ENDPOINT)
   public ModelAndView startSurvey() {
 
-    var question = service.findQuestionById(1).get();
-    ModelAndView mav = new ModelAndView(ViewNameUtils.SINGLE_ANSWER);
+    final var question = this.service.findQuestionById(1).get();
+    final ModelAndView mav = new ModelAndView(ViewNameUtils.SINGLE_ANSWER);
     mav.addObject(USER_ANSWER, new UserAnswerDto());
     mav.addObject(QUESTION, question);
     mav.addObject(SUBMIT_BUTTON_TEXT, NEXT);
@@ -158,31 +206,31 @@ public class MainController {
 
 
   /**
-   * Question endpoint
+   * Question endpoint.
    *
+   * @param questionId the question id supplied by the cookies
    * @return ModelAndView containing the current question element
    */
-  @GetMapping(QUESTIONS)
-  public ModelAndView question(HttpServletResponse response,
-                               @CookieValue(name = QUESTION_ID) String questionId) {
+  @GetMapping(QUESTIONS_ENDPOINT)
+  public ModelAndView question(@CookieValue(name = QUESTION_ID) final String questionId) {
 
-    var id = Integer.parseInt(questionId);
+    final var qstId = Integer.parseInt(questionId);
 
-    var opt = service.findQuestionById(id);
+    final var opt = this.service.findQuestionById(qstId);
 
-    QuestionDto question = opt.get();
-    QuestionTypes type = question.getQuestionType();
+    final QuestionDto question = opt.get();
+    final QuestionTypes type = question.getQuestionType();
 
-    String submitbuttonText = id == 20 ? THANKS : NEXT;
+    final String submitbuttonText = qstId == 20 ? THANKS : NEXT;
 
     return switch (type) {
-      case MULTIPLECHOICE -> getQuestion(ViewNameUtils.MULTIPLE_CHOICE, id, question,
+      case MULTIPLECHOICE -> getQuestion(ViewNameUtils.MULTIPLE_CHOICE, qstId, question,
                                          submitbuttonText);
-      case SINGLEANSWER -> getQuestion(ViewNameUtils.SINGLE_ANSWER, id, question,
+      case SINGLEANSWER -> getQuestion(ViewNameUtils.SINGLE_ANSWER, qstId, question,
                                        submitbuttonText);
-      case INPUT -> getQuestion(ViewNameUtils.INPUT_QUESTION, id, question, submitbuttonText);
-      case Boolean -> getQuestion(ViewNameUtils.BOOLEAN_QUESTION, id, question, submitbuttonText);
-      default -> startSurvey();
+      case INPUT -> getQuestion(ViewNameUtils.INPUT_QUESTION, qstId, question, submitbuttonText);
+      case BOOLEAN -> getQuestion(ViewNameUtils.BOOLEAN_QUESTION, qstId, question,
+                                  submitbuttonText);
     };
   }
 
@@ -196,37 +244,37 @@ public class MainController {
    * @param response   http response.
    * @return redirects to the next question.
    */
-  @PostMapping(value = QUESTIONS)
-  public ModelAndView questionAnswer(@ModelAttribute UserAnswerDto userAnswer,
-                                     @CookieValue(name = QUESTION_ID) String questionId,
-                                     @CookieValue(name = USER_SESSION_ID) String sessionId,
-                                     HttpServletResponse response) {
+  @PostMapping(QUESTIONS_ENDPOINT)
+  public ModelAndView questionAnswer(@ModelAttribute final UserAnswerDto userAnswer,
+                                     @CookieValue(name = QUESTION_ID) final String questionId,
+                                     @CookieValue(name = USER_SESSION_ID) final String sessionId,
+                                     final HttpServletResponse response) {
 
-    int qId = Integer.parseInt(questionId);
+    final int qstId = Integer.parseInt(questionId);
     // save data first update cookie later
-    userAnswer.setQuestionId(qId);
+    userAnswer.setQuestionId(qstId);
     userAnswer.setUserId(sessionId);
-    service.saveAnswer(userAnswer);
+    this.service.saveAnswer(userAnswer);
 
     // update the cookie value and upload the cookie, this will delete the old cookie and replace
     // it with the new cookie.
-    String qIdString = String.valueOf(qId + 1);
+    final String qstIdString = String.valueOf(qstId + 1);
 
-    response.addCookie(createCookie(QUESTION_ID, qIdString));
+    response.addCookie(createCookie(QUESTION_ID, qstIdString));
 
-    return question(response, qIdString);
+    return question(qstIdString);
   }
 
 
-  private ModelAndView getQuestion(String view, int id,
-                                   QuestionDto question,
-                                   String submittbuttonText) {
+  private ModelAndView getQuestion(final String view, final int id,
+                                   final QuestionDto question,
+                                   final String submittbuttonText) {
 
-    ModelAndView mav = new ModelAndView(view);
+    final ModelAndView mav = new ModelAndView(view);
 
     mav.addObject(SUBMIT_BUTTON_TEXT, submittbuttonText);
     mav.addObject(QUESTION, question);
-    mav.addObject("questioncount", String.format("Frage %s/20", ++id));
+    mav.addObject("questioncount", String.format("Frage %s/20", id + 1));
     mav.addObject(USER_ANSWER, new UserAnswerDto());
 
     return mav;

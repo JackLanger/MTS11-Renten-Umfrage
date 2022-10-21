@@ -38,11 +38,4 @@ public class UserAnswerDto {
    */
   private int questionId;
 
-  public UserAnswerDto(String userId, int questionId) {
-
-    this.userId = userId;
-    this.questionId = questionId;
-  }
-
-
 }

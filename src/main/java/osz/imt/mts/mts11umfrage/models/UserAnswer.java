@@ -34,7 +34,7 @@ public class UserAnswer {
    */
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "UUID")
-  @ColumnDefault(value = "NEWID()")
+  @ColumnDefault("NEWID()")
   private UUID id;
 
   /**

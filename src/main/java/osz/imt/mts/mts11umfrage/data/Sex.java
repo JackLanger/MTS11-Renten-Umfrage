@@ -7,8 +7,17 @@ package osz.imt.mts.mts11umfrage.data;
  * <p>Date: 17.10.2022</p>
  */
 public enum Sex {
+  /**
+   * Male.
+   */
   MALE("männlich"),
+  /**
+   * Female.
+   */
   FEMALE("weiblich"),
+  /**
+   * Diverse.
+   */
   DIVERSE("diverse");
 
   /**
@@ -23,7 +32,7 @@ public enum Sex {
    */
   public String getValue() {
 
-    return value;
+    return this.value;
   }
 
   /**
@@ -31,7 +40,7 @@ public enum Sex {
    *
    * @param value the String value associated with the option.
    */
-  Sex(String value) {
+  Sex(final String value) {
 
     this.value = value;
   }

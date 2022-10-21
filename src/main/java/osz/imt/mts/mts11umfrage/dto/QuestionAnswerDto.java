@@ -9,7 +9,7 @@ import lombok.Setter;
 import osz.imt.mts.mts11umfrage.models.QuestionAnswer;
 
 /**
- * A DTO for the {@link QuestionAnswer} entity
+ * A DTO for the {@link QuestionAnswer} entity.
  */
 
 @Getter
@@ -22,18 +22,18 @@ public class QuestionAnswerDto implements Serializable {
   /**
    * the id of the answer.
    */
-  int id;
+  private int id;
   /**
    * The string option for the answer.
    */
-  String answerOption;
+  private String answerOption;
   /**
    * The associated value for the answer.
    */
-  int answerValue;
+  private int answerValue;
   /**
    * The html type for the question.
    */
-  String htmlType;
+  private String htmlType;
 
 }

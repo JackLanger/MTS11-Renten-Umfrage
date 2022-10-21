@@ -4,13 +4,16 @@ import java.util.Objects;
 import org.springframework.lang.Nullable;
 
 /**
- * .
+ * Validation utility class for string validation.
  *
  * <p>Created by: Jack</p>
  * <p>Date: 21.10.2022</p>
  */
-public class ValidationUtils {
+public final class ValidationUtils {
 
+  /**
+   * An empty string.
+   */
   public static final String EMPTY_STRING = "";
 
   /**
@@ -19,9 +22,9 @@ public class ValidationUtils {
    * @param s the string
    * @return true if is blank
    */
-  public static boolean isBlank(String s) {
+  public static boolean isBlank(final String s) {
 
-    return s.equals(EMPTY_STRING);
+    return EMPTY_STRING.equals(s);
   }
 
   /**
@@ -30,9 +33,9 @@ public class ValidationUtils {
    * @param s the string
    * @return true if is blank not
    */
-  public static boolean isNotBlank(String s) {
+  public static boolean isNotBlank(final String s) {
 
-    return !s.equals(EMPTY_STRING);
+    return !EMPTY_STRING.equals(s);
   }
 
   /**
@@ -41,9 +44,16 @@ public class ValidationUtils {
    * @param s string to check
    * @return true if null or blank
    */
-  public static boolean isBlankOrNull(@Nullable String s) {
+  public static boolean isBlankOrNull(@Nullable final String s) {
 
     return Objects.isNull(s) || isBlank(s);
+  }
+
+  /**
+   * Prevent initialization. Utility class.
+   */
+  private ValidationUtils() {
+    // empty. no init.
   }
 
 }

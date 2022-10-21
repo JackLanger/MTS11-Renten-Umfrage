@@ -15,6 +15,9 @@ import lombok.Setter;
 import osz.imt.mts.mts11umfrage.dto.QuestionAnswerDto;
 import osz.imt.mts.mts11umfrage.utils.HtmlTypes;
 
+/**
+ * Question answer entity.
+ */
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -47,7 +50,7 @@ public class QuestionAnswer {
   private int answerValue;
 
   /**
-   * Type value for the html to display
+   * Type value for the html to display.
    */
   private String htmlType = HtmlTypes.TEXT;
 

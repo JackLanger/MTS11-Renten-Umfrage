@@ -10,7 +10,7 @@ public enum QuestionTypes {
   /**
    * Boolean value answer.
    */
-  Boolean,
+  BOOLEAN,
   /**
    * Single answer is possible.
    */
