@@ -1,10 +1,15 @@
 package osz.imt.mts.mts11umfrage.service;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import osz.imt.mts.mts11umfrage.dto.QuestionDto;
-import osz.imt.mts.mts11umfrage.repository.QuestionAnswerRepository;
+import osz.imt.mts.mts11umfrage.dto.UserAnswerDto;
+import osz.imt.mts.mts11umfrage.models.Question;
+import osz.imt.mts.mts11umfrage.models.UserAnswer;
 import osz.imt.mts.mts11umfrage.repository.QuestionRepository;
 import osz.imt.mts.mts11umfrage.repository.UserAnswersRepository;
 
@@ -20,11 +25,11 @@ public class QuestionService {
   /**
    * Questions Repository.
    */
-  private final QuestionRepository questionRepo;
+  private final transient QuestionRepository questionRepo;
   /**
    * UserData answers repository.
    */
-  private final UserAnswersRepository userAnswerRepo;
+  private final transient UserAnswersRepository userAnswerRepo;
 
   /**
    * Creates a new Question service and poplates the respective repositories.
@@ -33,19 +38,58 @@ public class QuestionService {
    * @param userAnswerRepo {@link UserAnswersRepository}
    */
   @Autowired
-  public QuestionService(QuestionRepository questionRepo,
-                         QuestionAnswerRepository answerRepo,
-                         UserAnswersRepository userAnswerRepo) {
+  public QuestionService(final QuestionRepository questionRepo,
+                         final UserAnswersRepository userAnswerRepo) {
 
     this.questionRepo = questionRepo;
     this.userAnswerRepo = userAnswerRepo;
   }
 
-  public Optional<QuestionDto> findQuestionById(int id) {
+  /**
+   * find a question for a given id.
+   *
+   * @param id the id of the question
+   * @return Optional containing the Question object or empty.
+   */
+  public Optional<QuestionDto> findQuestionById(final int id) {
 
-    var result = questionRepo.findById(id);
+    final var result = this.questionRepo.findById(id);
 
     return result.isPresent() ? Optional.of(result.get().toDto()) : Optional.empty();
+  }
+
+  /**
+   * Save the user answer to the db.
+   *
+   * @param dto the user answer dto
+   * @return the user answer uuid.
+   */
+  public UUID saveAnswer(final UserAnswerDto dto) {
+
+    final var entity = new UserAnswer();
+
+    // fetch the answer from the questions.
+    final var answer = this.questionRepo.findById(dto.getQuestionId())
+                                        .get()
+                                        .getQuestionAnswers()
+                                        .get(dto.getAnswerValue());
+
+    entity.setQuestionAnswer(answer);
+    entity.setUserId(UUID.fromString(dto.getUserId()));
+    entity.setDate(LocalDateTime.now());
+
+    return this.userAnswerRepo.save(entity).getUserId();
+  }
+
+  /**
+   * Returns all questions from the database.
+   *
+   * @return {@link List} of {@link Question}.
+   */
+  public List<Question> findAll() {
+
+    return this.questionRepo.findAll();
+
   }
 
 

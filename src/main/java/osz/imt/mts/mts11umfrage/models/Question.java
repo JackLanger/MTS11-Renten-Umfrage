@@ -16,6 +16,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import osz.imt.mts.mts11umfrage.data.QuestionTypes;
+import osz.imt.mts.mts11umfrage.dto.QuestionAnswerDto;
 import osz.imt.mts.mts11umfrage.dto.QuestionDto;
 
 /**
@@ -33,25 +34,42 @@ import osz.imt.mts.mts11umfrage.dto.QuestionDto;
 @Table(name = "t_question")
 public class Question {
 
+  /**
+   * Public key.
+   */
   @Id
-//  @Column(name = "p_question_id")
+  //  @Column(name = "p_question_id")
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
+  /**
+   * The question text.
+   */
   private String questionText;
+  /**
+   * {@link List} of {@link QuestionAnswer}.
+   */
   @OneToMany(fetch = FetchType.EAGER, mappedBy = "question")
   private List<QuestionAnswer> questionAnswers = new java.util.ArrayList<>();
+  /**
+   * Question type. e.g. {@link QuestionTypes#MULTIPLECHOICE}.
+   */
   @Enumerated(EnumType.ORDINAL)
   private QuestionTypes questionType;
 
+  /**
+   * Returns the Dto Version of this entry.
+   *
+   * @return {@link QuestionAnswerDto}
+   */
   public QuestionDto toDto() {
 
-    var dto = QuestionDto.builder()
-                         .id(this.id)
-                         .questionText(this.getQuestionText())
-                         .questionType(this.questionType)
-                         .build();
+    final var dto = QuestionDto.builder()
+                               .id(this.id)
+                               .questionText(this.getQuestionText())
+                               .questionType(this.questionType)
+                               .build();
 
-    for (QuestionAnswer questionAnswer : questionAnswers) {
+    for (final QuestionAnswer questionAnswer : this.questionAnswers) {
       dto.addQuestionAnswer(questionAnswer.toDto());
     }
     return dto;

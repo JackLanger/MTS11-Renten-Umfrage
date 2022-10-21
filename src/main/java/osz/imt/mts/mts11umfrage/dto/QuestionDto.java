@@ -21,19 +21,35 @@ import osz.imt.mts.mts11umfrage.models.Question;
 @Builder
 public class QuestionDto implements Serializable {
 
-  int id;
-  String questionText;
-  QuestionTypes questionType;
-  List<QuestionAnswerDto> questionAnswers = new ArrayList<>();
+  /**
+   * The id.
+   */
+  private int id;
+  /**
+   * The question text.
+   */
+  private String questionText;
+  /**
+   * The type of the question. {@link QuestionTypes}
+   */
+  private QuestionTypes questionType;
+  /**
+   * {@link List} of {@link osz.imt.mts.mts11umfrage.dto.QuestionAnswerDto}.
+   */
+  private List<QuestionAnswerDto> questionAnswers = new ArrayList<>();
 
   /**
    * Adds a new Question answer to the list of answers.
    *
    * @param answerDto the answer dto
    */
-  public void addQuestionAnswer(QuestionAnswerDto answerDto) {
+  public void addQuestionAnswer(final QuestionAnswerDto answerDto) {
 
-    questionAnswers.add(answerDto);
+    if (this.questionAnswers == null) {
+      this.questionAnswers = new ArrayList<>();
+    }
+
+    this.questionAnswers.add(answerDto);
   }
 
 }

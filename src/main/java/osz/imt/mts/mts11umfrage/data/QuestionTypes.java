@@ -10,47 +10,18 @@ public enum QuestionTypes {
   /**
    * Boolean value answer.
    */
-  Boolean(1),
-  /**
-   * A scale needs to be provided.
-   */
-  SCALE(2),
+  BOOLEAN,
   /**
    * Single answer is possible.
    */
-  SINGLEANSWER(3),
+  SINGLEANSWER,
   /**
    * A Multiple choice question. Multiple answers can be selected.
    */
-  MULTIPLECHOICE(4),
+  MULTIPLECHOICE,
   /**
    * An Input question answer.
    */
-  INPUT(5);
+  INPUT
 
-  /**
-   * The Type of the question.
-   */
-  private final int type;
-
-  /**
-   * Returns the type.
-   *
-   * @return the type value
-   */
-  public int getType() {
-
-    return type;
-  }
-
-  /**
-   * Creates a new Question Type
-   *
-   * @param i the type id
-   */
-  QuestionTypes(int i) {
-
-    this.type = i;
-
-  }
 }

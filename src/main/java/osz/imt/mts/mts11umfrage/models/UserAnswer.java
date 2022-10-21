@@ -7,7 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -34,16 +33,15 @@ public class UserAnswer {
    * Identity of the Object.
    */
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @ColumnDefault(value = "NEWID()")
+  @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "UUID")
+  @ColumnDefault("NEWID()")
   private UUID id;
 
   /**
    * Question Answer object.
    */
-  @ManyToOne
   @Comment("answer value containts the anser qualitative value as well no need to track it here.")
-  @JoinColumn(name = "question_answer_id")
+  @ManyToOne
   private QuestionAnswer questionAnswer;
 
   /**
@@ -56,6 +54,7 @@ public class UserAnswer {
    * The date the answer was given. This is Metadata.
    */
   @Column(name = "date")
+  @ColumnDefault("GETDATE()")
   private LocalDateTime date;
 
 

@@ -1,17 +1,25 @@
-<form th:action="/question" th:fragment="radioboxes" th:object="${userAnswer}">
+<form method="post" th:action="@{/question}" th:fragment="boxes" th:object="${userAnswer}">
+    <div class="form-stack-container">
 
-    <div class="radio-container">
-        <div class="radio-wrapper" th:each="answer:${questionAnswers}">
-            <input class="form-btn-radio-input" name="select"
-                   th:field="*{answerValue}" th:id="|option-${answer.answerValue}|"
-                   th:value="${answer.answerValue}"
-                   type="radio">
-            <label th:class="|option option-${answer.answerValue}|"
-                   th:for="|option-${answer.answerValue}|">
-                <span th:text="${answer.answerOption}">Student</span>
-            </label>
+        <div class="radio-container">
+            <h3 th:text="${question.questionText}">Meine Frage</h3>
+            <div class="radio-wrapper" th:each="answer:${question.questionAnswers}">
+                <input class="form-btn-radio-input" name="select"
+                       th:field="*{answerValue}"
+                       th:id="|option-${answer.answerValue}|"
+                       th:value="${answer.answerValue}"
+                       type="radio">
+                <label th:class="|option option-${answer.answerValue}|"
+                       th:for="|option-${answer.answerValue}|">
+                    <span th:text="${answer.answerOption}">Student</span>
+                </label>
+            </div>
+        </div>
+
+
+        <div class="form-submit-container">
+            <input class="form-submit" th:text="${next}"
+                   type="submit">
         </div>
     </div>
-
-    <input th:text="${next}" type="submit">
 </form>
