@@ -1,14 +1,19 @@
-FROM gradle:7.5.1-jdk-alpine AS gradle
+FROM gradle:7.5.1-jdk-alpine AS build
 
 COPY --chown=gradle:gradle . /home/gradle/src
 WORKDIR /home/gradle/src
-RUN gradle build --no-daemon
+RUN gradle clean assemble --no-daemon
 
-FROM eclipse-temurin:17 as jre-build
+#FROM eclipse-temurin:11 as jre-build
+FROM openjdk:17-bullseye
 EXPOSE 8080
 
 RUN mkdir /app
 
-COPY --from=build /home/gradle/src/build/libs/*.jar /app/mts11-umfrage.jar
+COPY --from=build /home/gradle/src/build/libs/MTS-11-Umfrage-*.*.[0-9].jar /app/mts11-umfrage.jar
+# mts11-umfrage.jar
 
-ENTRYPOINT ["java", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseCGroupMemoryLimitForHeap", "-Djava.security.egd=file:/dev/./urandom","-jar","/app/mts11-umfrage.jar"]
+#ENTRYPOINT ["java", "-jar", "/app/mts11-umfrage.jar"]
+
+ENTRYPOINT ["java", "-XX:+UnlockExperimentalVMOptions", "-Djava.security.egd=file:/dev/./urandom","-jar","/app/mts11-umfrage.jar"]
+#"-XX:+UseCGroupMemoryLimitForHeap",

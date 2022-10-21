@@ -10,12 +10,20 @@ def checkstyleVersion = '10.3.4'
 def pmdVersion = '6.50.0'
 
 group = 'osz.imt.mts'
-version = '0.1.0-SNAPSHOT'
+version = '0.1.0'
 sourceCompatibility = '17'
 
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
+    }
+}
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'osz.imt.mts.mts11umfrage.Mts11UmfrageApplication'
+        )
     }
 }
 
@@ -73,6 +81,8 @@ checkstyle {
     maxWarnings = 0
 }
 
+checkstyleTest.enabled = false
+pmdTest.enabled = false
 // PMD
 pmd {
     toolVersion = pmdVersion
@@ -80,5 +90,6 @@ pmd {
     // ruleSets variable needs to be emptied or else the gradle plugin will use the basic ruleset
     // and some rules cannot be excluded.
     ruleSets = []
+//    sourceSets = [sourceSets.main]
     ignoreFailures = true // TODO:Nach der Umstrukturierung
 }

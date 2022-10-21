@@ -48,6 +48,18 @@ services:
 
   umfrage:
     build: .
+    image: mts11.umfrage.app
+
+    ports:
+      - 5000:8080
+
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:sqlserver://mts11.umfrage.db:1433;database=umfrage;encrypt=false
+      SPRING_DATASOURCE_USERNAME: umfrage
+      SPRING_DATASOURCE_PASSWORD: umfrage
+
+    depends_on:
+      - mts11.umfrage.db
 
 volumes:
   umfrage-db-backup:
