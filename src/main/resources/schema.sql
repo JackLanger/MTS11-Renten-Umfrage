@@ -16,6 +16,7 @@ CREATE TABLE t_question_answer
 	question_p_question_id int,
 	answer_option          varchar(255),
 	answer_value           int                 NOT NULL,
+	html_type              varchar(10)         NOT NULL,
 	CONSTRAINT pk_questionanswer PRIMARY KEY (id)
 )
 GO
