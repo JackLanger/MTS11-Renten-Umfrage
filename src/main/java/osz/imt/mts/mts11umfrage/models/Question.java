@@ -16,6 +16,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import osz.imt.mts.mts11umfrage.data.QuestionTypes;
+import osz.imt.mts.mts11umfrage.dto.QuestionAnswerDto;
 import osz.imt.mts.mts11umfrage.dto.QuestionDto;
 
 /**
@@ -43,6 +44,11 @@ public class Question {
   @Enumerated(EnumType.ORDINAL)
   private QuestionTypes questionType;
 
+  /**
+   * Returns the Dto Version of this entry.
+   *
+   * @return {@link QuestionAnswerDto}
+   */
   public QuestionDto toDto() {
 
     var dto = QuestionDto.builder()
