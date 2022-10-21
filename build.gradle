@@ -6,8 +6,11 @@ plugins {
     id 'pmd'
 }
 
+def checkstyleVersion = '10.3.4'
+def pmdVersion = '6.50.0'
+
 group = 'osz.imt.mts'
-version = '0.0.1-SNAPSHOT'
+version = '0.1.0-SNAPSHOT'
 sourceCompatibility = '17'
 
 configurations {
@@ -56,4 +59,26 @@ dependencies {
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+
+// Checkstyle - https://github.com/checkstyle/checkstyle
+checkstyle {
+    // Config is downloaded from https://github.com/checkstyle/checkstyle/releases
+    // It's in the folder src/main/resources/google_checks.xml
+    toolVersion = checkstyleVersion
+    configFile = file('config/checkstyle/google_checks.xml')
+    configProperties = ["suppressionFile": file('config/checkstyle/suppressions.xml')]
+    ignoreFailures = false
+    maxWarnings = 0
+}
+
+// PMD
+pmd {
+    toolVersion = pmdVersion
+    ruleSetFiles = files("config/pmd/pmd.xml")
+    // ruleSets variable needs to be emptied or else the gradle plugin will use the basic ruleset
+    // and some rules cannot be excluded.
+    ruleSets = []
+    ignoreFailures = true // TODO:Nach der Umstrukturierung
 }
