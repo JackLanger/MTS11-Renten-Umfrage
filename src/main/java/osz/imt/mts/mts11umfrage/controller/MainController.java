@@ -1,11 +1,11 @@
 package osz.imt.mts.mts11umfrage.controller;
 
-import java.util.Map;
+import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +17,7 @@ import osz.imt.mts.mts11umfrage.data.Sex;
 import osz.imt.mts.mts11umfrage.dto.QuestionDto;
 import osz.imt.mts.mts11umfrage.dto.UserAnswerDto;
 import osz.imt.mts.mts11umfrage.service.QuestionService;
+import osz.imt.mts.mts11umfrage.utils.ValidationUtils;
 import osz.imt.mts.mts11umfrage.utils.ViewNameUtils;
 
 /**
@@ -41,7 +42,7 @@ public class MainController {
   /**
    * Index endpoint
    */
-  private static final String HOME = "/";
+  private static final String HOME = "/home";
 
   /**
    * Endpoint for first question.
@@ -51,14 +52,11 @@ public class MainController {
    * Endpoint for all followup questions.
    */
   private static final String QUESTIONS = "/question";
+  private static final String REDIRECT = "/";
   /**
    * {@link QuestionService} responsible for saving answers and fetching questions.
    */
   private final QuestionService service;
-  /**
-   * Key is the name while value is the cookie.
-   */
-  Map<String, Cookie> cookies = new ConcurrentHashMap<>();
 
   /**
    * Creates a new Controller.
@@ -71,30 +69,72 @@ public class MainController {
     this.service = service;
   }
 
+  private static Cookie createCookie(String name, String value) {
+
+    Cookie cookie = new Cookie(name, value);
+    cookie.setMaxAge(60 * 60);    // expires in an hour
+    cookie.setSecure(true);
+    cookie.setHttpOnly(true);   // not available for DOM manipulation
+    cookie.setPath(REDIRECT);       // available everywhere
+    return cookie;
+  }
+
+  /**
+   * Landing page endpoint. This endpoint is the first page the user will see.
+   *
+   * @return index page.
+   */
   @GetMapping(HOME)
   public ModelAndView landingPage() {
 
-    var mav = new ModelAndView("index");
+    ModelAndView mav = new ModelAndView("index");
+    String confirmButtonText = "Umfrage starten";
+    mav.addObject("disclaimer", "disclaimer text from server");
+    mav.addObject("confirmBtnTxt", confirmButtonText);
     return mav;
   }
 
-  @GetMapping(START)
-  public ModelAndView startSurvey(HttpServletResponse response) {
+  @PostMapping(HOME)
+  public ModelAndView landingPage(HttpServletResponse response) {
 
-
-    cookies = Map.of(
-        USER_SESSION_ID, new Cookie(USER_SESSION_ID, UUID.randomUUID().toString()),
-        QUESTION_ID, new Cookie(QUESTION_ID, "1")
+    ModelAndView mav;
+    // generate and add cookies
+    List<Cookie> cookies = List.of(
+        createCookie(USER_SESSION_ID, UUID.randomUUID().toString()),
+        createCookie(QUESTION_ID, "1")
     );
 
-
-    for (Cookie cookie : cookies.values()) {
-      cookie.setMaxAge(60 * 60);    // expires in an hour
-      cookie.setSecure(true);
-      cookie.setHttpOnly(true);   // not available for DOM manipulation
-//      cookie.setPath(HOME);       // available everywhere
+    for (Cookie cookie : cookies) {
       response.addCookie(cookie);
     }
+
+    return startSurvey();
+  }
+
+  @GetMapping(REDIRECT)
+  public ModelAndView redirect(HttpServletResponse response,
+                               @Nullable @CookieValue(name = USER_SESSION_ID) String sessionId,
+                               @Nullable @CookieValue(name = QUESTION_ID) String questionId) {
+
+    if (ValidationUtils.isBlankOrNull(sessionId) || ValidationUtils.isBlankOrNull(questionId)) {
+      return landingPage();
+    }
+    // will never be blank or null as checked above.
+    int qId;
+    qId = Integer.parseInt(questionId);
+    if (qId > 1) {
+      return question(response, questionId);
+    }
+    return startSurvey();
+  }
+
+  /**
+   * Endpoint for the first question returns the view to the gender selection.
+   *
+   * @return {@link ModelAndView} to gender selection
+   */
+  @GetMapping(START)
+  public ModelAndView startSurvey() {
 
     var question = service.findQuestionById(1).get();
     ModelAndView mav = new ModelAndView(ViewNameUtils.SINGLE_ANSWER);
@@ -126,13 +166,13 @@ public class MainController {
     String submitbuttonText = id == 20 ? THANKS : NEXT;
 
     return switch (type) {
-      case MULTIPLECHOICE -> getQuestion(ViewNameUtils.SINGLE_ANSWER, id, question,
+      case MULTIPLECHOICE -> getQuestion(ViewNameUtils.MULTIPLE_CHOICE, id, question,
                                          submitbuttonText);
-      case SINGLEANSWER -> getQuestion(ViewNameUtils.MULTIPLE_CHOICE, id, question,
+      case SINGLEANSWER -> getQuestion(ViewNameUtils.SINGLE_ANSWER, id, question,
                                        submitbuttonText);
       case INPUT -> getQuestion(ViewNameUtils.INPUT_QUESTION, id, question, submitbuttonText);
       case Boolean -> getQuestion(ViewNameUtils.BOOLEAN_QUESTION, id, question, submitbuttonText);
-      default -> startSurvey(response);
+      default -> startSurvey();
     };
   }
 
@@ -156,21 +196,15 @@ public class MainController {
     // save data first update cookie later
     userAnswer.setQuestionId(qId);
     userAnswer.setUserId(sessionId);
-    service.saveAnswer(userAnswer);   // element has no question id present.
+    service.saveAnswer(userAnswer);
 
     // update the cookie value and upload the cookie, this will delete the old cookie and replace
     // it with the new cookie.
-    Cookie cookie = cookies.get(QUESTION_ID);
-    cookie.setValue(String.valueOf(++qId));
-    response.addCookie(cookie);
+    String qIdString = String.valueOf(qId + 1);
 
-    return question(response, String.valueOf(++qId));
-  }
+    response.addCookie(createCookie(QUESTION_ID, qIdString));
 
-  @PostMapping(HOME)
-  public ModelAndView landingPagePost(HttpServletResponse response) {
-    // ..
-    return startSurvey(response);
+    return question(response, qIdString);
   }
 
 
