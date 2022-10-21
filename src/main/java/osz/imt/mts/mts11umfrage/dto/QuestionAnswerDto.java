@@ -31,5 +31,9 @@ public class QuestionAnswerDto implements Serializable {
    * The associated value for the answer.
    */
   int answerValue;
+  /**
+   * The html type for the question.
+   */
+  String htmlType;
 
 }
