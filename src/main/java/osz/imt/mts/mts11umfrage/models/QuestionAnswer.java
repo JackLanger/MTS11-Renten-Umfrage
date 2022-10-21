@@ -13,6 +13,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import osz.imt.mts.mts11umfrage.dto.QuestionAnswerDto;
+import osz.imt.mts.mts11umfrage.utils.HtmlTypes;
 
 @Builder
 @AllArgsConstructor
@@ -46,6 +47,11 @@ public class QuestionAnswer {
   private int answerValue;
 
   /**
+   * Type value for the html to display
+   */
+  private String htmlType = HtmlTypes.TEXT;
+
+  /**
    * Returns the Dto Version of this entry.
    *
    * @return {@link QuestionAnswerDto}
@@ -53,9 +59,10 @@ public class QuestionAnswer {
   public QuestionAnswerDto toDto() {
 
     return QuestionAnswerDto.builder()
-                            .id(this.id)
-                            .answerOption(this.answerOption)
-                            .answerValue(this.answerValue)
+                            .id(this.getId())
+                            .answerOption(this.getAnswerOption())
+                            .answerValue(this.getAnswerValue())
+                            .htmlType(this.getHtmlType())
                             .build();
   }
 
