@@ -54,7 +54,6 @@ public class UserAnswer {
    * The date the answer was given. This is Metadata.
    */
   @Column(name = "date")
-//  @GeneratedValue(strategy = GenerationType.AUTO)
   @ColumnDefault("GETDATE()")
   private LocalDateTime date;
 
