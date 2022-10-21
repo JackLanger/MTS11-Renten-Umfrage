@@ -5,10 +5,27 @@
 </head>
 <body>
 <article>
-    <h1>Rente in deutschland</h1>
-    <h3> Eine Umfrage der MTS 11 des OSZIMT Berlin </h3>
+    <form action="/home" method="post">
 
-    <a class="link-button" href="/0">beginnen</a>
+        <h1>Rente in deutschland</h1>
+        <h3> Eine Umfrage der MTS 11 des OSZIMT Berlin </h3>
+        <br>
+        <h3>Disclaimer</h3>
+        <p th:text="${disclaimer}"></p>
+
+        <label for="disclaimerAgreement">
+            <input id="disclaimerAgreement" name="disclaimerAgreement" required type="checkbox">
+            <span>Ich habe die Informationen zur Datenverarbeitung gelesen und stimme diesen zu.</span>
+        </label>
+
+        <!--        <a class="link-button" href="/home" th:text="confirmBtnTxt">beginnen</a>-->
+        <input class="link-button"
+               th:value="${confirmBtnTxt}"
+               type="submit">
+        </input>
+
+        <!--               th:value="confirmBtnTxt"-->
+    </form>
 </article>
 </body>
 </html>
