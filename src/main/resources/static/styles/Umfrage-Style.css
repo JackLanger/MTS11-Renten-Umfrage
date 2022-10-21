@@ -1,0 +1,36 @@
+/*OSZIMT - MTS11 color schema*/
+:root {
+    --oszimt-red: #c50d08;
+    --oszimt-bg-dark: #10202f;
+    --oszimt-bg-light: #c3c6cb;
+}
+
+.fullheight {
+    height: 100%;
+}
+
+body, html {
+    height: 100%;
+}
+
+body {
+    background: linear-gradient(var(--oszimt-bg-dark), var(--oszimt-bg-light));
+}
+
+.container {
+    background: var(--white);
+}
+
+.logo {
+    height: 100px;
+    width: auto;
+}
+
+.logo > span {
+    
+}
+
+.logo > img {
+    height: 100%;
+    width: auto;
+}
