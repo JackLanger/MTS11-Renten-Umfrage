@@ -1,5 +1,8 @@
 package osz.imt.mts.mts11umfrage.controller;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.UUID;
 import javax.servlet.http.Cookie;
@@ -87,9 +90,16 @@ public class MainController {
   @GetMapping(HOME)
   public ModelAndView landingPage() {
 
+    String disclaimer = "disclaimer text from server";
+    try {
+      disclaimer = Files.readString(Path.of("src/main/resources/cookie-disclaimer.txt"));
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+
     ModelAndView mav = new ModelAndView("index");
     String confirmButtonText = "Umfrage starten";
-    mav.addObject("disclaimer", "disclaimer text from server");
+    mav.addObject("disclaimer", disclaimer);
     mav.addObject("confirmBtnTxt", confirmButtonText);
     return mav;
   }

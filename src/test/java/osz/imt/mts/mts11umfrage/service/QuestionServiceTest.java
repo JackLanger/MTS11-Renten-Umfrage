@@ -30,8 +30,7 @@ class QuestionServiceTest {
    **/
   @Test
   /*default*/ void testSaveUserAnswer() {
-//    assertNotNull(service.saveAnswer());
-
+    //    assertNotNull(service.saveAnswer());
     // TODO: 19.10.2022 implement.
   }
 
