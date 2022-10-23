@@ -143,7 +143,6 @@ VALUES -- (1, N'männlich', 0, 'a'),      -- geschlecht
        (14, N'Renteneintrittsalter ', -1, 'span'),
        (14, N'Frührente Rentenformel ', -1, 'span'),
        (14, N'Generationenvertrag ', -1, 'span'),
-       (14, N'Keiner der genannten', -1, 'span'),
 -- 15 0-5
        (15, N'Gar nicht', 0, 'span'),
        (15, N'Sehr gering', 1, 'span'),
@@ -197,8 +196,8 @@ VALUES -- (1, N'männlich', 0, 'a'),      -- geschlecht
        (22, N'Private Rentenversicherung', -1, 'span'),
        (22, N'Lebensversicherung Anlagen', -1, 'span'),
        (22, N'Immobilien und Wertgegenstände', -1, 'span'),
+       (22, N'ETF und Aktien', -1, 'span'),
        (22, N'Andere', -1, 'span'),
-       (22, N'Keine', -1, 'span'),
 -- 23 Sehr unsicher Unsicher Eher unsicher Eher sicher Sicher Sehr sicher
        (23, N'Sehr unsicher', 0, 'span'),
        (23, N'Unsicher', 1, 'span'),
