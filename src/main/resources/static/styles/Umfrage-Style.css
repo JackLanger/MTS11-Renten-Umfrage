@@ -14,7 +14,7 @@ body, html {
 }
 
 body {
-    background: linear-gradient(var(--oszimt-bg-dark), var(--oszimt-bg-light));
+    background: linear-gradient(to right, var(--oszimt-bg-light), var(--oszimt-bg-dark), var(--oszimt-bg-light));
 }
 
 .container {
@@ -27,10 +27,35 @@ body {
 }
 
 .logo > span {
-    
+
 }
 
 .logo > img {
     height: 100%;
     width: auto;
+}
+
+input[type="number"] {
+    text-align: right;
+}
+
+label {
+    cursor: pointer;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+}
+
+.yes-no-image {
+
+}
+
+.mc-table {
+    column-count: 2;
+}
+
+.centered {
+    margin: auto;
 }

@@ -1,6 +1,7 @@
 package osz.imt.mts.mts11umfrage.service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -86,9 +87,15 @@ public class QuestionService {
    *
    * @return {@link List} of {@link Question}.
    */
-  public List<Question> findAll() {
+  public List<QuestionDto> findAll() {
 
-    return this.questionRepo.findAll();
+    List<Question> questions = this.questionRepo.findAll();
+    List<QuestionDto> dtos = new ArrayList<>();
+
+    for (Question question : questions) {
+      dtos.add(question.toDto());
+    }
+    return dtos;
 
   }
 
