@@ -82,6 +82,7 @@ public class QuestionService {
 //                                        .get(dto.getAnswerValue());
 
     entity.setQuestion(answer);
+    entity.setAnswerValue(dto.getAnswerValue());
     entity.setUserId(UUID.fromString(dto.getUserId()));
     entity.setDate(LocalDateTime.now());
 

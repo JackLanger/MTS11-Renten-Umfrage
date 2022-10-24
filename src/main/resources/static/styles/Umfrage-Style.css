@@ -59,3 +59,7 @@ input[type=number]::-webkit-outer-spin-button {
 .centered {
     margin: auto;
 }
+
+.hidden {
+    display: none;
+}

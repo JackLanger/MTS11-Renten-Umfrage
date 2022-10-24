@@ -15,6 +15,9 @@
 		  th:object="${form}" method="post">
 		<div>
 			<div class="container mt-3" th:each="question, itemStat : ${questions}">
+				<input type="radio" class="hidden" th:value="${question.id}"
+					   name="hidden-question-id"
+					   th:field="*{answers[__${itemStat.index}__].questionId}">
 				<p th:text="|${question.id}. ${question.questionText}|">1. Question text</p>
 				<th:block th:switch="${question.questionType}">
 					<!--NUMBER INPUT FIELD-->
@@ -35,6 +38,7 @@
 							</div>
 						</div>
 					</div>
+					<!--					SINGLEINPUT-->
 					<div class="form-check mc-table"
 						 th:case="${T(osz.imt.mts.mts11umfrage.data.QuestionTypes).SINGLEANSWER}">
 						<div class="input-group"
@@ -44,7 +48,7 @@
 								   th:id="${opt.id}"
 								   th:name="${question.id}"
 								   type="radio"
-								   th:value="${opt.id}"
+								   th:value="${opt.answerValue}"
 								   th:field="*{answers[__${itemStat.index}__].answerValue}"
 							>
 							<label class="form-check-label" for="exampleRadios1"
@@ -65,9 +69,9 @@
 								<input aria-label="Mehrere Auswahloptionen möglich."
 									   class="form-check-input" id="exampleRadios2"
 									   th:id="${opt.id}"
-									   th:value="${opt.answerValue}"
+									   th:value="${opt.id}"
 									   type="checkbox"
-									   th:field="*{answers[__${itemStat.index}__].checkboxAnswers[__${opt.index}__].answerValue}"
+									   th:field="*{answers[__${itemStat.index}__].multianswerValue}"
 								>
 								<label class="form-check-label" for="exampleRadios2"
 									   th:for="${opt.id}"

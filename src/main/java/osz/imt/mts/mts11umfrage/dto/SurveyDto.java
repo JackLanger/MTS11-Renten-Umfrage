@@ -16,7 +16,7 @@ public class SurveyDto {
   /**
    * Question answers for the form.
    */
-  private List<UserAnswerDto> answers;
+  private List<SurveyAnswerDto> answers;
 
   /**
    * The users sessionId
