@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import osz.imt.mts.mts11umfrage.dto.QuestionDto;
@@ -31,6 +33,10 @@ public class QuestionService {
    * UserData answers repository.
    */
   private final transient UserAnswersRepository userAnswerRepo;
+  /**
+   * Logger for this class.
+   */
+  private final Logger logger = LoggerFactory.getLogger(QuestionService.class);
 
   /**
    * Creates a new Question service and poplates the respective repositories.
@@ -71,11 +77,11 @@ public class QuestionService {
 
     // fetch the answer from the questions.
     final var answer = this.questionRepo.findById(dto.getQuestionId())
-                                        .get()
-                                        .getQuestionAnswers()
-                                        .get(dto.getAnswerValue());
+                                        .get();
+//                                        .getQuestionAnswers()
+//                                        .get(dto.getAnswerValue());
 
-    entity.setQuestionAnswer(answer);
+    entity.setQuestion(answer);
     entity.setUserId(UUID.fromString(dto.getUserId()));
     entity.setDate(LocalDateTime.now());
 
@@ -89,15 +95,29 @@ public class QuestionService {
    */
   public List<QuestionDto> findAll() {
 
-    List<Question> questions = this.questionRepo.findAll();
-    List<QuestionDto> dtos = new ArrayList<>();
+    final List<Question> questions = this.questionRepo.findAll();
+    final List<QuestionDto> dtos = new ArrayList<>();
 
-    for (Question question : questions) {
+    for (final Question question : questions) {
       dtos.add(question.toDto());
     }
     return dtos;
 
   }
 
+
+  public int saveAllAnswers(final List<UserAnswerDto> answers) {
+
+    int count = 0;
+    try {
+      for (final UserAnswerDto answer : answers) {
+        saveAnswer(answer);
+        count++;
+      }
+    } catch (final Exception e) {
+      this.logger.error(e.getMessage());
+    }
+    return count;
+  }
 
 }

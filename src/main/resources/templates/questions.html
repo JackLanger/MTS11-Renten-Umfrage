@@ -11,93 +11,78 @@
 <body>
 <div class="container">
 
-	<form class="col-md-7 align-content-center centered" th:action="@{/userAnswers/}"
-		  th:object="${form}">
-
-		<div class="container mt-3" th:each="question, itemStat : ${questions}">
-			<p th:text="|${question.id}. ${question.questionText}|">1. Question text</p>
-			<th:block th:switch="${question.questionType}">
-				<!--NUMBER INPUT FIELD-->
-				<div class="container"
-					 th:case="${T(osz.imt.mts.mts11umfrage.data.QuestionTypes).INPUT}">
-					<!--							   th:field="*{answers[__${itemStat.index}__].answerValue}"-->
-					<div class="input-group" style="max-width: 300px">
-						<input aria-label="Betrag auf 50 € gerundet" class="form-control numbers"
-							   placeholder="50.000"
-							   required
-							   type="number"
-						>
-						<!--					todo number format-->
-						<div class="input-group-append">
-							<span class="input-group-text">€</span>
-							<!--						<span class="input-group-text"></span>-->
+	<form id="surveyForm" class="col-md-7 align-content-center centered" th:action="@{/saveData}"
+		  th:object="${form}" method="post">
+		<div>
+			<div class="container mt-3" th:each="question, itemStat : ${questions}">
+				<p th:text="|${question.id}. ${question.questionText}|">1. Question text</p>
+				<th:block th:switch="${question.questionType}">
+					<!--NUMBER INPUT FIELD-->
+					<div class="container"
+						 th:case="${T(osz.imt.mts.mts11umfrage.data.QuestionTypes).INPUT}">
+						<div class="input-group" style="max-width: 300px">
+							<input aria-label="Betrag auf 50 € gerundet"
+								   class="form-control numbers"
+								   placeholder="50.000"
+								   required
+								   th:field="*{answers[__${itemStat.index}__].answerValue}"
+								   type="number"
+							>
+							<!--					todo number format-->
+							<div class="input-group-append">
+								<span class="input-group-text">€</span>
+								<!--						<span class="input-group-text"></span>-->
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="form-check mc-table"
-					 th:case="${T(osz.imt.mts.mts11umfrage.data.QuestionTypes).SINGLEANSWER}">
-					<div class="input-group" th:each="opt : ${question.questionAnswers}">
-						<input checked class="form-check-input" id="exampleRadios1"
-							   required
-							   th:id="${opt.id}"
-							   th:name="${question.id}" th:value="${opt.answerValue}"
-							   type="radio"
-							   value="option1">
-						<label class="form-check-label" for="exampleRadios1"
-							   th:for="${opt.id}"
-							   th:text="${opt.answerOption}"
-						>
-							Default radio
-						</label>
-					</div>
-				</div>
-				<!--MULTIPLECHOICE-->
-				<div class="container mt-3"
-					 th:case="${T(osz.imt.mts.mts11umfrage.data.QuestionTypes).MULTIPLECHOICE}"
-				>
-					<div class="mc-table">
-						<div class="form-check"
-							 th:each="opt: ${question.questionAnswers}">
-							<input aria-label="Mehrere Auswahloptionen möglich."
-								   class="form-check-input" id="exampleRadios2"
+					<div class="form-check mc-table"
+						 th:case="${T(osz.imt.mts.mts11umfrage.data.QuestionTypes).SINGLEANSWER}">
+						<div class="input-group"
+							 th:each="opt : ${question.questionAnswers}">
+							<input checked class="form-check-input" id="exampleRadios1"
+								   required
 								   th:id="${opt.id}"
-								   th:value="${opt.answerValue}"
-								   type="checkbox"
+								   th:name="${question.id}"
+								   type="radio"
+								   th:value="${opt.id}"
+								   th:field="*{answers[__${itemStat.index}__].answerValue}"
 							>
-							<label class="form-check-label" for="exampleRadios2" th:for="${opt.id}"
-								   th:text="${opt.answerOption}">
-								Second default radio
+							<label class="form-check-label" for="exampleRadios1"
+								   th:for="${opt.id}"
+								   th:text="${opt.answerOption}"
+							>
+								Default radio
 							</label>
 						</div>
 					</div>
-				</div>
-				<!--				YES/NO-->
-				<div class="container"
-					 th:case="${T(osz.imt.mts.mts11umfrage.data.QuestionTypes).BOOLEAN}"
-					 th:each="opt : ${question.questionAnswers}">
-					<div class="input-group">
-						<div class="input-group-prepend">
-							<div class="input-group-text">
-								<!--									   th:field="*{answers[__${itemStat.index}__].answerValue}"-->
-								<input aria-label="Radio button for following text input"
-									   id="1-yesNo"
-									   th:id="${itemStat.index}"
+					<!--MULTIPLECHOICE-->
+					<div class="container mt-3"
+						 th:case="${T(osz.imt.mts.mts11umfrage.data.QuestionTypes).MULTIPLECHOICE}"
+					>
+						<div class="mc-table">
+							<div class="form-check"
+								 th:each="opt: ${question.questionAnswers}">
+								<input aria-label="Mehrere Auswahloptionen möglich."
+									   class="form-check-input" id="exampleRadios2"
+									   th:id="${opt.id}"
 									   th:value="${opt.answerValue}"
-									   type="radio">
+									   type="checkbox"
+									   th:field="*{answers[__${itemStat.index}__].checkboxAnswers[__${opt.index}__].answerValue}"
+								>
+								<label class="form-check-label" for="exampleRadios2"
+									   th:for="${opt.id}"
+									   th:text="${opt.answerOption}">
+									Second default radio
+								</label>
 							</div>
 						</div>
-						<img th:src="opt"></img>
-						<label aria-label="Text input with checkbox"
-							   class="form-control yes-no-image"
-							   for="1-yesNo"
-							   th:for="${itemStat.index}"
-							   th:name="${question.id}" th:text="${opt.answerOption}">YES/NO</label>
 					</div>
-				</div>
-
-			</th:block>
-
+				</th:block>
+			</div>
 		</div>
+		<input class="m-3 p-2 btn btn-primary"
+			   value="absenden"
+			   type="submit">
 	</form>
 </div>
 </body>

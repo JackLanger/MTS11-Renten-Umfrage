@@ -42,7 +42,9 @@ public class UserAnswer {
    */
   @Comment("answer value containts the anser qualitative value as well no need to track it here.")
   @ManyToOne
-  private QuestionAnswer questionAnswer;
+  private Question question;
+
+  private int answerValue;
 
   /**
    * The session id to track wheather the same user answers the question.
