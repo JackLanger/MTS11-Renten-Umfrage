@@ -6,8 +6,11 @@ plugins {
     id 'pmd'
 }
 
+def checkstyleVersion = '10.3.4'
+def pmdVersion = '6.50.0'
+
 group = 'osz.imt.mts'
-version = '0.0.1-SNAPSHOT'
+version = '0.1.0'
 sourceCompatibility = '17'
 
 configurations {
@@ -16,22 +19,77 @@ configurations {
     }
 }
 
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'osz.imt.mts.mts11umfrage.Mts11UmfrageApplication'
+        )
+    }
+}
+
 repositories {
     mavenCentral()
 }
+
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+//    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.session:spring-session-data-redis:2.7.0'
+//    implementation 'org.springframework.session:spring-session-jdbc:2.7.0'
+//    implementation 'org.springframework.session:spring-session:1.3.5.RELEASE'
+
     compileOnly 'org.projectlombok:lombok'
+//    compile 'log4j:log4j:1.2.17'
+
     runtimeOnly 'com.microsoft.sqlserver:mssql-jdbc'
+
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     annotationProcessor 'org.projectlombok:lombok'
+
+    // https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf
+    implementation 'org.thymeleaf:thymeleaf:3.0.15.RELEASE'
+// https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf-spring5
+    implementation 'org.thymeleaf:thymeleaf-spring5:3.0.15.RELEASE'
+    // https://mvnrepository.com/artifact/org.webjars/bootstrap
+    implementation 'org.webjars:bootstrap:5.2.2'
+
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    // https://mvnrepository.com/artifact/org.testcontainers/testcontainers
+    testImplementation 'org.testcontainers:testcontainers:1.17.5'
+
+
 }
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+
+// Checkstyle - https://github.com/checkstyle/checkstyle
+checkstyle {
+    // Config is downloaded from https://github.com/checkstyle/checkstyle/releases
+    // It's in the folder src/main/resources/google_checks.xml
+    toolVersion = checkstyleVersion
+    configFile = file('config/checkstyle/google_checks.xml')
+    configProperties = ["suppressionFile": file('config/checkstyle/suppressions.xml')]
+    ignoreFailures = false
+    maxWarnings = 0
+}
+
+checkstyleTest.enabled = false
+pmdTest.enabled = false
+// PMD
+pmd {
+    toolVersion = pmdVersion
+    ruleSetFiles = files("config/pmd/pmd.xml")
+    // ruleSets variable needs to be emptied or else the gradle plugin will use the basic ruleset
+    // and some rules cannot be excluded.
+    ruleSets = []
+//    sourceSets = [sourceSets.main]
+    ignoreFailures = true // TODO:Nach der Umstrukturierung
 }

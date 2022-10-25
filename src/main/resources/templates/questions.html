@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments/head :: head">
+	<meta charset="UTF-8">
+	<title>all questions</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+		  rel="stylesheet"
+		  integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+		  crossorigin="anonymous">
+</head>
+<body>
+<div class="container-md">
+	<form id="surveyForm"
+		  class="p-md-5 align-content-center centered"
+		  th:action="@{/saveData}"
+		  th:object="${form}" method="post">
+		<p class="display-5">Dauer ca. 3-5 min</p>
+		<div class="container-fluid ">
+			<div class="border-bottom mt-2 mb-2 pt-1 pb-1"
+				 th:each="question, itemStat : ${questions}">
+				<div class="m-lg-3">
+					<p class="lead"
+					   th:text="|${question.id}. ${question.questionText}|">1.
+						Question text</p>
+					<th:block th:switch="${question.questionType}">
+						<div class="m-lg-3"
+							 th:case="${T(osz.imt.mts.mts11umfrage.data.QuestionTypes).COMBO}">
+							<select class="form-select" th:name="${question.id}"
+									th:field="*{answers[__${itemStat.index}__].answerOptId}"
+									th:id="${question.id}">
+								<option class="dropdown-item" th:value="${opt.id}"
+										th:each="opt : ${question.questionAnswers}"
+										th:text="${opt.answerOption}" value="">
+									test
+									answer option
+								</option>
+							</select>
+						</div>
+
+						<div class="m-lg-3"
+							 th:case="${T(osz.imt.mts.mts11umfrage.data.QuestionTypes).INPUT}">
+							<div class="input-group" style="max-width: 300px">
+								<!--NUMBER INPUT FIELD-->
+								<input aria-label="Betrag auf 50 € gerundet"
+									   class="form-control numbers"
+									   placeholder="50.000"
+									   required
+									   th:field="*{answers[__${itemStat.index}__].answerOptId}"
+									   type="number"
+								>
+								<!--					todo number format-->
+								<div class="input-group-append">
+									<span class="input-group-text">€</span>
+									<!--						<span class="input-group-text"></span>-->
+								</div>
+							</div>
+						</div>
+						<div class="form-check mc-table m-lg-3"
+							 th:case="${T(osz.imt.mts.mts11umfrage.data.QuestionTypes).SINGLEANSWER}">
+							<!--					SINGLEINPUT-->
+							<div th:each="opt : ${question.questionAnswers}">
+								<input checked class="form-check-input" id="exampleRadios1"
+									   required
+									   th:id="${opt.id}"
+									   th:name="${question.id}"
+									   type="radio"
+									   th:value="${opt.id}"
+									   th:field="*{answers[__${itemStat.index}__].answerOptId}"
+								>
+								<label class="form-check-label" for="exampleRadios1"
+									   th:for="${opt.id}"
+									   th:text="${opt.answerOption}"
+								>
+									Default radio
+								</label>
+							</div>
+						</div>
+						<div class="m-lg-3 mc-table"
+							 th:case="${T(osz.imt.mts.mts11umfrage.data.QuestionTypes).MULTIPLECHOICE}"
+						>
+							<!--MULTIPLECHOICE-->
+							<div class="form-check"
+								 th:each="opt: ${question.questionAnswers}">
+								<input aria-label="Mehrere Auswahloptionen möglich."
+									   class="form-check-input" id="exampleRadios2"
+									   th:id="${opt.id}"
+									   th:value="${opt.id}"
+									   type="checkbox"
+									   th:field="*{answers[__${itemStat.index}__].multianswerOptIds}"
+								>
+								<label class="form-check-label" for="exampleRadios2"
+									   th:for="${opt.id}"
+									   th:text="${opt.answerOption}">
+									Second default radio
+								</label>
+							</div>
+						</div>
+					</th:block>
+				</div>
+			</div>
+			<input class="m-1 p-2 btn btn-primary"
+				   value="absenden"
+				   type="submit">
+		</div>
+	</form>
+</div>
+<div th:replace="fragments/bootstrap :: bootstrapjs">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+			crossorigin="anonymous"></script>
+</div>
+
+</body>
+</html>

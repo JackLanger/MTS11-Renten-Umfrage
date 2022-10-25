@@ -22,4 +22,3 @@ USER mssql
 RUN /opt/mssql/bin/sqlservr & /entry/create.sh
 
 ENTRYPOINT ["/entry/entrypoint.sh"]
-

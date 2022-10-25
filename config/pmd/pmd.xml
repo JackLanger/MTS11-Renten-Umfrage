@@ -31,6 +31,8 @@
         <exclude name="AtLeastOneConstructor"/>
         <!--Generic names should have a meaningful name. -->
         <exclude name="GenericsNaming"/>
+        <!-- short variables like id can be well named -->
+        <exclude name="ShortVariable"/>
     </rule>
     <!-- Minimal letters of class names set to 4 because of class city -->
     <rule ref="category/java/codestyle.xml/ShortClassName">
@@ -96,6 +98,8 @@
     <rule ref="category/java/errorprone.xml">
         <!-- Ignore DataflowAnomalyAnalysis because often variables need to be redefined. -->
         <exclude name="DataflowAnomalyAnalysis"/>
+        <exclude name="AvoidLiteralsInIfCondition"/>
+        <exclude name="MissingSerialVersionUID"/>
     </rule>
 
     <!-- Multi threading -->

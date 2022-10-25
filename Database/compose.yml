@@ -1,0 +1,54 @@
+version: "3.7"
+
+services:
+  mts11.umfrage.db:
+    container_name: mts11.umfrage.db
+    build: .
+    image: mts11.umfrage.db
+
+    environment:
+      - SA_PASSWORD SuperD3vPass
+      - ACCEPT_EULA Y
+      - MSSQL_PID Express
+      - TZ=Europe/Berlin
+      - SET_CONTAINER_TIMEZONE=true
+      - CONTAINER_TIMEZONE=Europe/Berlin
+
+    ports:
+      - 1433:1433
+    volumes:
+      # Using folders on the host machine (this does not work on my machine):
+      # https://github.com/microsoft/mssql-docker/issues/136
+      # - ./umfrage-db-backup:/var/opt/mssql/data
+      # - ./umfrage-db-data:/var/opt/mssql/log
+      # - ./umfrage-db-log:/var/opt/mssql/secrets
+      # - ./umfrage-db-secrets:/var/opt/mssql/backups
+
+
+      # Or use a single folder (does not work neither):
+      # - ./mssql-persistent:/var/opt/mssql
+
+
+      - umfrage-db-backup:/var/opt/mssql/data
+      - umfrage-db-data:/var/opt/mssql/log
+      - umfrage-db-log:/var/opt/mssql/secrets
+      - umfrage-db-secrets:/var/opt/mssql/backups
+
+
+    # If you want to use persistent volumes, the process must run as root user.
+    # https://github.com/microsoft/mssql-docker/issues/13#issuecomment-641904197
+    user: root
+
+    # Container should restart unless it was stopped before.
+    restart: unless-stopped
+
+    # Limit the resources used by the container.
+    cpu_count: 2
+    cpu_percent: 75
+
+volumes:
+  umfrage-db-backup:
+  umfrage-db-data:
+  umfrage-db-log:
+  umfrage-db-secrets:
+

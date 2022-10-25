@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments/head :: head">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+		  rel="stylesheet"
+		  integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+		  crossorigin="anonymous">
+	<title>index</title>
+</head>
+<body>
+<div class="container-md">
+	<form action="/questions" class="p-sm-2 p-md-3 p-xs-1 p-lg-5" method="post">
+		<div class="container-sm p-5">
+			<div class="logo">
+				<img alt="imtlogo"
+					 id="oszimt-logo"
+					 src="data:image/png;base64,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">
+				<label for="oszimt-logo">OSZ-IMT Berlin</label>
+			</div>
+			<br>
+			<div>
+				<h1 class="display-3">Rente in Deutschland</h1>
+				<h1 class="text-muted display-5"> Eine Umfrage der MTS 11 des OSZIMT Berlin </h1>
+			</div>
+		</div>
+		<br>
+
+		<div class="d-flex justify-content-center flex-column p-2">
+			<p class="lead d-flex justify-content-around">Datenschutzbelehrung</p>
+
+			<div class="d-flex justify-content-center pre-scrollable p-2">
+				<p class="modal-scrollbar-measure"></p>
+				<p class="text-body p-2 " th:text="${disclaimer}">
+					Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut expedita
+					itaque molestiae? Accusantium aliquid enim excepturi laboriosam, libero,
+					molestiae obcaecati omnis praesentium provident qui, sint totam unde!
+					Aut obcaecati repudiandae temporibus veritatis. Aperiam consequatur,
+					delectus ipsam recusandae repellendus tempore. Adipisci amet cum cumque
+					distinctio dolorum esse facilis id, iste iure nam neque praesentium quia
+					sed, sequi suscipit unde ut vel voluptate. Incidunt reiciendis
+					repudiandae sapiente. Aperiam at beatae cumque doloribus fugiat illum
+					iste libero mollitia neque, non officia omnis placeat sed, unde vero?
+					Aperiam cupiditate ducimus necessitatibus quisquam sapiente, veritatis?
+					A aliquid dolor eveniet illum, ipsa laudantium magni nisi nobis optio,
+					perferendis perspiciatis placeat qui recusandae. A accusantium alias
+					animi architecto aspernatur beatae deleniti dolore doloremque eius
+					eligendi, explicabo, facilis fuga fugit illum impedit in labore
+					laboriosam maiores minus modi molestias nisi non nulla provident quae
+					quasi quidem quis quisquam quo quod recusandae reiciendis, similique
+					sunt suscipit tempora veritatis voluptate. A accusamus eaque eligendi
+					excepturi facere incidunt, quasi saepe veniam. Aperiam assumenda at
+					deleniti dolor, esse, eum iure minima nobis omnis qui sequi ut vel,
+					veniam! Blanditiis, commodi corporis delectus enim ex minus sequi!
+					Asperiores aspernatur placeat ratione velit? Ad at atque aut, autem
+					beatae, consequuntur culpa distinctio dolore doloribus dolorum ea id
+					incidunt ipsam necessitatibus nesciunt porro provident quibusdam
+					quisquam quo quod tenetur ullam voluptas. Beatae, debitis error harum
+					iste itaque minus nisi, non omnis reprehenderit, sunt temporibus totam
+					voluptates! Architecto aspernatur atque deserunt dolore dolorem ducimus
+					eum facilis harum illum impedit iste libero minus numquam obcaecati odio
+					officiis placeat, possimus provident qui quos veritatis vitae voluptas!
+					Blanditiis cum enim est harum modi quas quasi similique ullam! Ad
+					commodi expedita id quam sunt vero vitae! Aliquam aut beatae
+					consequatur, culpa deserunt eaque eius enim facilis fuga id ipsa iure
+					iusto molestias nam non officia, quisquam rem veniam vitae voluptatibus.
+				</p>
+			</div>
+			<div class="d-flex justify-content-center input-group-append pt-3 pb-3">
+				<label for="disclaimerAgreement">
+					<input id="disclaimerAgreement" name="disclaimerAgreement" required
+						   type="checkbox">
+					<span>Ich habe die Informationen zur Datenverarbeitung gelesen und stimme diesen zu.</span>
+				</label>
+
+				<input class="m-3 btn btn-primary"
+					   th:value="${confirmBtnTxt}"
+					   type="submit">
+			</div>
+		</div>
+	</form>
+</div>
+
+<div th:replace="fragments/bootstrap :: bootstrapjs">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+			crossorigin="anonymous"></script>
+</div>
+</body>
+</html>

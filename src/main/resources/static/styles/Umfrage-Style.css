@@ -1,0 +1,121 @@
+/*OSZIMT - MTS11 color schema*/
+:root {
+    --oszimt-red: #c50d08;
+    --oszimt-bg-dark: #10202f;
+    --oszimt-bg-light: #c3c6cb;
+    --white: #fff;
+}
+
+.full-height-wrapper {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin: 0 auto -20px;
+}
+
+.full-height {
+    height: 100%;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    height: 100%;
+}
+
+@media only screen and (min-width: 600px) {
+
+    body {
+        background: linear-gradient(to right, var(--oszimt-bg-light), var(--oszimt-bg-dark), var(--oszimt-bg-light));
+    }
+}
+
+.logo {
+    height: 25px;
+    width: auto;
+}
+
+.logo > label {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.logo > img {
+    height: 100%;
+    width: auto;
+}
+
+p {
+    max-width: 85ch;
+}
+
+@media only screen and (min-width: 500px) {
+
+    .logo {
+        height: 60px;
+        width: auto;
+    }
+
+    .logo > label {
+        font-size: 1.2rem;
+    }
+
+    .logo > img {
+        height: 100%;
+        width: auto;
+    }
+}
+
+
+input[type="number"] {
+    text-align: right;
+}
+
+label {
+    cursor: pointer;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+}
+
+.icon {
+    width: 60px;
+    height: 60px;
+}
+
+.mc-table {
+    column-count: 2;
+}
+
+.centered {
+    margin: auto;
+}
+
+.hidden {
+    display: none;
+}
+
+.center-screen-parent {
+    height: 100%;
+    background: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.image-label {
+    position: relative;
+    font-size: 1.7rem;
+    top: .2em
+}
+
+.max-height-50 {
+    max-height: 50vh;
+}
+
+form {
+    background: var(--bs-white);
+}

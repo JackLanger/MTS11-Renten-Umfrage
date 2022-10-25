@@ -1,0 +1,121 @@
+= Allgemeine Angaben:
+
+== Geschlecht (m/w/d)
+
+===Alter (5er Schritte)
+
+Zahl eingeben
+
+== Einkommen BRUTTO(10000er Schritte) in tausend - ggf monatlich.
+
+als Eingabefeld auf 100 € gerundet eingeben. ggf Netto abfragen.
+
+<10 <15 <20 <25 <30 <40 <50 <70 <100 <150 >150
+
+== Familienstand (ledig, etc.)
+
+Ledig Verheiratet Eingetragene Lebenspartnerschaft Geschieden Verwitwet
+
+== Kinder (0-5 und drüber)
+
+Keine
+
+1 2 3 4 5 >5
+
+== Höchster Abschluss (Mittlere Reife, fh Reife, Abitur, etc)
+
+=== Schulabschluss
+
+Kein Abschluss Hauptschulabschluss Mittlere Reife/ Realschulabschluss Hochschulreife Nachschulischer Abschluss Ausbildung Studium
+
+== Berufsgruppe (Schüler, Azubi, Angestellt, Selbstständig, Beamter)
+
+Schüler*in Auszubildende*r Student*in Angestellte*r Selbstständige*r Beamte*r Rentner*in/Pensionär*in
+
+== Rente Allgemein
+
+=== In welchem Umfeld wurden Sie auf das Thema Rente aufmerksam
+
+Familie Freunde Beruf Schule Rentenbescheid Werbekampagnen Politik Soziale Medien Sonstiges Gar nicht
+
+=== Wie sehr haben Sie sich schon mit dem Thema Rente beschäftigt?
+
+gar nicht sehr wenig wenig eher wenig eher ausführlich ausführlich sehr ausführlich
+
+=== Wie gut schätzen Sie Ihr Wissen über die gesetzliche Rentenversicherung ein?
+
+sehr schlecht schlecht eher schlecht eher gut gut sehr gut
+
+=== Welche der folgenden Begriffe könnten Sie jemand anderem in einfachen Worten erklären? , Mehrfachauswahl:
+
+Rentenpunkte Standardrente Demografischer Wandel Umlageverfahren Rentenbescheid Grundsicherung im Alter Rentenniveau Renteneintrittsalter Frührente Rentenformel Generationenvertrag Keiner der genannten
+
+=== „Denn eins ist sicher – die Rente“. Würden Sie dieser Aussage eines Wahlplakats von 1986 heute noch zustimmen?
+
+Stimme voll zu Stimme zu Stimme eher zu Stimme eher nicht zu Stimme nicht zu Stimme überhaupt nicht zu
+
+== Wie schätzen sie Ihre Rentenaussicht ein? (Gedanken zur Person selbst)
+
+ Bearbeiter: Tim, Baitong, Malte, Niels, Marcel, Sandrine
+
+=== In wieweit hat das Thema Rente Einfluss auf Ihre Familienplanung, in Hinblick auf das erhöhte Risiko für Altersarmut bspw. bei Alleinerziehenden, Hausfrauen/Hausmännern?
+
+Sehr großer Einfluss Großer Einfluss Eher großer Einfluss Eher geringer Einfluss Geringer Einfluss Sehr geringer Einfluss Kein Einfluss
+
+=== Wie ausschlaggebend war/ist Ihre spätere Rente für Ihre Karriereentscheidung?
+
+0-5
+
+=== Wie ausschlaggebend war die betriebliche Rente oder Möglichkeit zu vermögenswirksamen Leistungen o.Ä. für die Wahl Ihres Arbeitgebers?
+
+Sehr großer Einfluss Großer Einfluss Eher großer Einfluss Eher geringer Einfluss Geringer Einfluss Sehr geringer Einfluss Kein Einfluss
+
+=== Mit welchem Alter würden Sie gerne in Rente gehen?
+
+<50 50-54 55-59 60-63 64-67 68-71 72-78 >78
+
+=== Was glauben Sie wie das Renteneintrittsalter sein wird, wenn Sie in Rente gehen? 67-77
+
+Wie schätzen Sie das Renteneintrittsalter in (x Jahren) ein. -> Problematik unrepresentativ wenn Person kurz vor Rente.
+
+<63 <65 <67 <69 <71 <73 <75 >=75
+
+=== Für wie wahrscheinlich halten Sie es, dass Sie in Ihrem aktuellen Beruf bis zum regulären Renteneintrittsalter arbeiten können?	TIM
+
+Sehr unwahrscheinlich Unwahrscheinlich Eher unwahrscheinlich Eher wahrscheinlich Wahrscheinlich Sehr wahrscheinlich
+
+=== Wie schätzen sie ihre finanzielle Absicherung im Alter durch die gesetzliche Rente ein?
+
+sehr schlecht schlecht eher schlecht eher gut gut sehr gut keine Ahnung
+
+=== Wie sicher fühlen Sie sich bezüglich ihrer Vorkehrungen, die Sie privat getroffen haben
+
+Sehr unsicher Unsicher Eher unsicher Eher sicher Sicher Sehr sicher
+
+=== Welche der folgenden Maßnahmen zur Sicherung Ihrer Rente haben Sie bereits getroffen?
+
+Betriebliche Altersvorsorge Private Rentenversicherung Lebensversicherung Anlagen (z.B. Aktien, Aktienfonds/ETF, Anleihen) Materielle Anlagen (z.B. Immobilien, Wertgegenstände) Andere Keine
+
+=== Wie viel Aufwand haben Sie in die Planung Ihrer Altersvorsorge gesteckt?
+
+Gar keinen Sehr wenig Wenig Eher wenig Eher viel Viel Sehr viel
+
+=== Wie schätzen Sie die Auswirkungen durch die aktuellen Preissteigerungen auf Ihre Rentensituation ein?
+
+Gar keine Sehr gering gering Eher gering Eher stark stark Sehr stark
+
+=== Wie viel Geld investieren Sie in etwa monatlich in Ihre private Altersvorsorge?
+
+0€ Nichts <50€ (weniger als 50€) <100€ 50-100€ <200€ 100-200€ <300€ 200-300€ <500€ 300-500€ <1000€ mehr als 500€ >=1000€
+
+=== In welchem Alter haben Sie angefangen Regelmäßig in die Gesetzliche RV einzuzahlen
+
+Eingabefeld
+
+=== In welchem Alter haben Sie angefangen Regelmäßig privat vorzusorgen?
+
+Eingabefeld
+
+=== Abschlussfrage
+
+Hat diese Umfrage Sie angeregt für Ihre Rente Maßnahmen zu ergreifen? 0-5
