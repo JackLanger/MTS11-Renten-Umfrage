@@ -15,7 +15,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.Comment;
 
 /**
  * User answer entity. Answers given by the user.
@@ -40,14 +39,13 @@ public class UserAnswer {
   /**
    * Question Answer object.
    */
-  @Comment("answer value containts the anser qualitative value as well no need to track it here.")
   @ManyToOne
   private QuestionAnswer questionAnswer;
 
   /**
    * The session id to track wheather the same user answers the question.
    */
-  @Column(name = "f_user_session_id")
+  @Column(name = "user_session_id")
   private UUID userId;
 
   /**

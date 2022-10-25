@@ -22,6 +22,10 @@ public enum QuestionTypes {
   /**
    * An Input question answer.
    */
-  INPUT
+  INPUT,
+  /**
+   * Combo fields.
+   */
+  COMBO
 
 }
