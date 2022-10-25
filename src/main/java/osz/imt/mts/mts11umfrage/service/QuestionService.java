@@ -13,6 +13,7 @@ import osz.imt.mts.mts11umfrage.dto.QuestionDto;
 import osz.imt.mts.mts11umfrage.dto.UserAnswerDto;
 import osz.imt.mts.mts11umfrage.models.Question;
 import osz.imt.mts.mts11umfrage.models.UserAnswer;
+import osz.imt.mts.mts11umfrage.repository.QuestionAnswerRepository;
 import osz.imt.mts.mts11umfrage.repository.QuestionRepository;
 import osz.imt.mts.mts11umfrage.repository.UserAnswersRepository;
 
@@ -36,20 +37,29 @@ public class QuestionService {
   /**
    * Logger for this class.
    */
-  private final Logger logger = LoggerFactory.getLogger(QuestionService.class);
+  private final Logger LOGGER = LoggerFactory.getLogger(QuestionService.class);
+  /**
+   * Question Answer repository.
+   */
+  private final QuestionAnswerRepository answerRepo;
+
 
   /**
    * Creates a new Question service and poplates the respective repositories.
    *
    * @param questionRepo   {@link QuestionRepository}
    * @param userAnswerRepo {@link UserAnswersRepository}
+   * @param answerRepo     {@link QuestionAnswerRepository}
    */
   @Autowired
   public QuestionService(final QuestionRepository questionRepo,
-                         final UserAnswersRepository userAnswerRepo) {
+                         final UserAnswersRepository userAnswerRepo,
+                         final QuestionAnswerRepository answerRepo
+  ) {
 
     this.questionRepo = questionRepo;
     this.userAnswerRepo = userAnswerRepo;
+    this.answerRepo = answerRepo;
   }
 
   /**
@@ -74,17 +84,12 @@ public class QuestionService {
   public UUID saveAnswer(final UserAnswerDto dto) {
 
     final var entity = new UserAnswer();
+    final var answerOpt = this.answerRepo.findById(dto.getAnswerId());
 
-    // fetch the answer from the questions.
-    final var answer = this.questionRepo.findById(dto.getQuestionId())
-                                        .get();
-//                                        .getQuestionAnswers()
-//                                        .get(dto.getAnswerValue());
-
-    entity.setQuestion(answer);
-    entity.setAnswerValue(dto.getAnswerValue());
     entity.setUserId(UUID.fromString(dto.getUserId()));
     entity.setDate(LocalDateTime.now());
+    answerOpt.ifPresentOrElse(entity::setQuestionAnswer,
+                              () -> this.LOGGER.debug("no answer for id [%s]", dto.getAnswerId()));
 
     return this.userAnswerRepo.save(entity).getUserId();
   }
@@ -106,17 +111,23 @@ public class QuestionService {
 
   }
 
-
+  /**
+   * Saves all answers to the database.
+   *
+   * @param answers List of UserAnswerDto's
+   * @return number of answers saved.
+   */
   public int saveAllAnswers(final List<UserAnswerDto> answers) {
 
     int count = 0;
     try {
       for (final UserAnswerDto answer : answers) {
+
         saveAnswer(answer);
         count++;
       }
     } catch (final Exception e) {
-      this.logger.error(e.getMessage());
+      this.LOGGER.error(e.getMessage());
     }
     return count;
   }

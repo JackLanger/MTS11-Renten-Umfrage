@@ -10,18 +10,14 @@ import lombok.Data;
  */
 @Data
 public class SurveyAnswerDto {
-
-  /**
-   * The question id.
-   */
-  private Integer questionId;
+  
   /**
    * The value of the answer selected.
    */
-  private Integer answerValue;
+  private Integer answerOptId;
   /**
    * array of all answers selected.
    */
-  private int[] multianswerValue;
+  private int[] multianswerOptIds;
 
 }

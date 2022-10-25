@@ -10,20 +10,25 @@ public enum Sex {
   /**
    * Male.
    */
-  MALE("männlich"),
+  MALE("männlich", ""),
   /**
    * Female.
    */
-  FEMALE("weiblich"),
+  FEMALE("weiblich", ""),
   /**
    * Diverse.
    */
-  DIVERSE("diverse");
+  DIVERSE("diverse", "");
 
   /**
    * String value of the selected option.
    */
   String value;
+
+  /**
+   * Path to icon.
+   */
+  String imagePath;
 
   /**
    * Returns the value associated with the option.
@@ -36,12 +41,23 @@ public enum Sex {
   }
 
   /**
+   * Returns the path to the icon.
+   *
+   * @return String contianing the path to th icon.
+   */
+  public String getImagePath() {
+
+    return this.imagePath;
+  }
+
+  /**
    * Creates a new Sex value.
    *
    * @param value the String value associated with the option.
    */
-  Sex(final String value) {
+  Sex(final String value, final String icon) {
 
     this.value = value;
+    this.imagePath = icon;
   }
 }

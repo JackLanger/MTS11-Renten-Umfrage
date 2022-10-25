@@ -22,9 +22,9 @@ import osz.imt.mts.mts11umfrage.dto.UserAnswerDto;
 import osz.imt.mts.mts11umfrage.service.QuestionService;
 
 @Controller
-public class SinglePageController {
+public class QuestionController {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(SinglePageController.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(QuestionController.class);
 
   @Autowired
   QuestionService service;
@@ -68,8 +68,8 @@ public class SinglePageController {
   @PostMapping("/questions")
   public ModelAndView createSession(final HttpServletResponse response) {
 
-    final Cookie cookie = new Cookie("mts11-umfrage-session",
-                                     UUID.randomUUID().toString());
+    final Cookie cookie = createCookie("mts11-umfrage-session",
+                                       UUID.randomUUID().toString());
 
     response.addCookie(cookie);
     return showAll();
@@ -89,19 +89,19 @@ public class SinglePageController {
 
     final var userAnswerDtos = new ArrayList<UserAnswerDto>();
     for (final SurveyAnswerDto surveyAnswerDto : answerList) {
-      if (isNotNull(surveyAnswerDto.getMultianswerValue())) {
+      if (isNotNull(surveyAnswerDto.getMultianswerOptIds())) {
         // multiple answers are present (multiple choice)
-        for (final int val : surveyAnswerDto.getMultianswerValue()) {
-          userAnswerDtos.add(UserAnswerDto.builder().questionId(surveyAnswerDto.getQuestionId())
+        for (final int val : surveyAnswerDto.getMultianswerOptIds()) {
+          userAnswerDtos.add(UserAnswerDto.builder()
+                                          .answerId(val)
                                           .userId(sessionId)
-                                          .answerValue(val).build());
+                                          .build());
         }
         // radio button answer.
-      } else if (isNotNull(surveyAnswerDto.getAnswerValue())) {
+      } else if (isNotNull(surveyAnswerDto.getAnswerOptId())) {
         userAnswerDtos.add(UserAnswerDto.builder()
-                                        .questionId(surveyAnswerDto.getQuestionId())
                                         .userId(sessionId)
-                                        .answerValue(surveyAnswerDto.getAnswerValue())
+                                        .answerId(surveyAnswerDto.getAnswerOptId())
                                         .build());
       }
     }
@@ -113,6 +113,17 @@ public class SinglePageController {
   private boolean isNotNull(final Object o) {
 
     return Objects.nonNull(o);
+  }
+
+
+  private static Cookie createCookie(final String name, final String value) {
+
+    final Cookie cookie = new Cookie(name, value);
+    cookie.setMaxAge(60 * 60);    // expires in an hour
+    cookie.setSecure(true);
+    cookie.setHttpOnly(true);   // not available for DOM manipulation
+    cookie.setPath("/");       // available everywhere
+    return cookie;
   }
 
 }

@@ -7,11 +7,11 @@ VALUES (1, N'Geschlecht', 1),
        (3, N'Anzahl Kinder', 1),
        (4, N'Höchster Abschluss', 1),
        (5, N'Berufsgruppe', 1),
-       (6, N'Monatliche Bruttoeinkommen', 3),
+       (6, N'Bruttoeinkommen', 4),
        (7, N'In welchem Umfeld wurden Sie auf das Thema Rente aufmerksam geworden', 2),
        (8, N'In wieweit hat das Thema Rente Einfluss auf Ihre Familienplanung', 1),
        (9, N'Was glauben Sie wird das Renteneintrittsalter sein wenn Sie in Rente gehen?', 1),
-       (10, N'Mit welchem Alter würden Sie gerne in Rente gehen?', 3),
+       (10, N'Mit welchem Alter würden Sie gerne in Rente gehen?', 4),
        (11, N'Wie sehr haben Sie sich bisher mit dem Thema Rente beschäftigt?', 1),
        (12, N'Wie gut schätzen Sie Ihr Wissen über die gesetzliche Rentenversicherung ein?', 1),
        (13,
@@ -25,7 +25,7 @@ VALUES (1, N'Geschlecht', 1),
         N'Für wie wahrscheinlich halten Sie es, dass Sie in Ihrem aktuellem Beruf bis zur Rente arbeiten werden?',
         1),
        (17, N'In welchem Alter haben Sie angefangen Regelmäßig in die Gesetzliche RV einzuzahlen',
-        3),
+        4),
        (18,
         N'Wie schätzen sie ihre finanzielle Absicherung im Alter durch die gesetzliche Rente ein?',
         1),
@@ -46,11 +46,11 @@ VALUES (1, N'Geschlecht', 1),
 SET IDENTITY_INSERT dbo.t_question OFF
 
 -- questions
-SET IDENTITY_INSERT dbo.t_question ON
+SET IDENTITY_INSERT dbo.t_question_answer ON
 INSERT INTO dbo.t_question_answer (question_p_question_id, answer_option, answer_value, html_type)
-VALUES -- (1, N'männlich', 0, 'a'),      -- geschlecht
-       -- (1, N'weiblich', 1, 'a'),
-       -- (1, N'diverse', 2, 'a'),
+VALUES (1, N'männlich', 0, 'a'),      -- geschlecht
+       (1, N'weiblich', 1, 'a'),
+       (1, N'diverse', 2, 'a'),
 -- 2 Abschluss
        (2, N'Ledig', 0, 'span'),
        (2, N'Verheiratet', 1, 'span'),
@@ -80,6 +80,18 @@ VALUES -- (1, N'männlich', 0, 'a'),      -- geschlecht
        (5, N'Selbstständige*r', 4, 'span'),
        (5, N'Beamte*r', 5, 'span'),
        (5, N'Rentner*in/Pensionär*in', 6, 'span'),
+-- 6 Bruttoeinkommen
+       (6, N'kein Einkommen', 0, 'span'),
+       (6, N'weniger als 520 €', 1, 'span'),
+       (6, N'519 €', 2, 'span'),
+       (6, N'520 - 999 €', 3, 'span'),
+       (6, N'1000 - 1499 €', 4, 'span'),
+       (6, N'1500 - 1999 €', 5, 'span'),
+       (6, N'2000 - 2999 €', 6, 'span'),
+       (6, N'3000 - 3999 €', 7, 'span'),
+       (6, N'4000 - 4999 €', 8, 'span'),
+       (6, N'5000 - 5999 €', 9, 'span'),
+       (6, N'mehr als 6000 €', 10, 'span'),
 -- 7
        (7, N'Familie', -1, 'span'),   -- umfeld
        (7, N'Freunde', -1, 'span'),
@@ -100,7 +112,8 @@ VALUES -- (1, N'männlich', 0, 'a'),      -- geschlecht
        (8, N'Großer Einfluss', 5, 'span'),
        (8, N'Sehr großer Einfluss', 6, 'span'),
 -- 9 <63 <65 <67 <69 <71 <73 <75 >=75 ggf input
-       (9, N'unter 63', 62, 'span'),
+       (9, N'unter 60', 59, 'span'),
+       (9, N'61', 61, 'span'),
        (9, N'63', 63, 'span'),
        (9, N'65', 65, 'span'),
        (9, N'67', 67, 'span'),
@@ -109,6 +122,17 @@ VALUES -- (1, N'männlich', 0, 'a'),      -- geschlecht
        (9, N'73', 73, 'span'),
        (9, N'75', 75, 'span'),
        (9, N'77', 77, 'span'),
+-- 10 Mit welchem Alter würden Sie gerne in Rente gehen?
+       (10, N'vor 60', 59, 'span'),
+       (10, N'61', 61, 'span'),
+       (10, N'63', 63, 'span'),
+       (10, N'65', 65, 'span'),
+       (10, N'67', 67, 'span'),
+       (10, N'69', 69, 'span'),
+       (10, N'61', 71, 'span'),
+       (10, N'73', 73, 'span'),
+       (10, N'75', 75, 'span'),
+       (10, N'77', 77, 'span'),
 -- 11 gar nicht sehr wenig wenig eher wenig eher ausführlich ausführlich sehr ausführlich
        (11, N'Gar nicht', 0, 'span'),
        (11, N'Sehr wenig', 1, 'span'),
@@ -159,6 +183,13 @@ VALUES -- (1, N'männlich', 0, 'a'),      -- geschlecht
        (16, N'Eher wahrscheinlich', 4, 'span'),
        (16, N'Wahrscheinlich', 5, 'span'),
        (16, N'Sehr wahrscheinlich', 6, 'span'),
+-- 17 In welchem Alter haben Sie angefangen Regelmäßig in die Gesetzliche RV einzuzahlen
+       (17, N'mit 16', 5, 'span'),
+       (17, N'in meinen 20ern', 4, 'span'),
+       (17, N'in meinen 30ern', 3, 'span'),
+       (17, N'in meinen 40ern', 2, 'span'),
+       (17, N'in meinen 50ern', 1, 'span'),
+       (17, N'ich habe nicht eingezahlt', 0, 'span'),
 -- 18 sehr schlecht schlecht eher schlecht eher gut gut sehr gut keine Ahnung
        (18, N'Keine Ahnung', 0, 'span'),
        (18, N'Sehr schlecht', 1, 'span'),

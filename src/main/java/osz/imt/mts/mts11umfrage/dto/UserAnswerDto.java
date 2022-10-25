@@ -25,18 +25,9 @@ public class UserAnswerDto {
    */
   private String userId;
   /**
-   * The answer given for the given quesstion. The value reflects the entry index/quality value of
-   * the answer.
-   */
-  private int answerValue;
-  /**
    * Id of the answer given.
    */
   private int answerId;
-  /**
-   * The Id of the question.
-   */
-  private int questionId;
 
 
 }
