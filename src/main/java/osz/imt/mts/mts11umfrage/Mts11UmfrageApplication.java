@@ -15,7 +15,7 @@ public class Mts11UmfrageApplication {
    * @param args arguments
    */
   public static void main(final String[] args) {
-
+    
     SpringApplication.run(Mts11UmfrageApplication.class, args);
   }
 

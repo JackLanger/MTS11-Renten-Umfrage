@@ -18,8 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
 public class MainController {
-
-
+  
   /**
    * Landing page endpoint. This endpoint is the first page the user will see.
    *
@@ -41,7 +40,6 @@ public class MainController {
     mav.addObject("confirmBtnTxt", confirmButtonText);
     return mav;
   }
-
 
 
 }
