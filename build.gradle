@@ -10,7 +10,7 @@ def checkstyleVersion = '10.3.4'
 def pmdVersion = '6.50.0'
 
 group = 'osz.imt.mts'
-version = '0.1.0'
+version = rootProject.file('version').text.trim()
 sourceCompatibility = '17'
 
 configurations {
