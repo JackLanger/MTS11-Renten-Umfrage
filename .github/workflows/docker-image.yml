@@ -14,9 +14,9 @@ jobs:
       - uses: actions/checkout@v3
       - name: Build Database container
         run: -|
-              docker login -p $GITHUB_TOKEN ghcr.io
-              docker build -t ghcr.io/JacekLangerTUDA/mts11.lf7.umfrage.db:$(date +%s)-SNAPSHOT -f database/Dockerfile .
-              docker push ghcr.io/JacekLangerTUDA/mts11.lf7.umfrage.db:$(date +%s)-SNAPSHOT
+              docker login -p $CR_PAT ghcr.io
+              docker build -t ghcr.io/jaceklangertuda/mts11.lf7.umfrage.db:$(date +%s)-SNAPSHOT -f database/Dockerfile .
+              docker push ghcr.io/jaceklangertuda/mts11.lf7.umfrage.db:$(date +%s)-SNAPSHOT
 
   build:
 
@@ -26,6 +26,6 @@ jobs:
     - uses: actions/checkout@v3
     - name: Build the Docker image
       run: -|
-            docker login ghcr.io -p $GITHUB_TOKEN
-            docker build . --file Dockerfile --tag ghcr.io/JacekLangerTUDA/mts11.lf7.umfrage.app:$(date +%s)-SNAPSHOT
-            docker push ghcr.io/JacekLangerTUDA/mts11.lf7.umfrage.app:$(date +%s)-SNAPSHOT
+            docker login ghcr.io -p $CR_PAT
+            docker build . --file Dockerfile --tag ghcr.io/jaceklangertuda/mts11.lf7.umfrage.app:$(date +%s)-SNAPSHOT
+            docker push ghcr.io/jaceklangertuda/mts11.lf7.umfrage.app:$(date +%s)-SNAPSHOT
