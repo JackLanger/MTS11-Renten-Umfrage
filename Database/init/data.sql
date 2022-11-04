@@ -46,7 +46,6 @@ VALUES (1, N'Geschlecht', 1),
 SET IDENTITY_INSERT dbo.t_question OFF
 
 -- questions
-SET IDENTITY_INSERT dbo.t_question_answer ON
 INSERT INTO dbo.t_question_answer (question_p_question_id, answer_option, answer_value, html_type)
 VALUES (1, N'männlich', 0, 'a'),      -- geschlecht
        (1, N'weiblich', 1, 'a'),
@@ -245,4 +244,3 @@ VALUES (1, N'männlich', 0, 'a'),      -- geschlecht
        (24, N'300-499 €', 5, 'span'),
        (24, N'500-999 €', 6, 'span'),
        (24, N'mehr als 1000 €', 7, 'span')
-SET IDENTITY_INSERT dbo.t_question_answer OFF

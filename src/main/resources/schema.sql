@@ -1,6 +1,7 @@
 use umfrage
 go
 
+
 CREATE TABLE t_question
 (
 	id            int IDENTITY (1, 1) NOT NULL,

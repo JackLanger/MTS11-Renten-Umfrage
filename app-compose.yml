@@ -2,9 +2,8 @@ version: "3.7"
 
 services:
   mts11.umfrage.db:
-    container_name: mts11.umfrage.db
-    build: ./database/
-    image: mts11.umfrage.db
+    container_name: mts11.lf7.umfrage.db
+    image: ghcr.io/jaceklangertuda/mts11.lf7.umfrage.db
 
     environment:
       - SA_PASSWORD=SuperD3vPass
@@ -46,8 +45,8 @@ services:
     cpu_percent: 75
 
   umfrage:
-    build: .
-    image: mts11.umfrage.app
+    container_name: mts11.lf7.umfrage.app
+    image: ghcr.io/jaceklangertuda/mts11.lf7.umfrage.app
 
     ports:
       - 5000:8080

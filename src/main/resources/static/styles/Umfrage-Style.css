@@ -119,3 +119,16 @@ input[type=number]::-webkit-outer-spin-button {
 form {
     background: var(--bs-white);
 }
+
+
+.scrollspy {
+    position: relative;
+    overflow-y: scroll;
+    height: 150vh;
+
+}
+
+#index-list {
+    width: 30%;
+    position: relative;
+}
