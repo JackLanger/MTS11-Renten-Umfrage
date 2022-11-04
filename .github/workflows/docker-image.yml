@@ -14,12 +14,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-        with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+      #        with:
+      #          repo-token: ${{ secrets.REGISTRY_TOKEN }}
       - name: Build the Docker image
         run: >
           vn=$(cat version);
-          echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ secrets.REGISTRY_USER }} --password-stdin;
+          echo ${{ secrets.REGISTRY_TOKEN }} | docker login ghcr.io -u ${{ secrets.REGISTRY_USER }} --password-stdin;
           docker build -t ghcr.io/jaceklangertuda/mts11.lf7.umfrage.app:$vn -f Dockerfile .;
           docker push ghcr.io/jaceklangertuda/mts11.lf7.umfrage.app:$vn;
 
@@ -27,12 +27,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-        with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Build Database container
         run: >
           vn=$(cat version);
-          echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ secrets.REGISTRY_USER }} --password-stdin;
+          echo ${{ secrets.REGISTRY_TOKEN }} | docker login ghcr.io -u ${{ secrets.REGISTRY_USER }} --password-stdin;
           cd database;
           docker build -t ghcr.io/jaceklangertuda/mts11.lf7.umfrage.db:$vn -f Dockerfile .;
           docker push ghcr.io/jaceklangertuda/mts11.lf7.umfrage.db:$vn;
