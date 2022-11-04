@@ -22,15 +22,3 @@ jobs:
           echo ${{ secrets.REGISTRY_TOKEN }} | docker login ghcr.io -u ${{ secrets.REGISTRY_USER }} --password-stdin;
           docker build -t ghcr.io/jaceklangertuda/mts11.lf7.umfrage.app:$vn -f Dockerfile .;
           docker push ghcr.io/jaceklangertuda/mts11.lf7.umfrage.app:$vn;
-
-  build-database:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Build Database container
-        run: >
-          vn=$(cat version);
-          echo ${{ secrets.REGISTRY_TOKEN }} | docker login ghcr.io -u ${{ secrets.REGISTRY_USER }} --password-stdin;
-          cd database;
-          docker build -t ghcr.io/jaceklangertuda/mts11.lf7.umfrage.db:$vn -f Dockerfile .;
-          docker push ghcr.io/jaceklangertuda/mts11.lf7.umfrage.db:$vn;
