@@ -8,18 +8,6 @@ on:
 
 jobs:
 
-  build-database:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build Database container
-        run: >
-          echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ secrets.REGISTRY_USER }} --password-stdin;
-          docker build -t ghcr.io/jaceklangertuda/mts11.lf7.umfrage.db:$(date +%s)-SNAPSHOT -f database/Dockerfile .;
-          docker push ghcr.io/jaceklangertuda/mts11.lf7.umfrage.db:$(date +%s)-SNAPSHOT;
-
   build:
 
     runs-on: ubuntu-latest
@@ -30,6 +18,21 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Build the Docker image
         run: >
+          vn=$(cat version)
           echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ secrets.REGISTRY_USER }} --password-stdin;
-          docker build . --file Dockerfile --tag ghcr.io/jaceklangertuda/mts11.lf7.umfrage.app:$(date +%s)-SNAPSHOT;
-          docker push ghcr.io/jaceklangertuda/mts11.lf7.umfrage.app:$(date +%s)-SNAPSHOT;
+          docker build -t ghcr.io/jaceklangertuda/mts11.lf7.umfrage.app:$vn -f Dockerfile .;
+          docker push ghcr.io/jaceklangertuda/mts11.lf7.umfrage.app:$vn;
+
+  build-database:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build Database container
+        run: >
+          vn=$(cat version)
+          echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ secrets.REGISTRY_USER }} --password-stdin;
+          cd database;
+          docker build -t ghcr.io/jaceklangertuda/mts11.lf7.umfrage.db:$vn -f Dockerfile .;
+          docker push ghcr.io/jaceklangertuda/mts11.lf7.umfrage.db:$vn;
