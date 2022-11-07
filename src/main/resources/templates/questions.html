@@ -11,7 +11,7 @@
 <body>
 <div class="container-md">
     <form id="surveyForm"
-          class="p-md-5 align-content-center centered"
+          class="p-md-5 align-content-center centered col-md-8"
           th:action="@{/saveData}"
           th:object="${form}" method="post">
         <p class="display-5">Dauer ca. 3-5 min</p>
@@ -23,7 +23,7 @@
                        th:text="|${question.id}. ${question.questionText}|">1.
                         Question text</p>
                     <th:block th:switch="${question.questionType}">
-                        <div class="d-flex justify-content-center justify-content-md-start p-2">
+                        <div class="d-flex justify-content-center p-2">
                             <div class="m-lg-3 col-7"
                                  th:case="${T(osz.imt.mts.mts11umfrage.data.QuestionTypes).COMBO}">
                                 <select class="form-select" th:name="${question.id}"
