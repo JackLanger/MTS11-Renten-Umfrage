@@ -3,8 +3,8 @@ version: "3.7"
 services:
   mts11.umfrage.db:
     container_name: mts11.lf7.umfrage.db
-    image: ghcr.io/jaceklangertuda/mts11.lf7.umfrage.db
-
+    image: ghcr.io/jaceklangertuda/mts11.lf7.umfrage.db:latest
+    pull_policy: always
     environment:
       - SA_PASSWORD=SuperD3vPass
       - ACCEPT_EULA=Y
@@ -46,8 +46,8 @@ services:
 
   umfrage:
     container_name: mts11.lf7.umfrage.app
-    image: ghcr.io/jaceklangertuda/mts11.lf7.umfrage.app
-
+    image: ghcr.io/jaceklangertuda/mts11.lf7.umfrage.app:1.0.0
+    pull_policy: always
     ports:
       - 5000:8080
 

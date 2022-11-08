@@ -50,23 +50,6 @@ p {
     max-width: 85ch;
 }
 
-@media only screen and (min-width: 500px) {
-
-    .logo {
-        height: 60px;
-        width: auto;
-    }
-
-    .logo > label {
-        font-size: 1.2rem;
-    }
-
-    .logo > img {
-        height: 100%;
-        width: auto;
-    }
-}
-
 
 input[type="number"] {
     text-align: right;
@@ -124,11 +107,56 @@ form {
 .scrollspy {
     position: relative;
     overflow-y: scroll;
-    height: 150vh;
-
 }
 
 #index-list {
     width: 30%;
     position: relative;
+}
+
+
+/*extra small phone display */
+@media only screen and (max-width: 576px) {
+
+    .scrollspy {
+        height: 60vh;
+    }
+}
+
+
+/*small phone to tablet display */
+@media only screen and (min-width: 576px) {
+    .scrollspy {
+        margin-left: 1em;
+        height: 70vh;
+    }
+
+    .logo {
+        height: 60px;
+        width: auto;
+    }
+
+    .logo > label {
+        font-size: 1.2rem;
+    }
+
+    .logo > img {
+        height: 100%;
+        width: auto;
+    }
+}
+
+
+/*tablet */
+@media only screen and (min-width: 768px) {
+
+
+}
+
+/*large tablet and desktop */
+@media only screen and (min-width: 992px) {
+
+    .scrollspy {
+        margin-left: 2em;
+    }
 }
