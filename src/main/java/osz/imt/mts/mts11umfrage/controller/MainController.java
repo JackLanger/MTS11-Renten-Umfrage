@@ -103,7 +103,7 @@ public class MainController {
 
 
   @RequestMapping(value="/api/data/json", method= RequestMethod.GET, produces = "application/json")
-  public void apiResponseDataS(HttpServletResponse response) throws IOException, JSONException {
+  public void apiResponseData(HttpServletResponse response) throws IOException, JSONException {
     PythonHandler pythonHandler = new PythonHandler();
     pythonHandler.runScript();
     String json = Files.readString(Path.of("src/main/resources/files/Data.json"), java.nio.charset.StandardCharsets.ISO_8859_1);
@@ -111,6 +111,4 @@ public class MainController {
     response.setContentType("application/json");
     response.getWriter().write(jsonObject.toString(), 0, jsonObject.toString().length());
   }
-
-
 }
