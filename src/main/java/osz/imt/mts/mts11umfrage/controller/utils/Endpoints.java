@@ -13,6 +13,7 @@ public class Endpoints {
    * Index endpoint.
    */
   public static final String HOME_ENDPOINT = "/";
+  public static final String DOWNLOAD_ENDPOINT = "/download";
 
 
 }
