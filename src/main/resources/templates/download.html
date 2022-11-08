@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</head>
+<style>
+    .bdr {
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+
+
+</style>
+<body style="background-color: #181818">
+    <br>
+    <div style="text-align: center; color: #FFFFFF"><h1>Downloads</h1></div>
+
+    <table class="table  table-dark bdr border border-danger" style="width:90vw; margin-left: 5vw; margin-right: 5vw; margin-top: 2.5vh ">
+        <tr>
+            <th class="col-5" style="text-align: center">File Format</th>
+            <th class="col-5" style="text-align: center">Link</th>
+        </tr>
+        <tr>
+            <td >.xlsx</td>
+            <td style="text-align: center"><a th:href="@{/download/xlsx}">Download</a></td>
+        </tr>
+        <tr>
+            <td>.json</td>
+            <td style="text-align: center"><a th:href="@{/download/json}">Download</a></td>
+        </tr>
+        <tr>
+            <td>JSON Response</td>
+            <td style="text-align: center"><a th:href="@{/api/data/json}"> APIResponse</a></td>
+        </tr>
+    </table>
+
+</body>
+
+</html>
