@@ -1,7 +1,7 @@
 version: "3.7"
 
 services:
-  mts11.umfrage.db:
+  database:
     container_name: mts11.lf7.umfrage.db
     image: ghcr.io/jaceklangertuda/mts11.lf7.umfrage.db:latest
     pull_policy: always
@@ -46,18 +46,19 @@ services:
 
   umfrage:
     container_name: mts11.lf7.umfrage.app
-    image: ghcr.io/jaceklangertuda/mts11.lf7.umfrage.app:1.0.0
+    build: .
+    image: ghcr.io/jaceklangertuda/mts11.lf7.umfrage.app:latest
     pull_policy: always
     ports:
       - 5000:8080
 
     environment:
-      SPRING_DATASOURCE_URL: jdbc:sqlserver://mts11.umfrage.db:1433;database=umfrage;encrypt=false
+      SPRING_DATASOURCE_URL: jdbc:sqlserver://database:1433;database=umfrage;encrypt=false
       SPRING_DATASOURCE_USERNAME: umfrage
       SPRING_DATASOURCE_PASSWORD: umfrage
 
     depends_on:
-      - mts11.umfrage.db
+      - database
 
 volumes:
   umfrage-db-backup:

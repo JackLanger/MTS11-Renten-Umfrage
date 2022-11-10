@@ -10,7 +10,7 @@ EXPOSE 8080
 
 RUN mkdir /app
 
-COPY --from=build /home/gradle/src/build/libs/MTS-11-Umfrage-*.*.[0-9].jar /app/mts11-umfrage.jar
+COPY --from=build "/home/gradle/src/build/libs/MTS-11-Umfrage-*.*.[0-9].jar" "/app/mts11-umfrage.jar"
 # mts11-umfrage.jar
 
 #ENTRYPOINT ["java", "-jar", "/app/mts11-umfrage.jar"]

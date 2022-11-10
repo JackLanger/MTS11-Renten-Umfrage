@@ -25,9 +25,7 @@ configurations {
 
 jar {
     manifest {
-        attributes(
-                'Main-Class': 'osz.imt.mts.mts11umfrage.Mts11UmfrageApplication'
-        )
+        attributes('Main-Class': 'osz.imt.mts.mts11umfrage.Mts11UmfrageApplication')
     }
 }
 
@@ -102,7 +100,7 @@ nyx {
     // todo(Stefan/Jack): decide on strategy.
 
     changelog {
-        path = 'build/CHANGELOG.md'
+        path = 'CHANGELOG.md'
         sections = [
                 'Added': '^feat$',
                 'Fixed': '^fix$',
@@ -117,7 +115,7 @@ nyx {
         enabled = ['mainline', 'internal']
         items {
             mainline {
-                description = '{{#file.content}}build/CHANGELOG.md{{/file.content}}'
+                description = '{{#file.content}}CHANGELOG.md{{/file.content}}'
                 collapseVersions = false
                 filterTags = '^()?([0-9]\\d*)\\.([0-9]\\d*)\\.([0-9]\\d*)$'
                 gitCommit = 'true'

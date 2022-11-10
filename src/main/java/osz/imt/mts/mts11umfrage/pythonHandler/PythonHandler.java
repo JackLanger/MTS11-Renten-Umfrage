@@ -5,17 +5,21 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class PythonHandler {
-  public PythonHandler(){
 
+  public PythonHandler() {
+    // empty
   }
 
 
   public void runScript() {
+
     Process process = null;
     String os = System.getProperty("os.name");
 
     // Python script file path
-    String python_file_path =  "G:\\pythonProject1\\main.py"; //String sourceDir = System.getProperty("user.dir") + "\\src";
+    String python_file_path =
+        "G:\\pythonProject1\\main.py"; //String sourceDir = System.getProperty("user.dir") +
+    // "\\src";
     // venv path
     String python_venv_path = "G:\\pythonProject1\\venv\\Scripts";
     //output Directory
@@ -23,10 +27,10 @@ public class PythonHandler {
 
     String outputDir_command = "cd " + outputDir;
 
-    if(os.contains("Windows")){
+    if (os.contains("Windows")) {
       python_venv_path += "\\activate.bat";
 
-    }else{
+    } else {
       python_venv_path += "\\activate";
       python_venv_path = "source " + python_venv_path;
     }
@@ -40,10 +44,12 @@ public class PythonHandler {
     }
     try {
       ProcessBuilder builder = new ProcessBuilder();
-      if(os.contains("Windows")){
-        builder.command("cmd.exe", "/c", python_venv_path + " && " + command + " && " + outputDir_command);
-      }else{
-        builder.command("bash", "-c", python_venv_path + " && " + command + " && " + outputDir_command);
+      if (os.contains("Windows")) {
+        builder.command("cmd.exe", "/c",
+                        python_venv_path + " && " + command + " && " + outputDir_command);
+      } else {
+        builder.command("bash", "-c",
+                        python_venv_path + " && " + command + " && " + outputDir_command);
       }
       builder.redirectErrorStream(true);
       process = builder.start();
@@ -59,4 +65,5 @@ public class PythonHandler {
       e.printStackTrace();
     }
   }
+
 }
