@@ -125,7 +125,7 @@ nyx {
                 gitPush = 'true'
                 gitTag = 'true'
                 gitTagMessage = 'Tag release '
-                matchBranches = '^(master|main)$'
+                matchBranches = '^(develop)$'
                 matchEnvironmentVariables {
                     CI = '^true$'
                 }
