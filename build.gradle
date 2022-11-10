@@ -199,3 +199,12 @@ nyx {
     verbosity = "INFO"
     scheme = 'SEMVER'
 }
+
+task updateVersion {
+    dependsOn nyxInfer
+    doLast {
+        rootProject.file('version').write(version)
+    }
+}
+
+tasks.updateVersion.onlyIf { rootProject.nyxState.newRelease }
