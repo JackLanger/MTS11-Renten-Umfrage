@@ -40,8 +40,8 @@ VALUES (1, N'Geschlecht', 1),
         N'Welche der folgenden Maßnahmen zur Sicherung Ihrer Rente haben Sie bereits getroffen?',
         2),
        (23, N'Wie sicher fühlen Sie sich bezüglich ihrer Vorkehrungen', 1),
-       (24, N'Wie viel Geld investieren Sie in etwa monatlich in Ihre private Altersvorsorge?', 1),
-       (25, N'Hat diese Umfrage Sie angeregt für Ihre Rente Maßnahmen zu ergreifen?', 0) -- yes no
+       (24, N'Wie viel Geld investieren Sie in etwa monatlich in Ihre private Altersvorsorge?', 1)
+
 
 SET IDENTITY_INSERT dbo.t_question OFF
 

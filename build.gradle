@@ -4,6 +4,10 @@ plugins {
     id 'java'
     id 'checkstyle'
     id 'pmd'
+
+    // https://mooltiverse.github.io/nyx/guide/user/
+    // https://github.com/mooltiverse/nyx
+    id "com.mooltiverse.oss.nyx" version "1.2.2"
 }
 
 def checkstyleVersion = '10.3.4'
@@ -91,4 +95,107 @@ pmd {
     ruleSets = []
 //    sourceSets = [sourceSets.main]
     ignoreFailures = true // TODO:Nach der Umstrukturierung
+}
+
+
+nyx {
+    // todo(Stefan/Jack): decide on strategy.
+
+    changelog {
+        path = 'build/CHANGELOG.md'
+        sections = [
+                'Added': '^feat$',
+                'Fixed': '^fix$',
+        ]
+        substitutions = [
+                '(?m)#([0-9]+)(?s)': '[#%s](https://github.com/JacekLangerTUDA/MTS11-Renten-Umfrage/issues)'
+        ]
+    }
+
+    releaseTypes {
+        publicationServices = ['github']
+        enabled = ['mainline', 'internal']
+        items {
+            mainline {
+                description = '{{#file.content}}build/CHANGELOG.md{{/file.content}}'
+                collapseVersions = false
+                filterTags = '^()?([0-9]\\d*)\\.([0-9]\\d*)\\.([0-9]\\d*)$'
+                gitCommit = 'true'
+                gitCommitMessage = 'Release version '
+                gitPush = 'true'
+                gitTag = 'true'
+                gitTagMessage = 'Tag release '
+                matchBranches = '^(master|main)$'
+                matchEnvironmentVariables {
+                    CI = '^true$'
+                }
+                matchWorkspaceStatus = 'CLEAN'
+                publish = 'true'
+                versionRangeFromBranchName = false
+            }
+            internal {
+                collapseVersions = false
+                collapsedVersionQualifier = 'internal'
+                description = 'Internal release '
+                filterTags = '^()?([0-9]\\d*)\\.([0-9]\\d*)\\.([0-9]\\d*)$'
+                gitCommit = 'false'
+                gitPush = 'false'
+                gitTag = 'false'
+                identifiers {
+                    '0' {
+                        position = 'BUILD'
+                        qualifier = 'branch'
+                        value = ''
+                    }
+                    '1' {
+                        position = 'BUILD'
+                        qualifier = 'commit'
+                        value = ''
+                    }
+                    '2' {
+                        position = 'BUILD'
+                        qualifier = 'timestamp'
+                        value = ''
+                    }
+                    '3' {
+                        position = 'BUILD'
+                        qualifier = 'user'
+                        value = ''
+                    }
+                }
+                publish = 'false'
+                versionRangeFromBranchName = false
+            }
+        }
+
+    }
+    services {
+        github {
+            type = 'GITHUB'
+            options {
+                AUTHENTICATION_TOKEN = '{{#environment.variable}}REGISTRY_TOKEN{{/environment.variable}}'
+                REPOSITORY_NAME = 'MTS11-Renten-Umfrage'
+                REPOSITORY_OWNER = 'JacekLangerTUDA'
+            }
+        }
+    }
+
+    commitMessageConventions {
+        enabled = ['conventionalCommits']
+        items {
+            conventionalCommits {
+
+                expression = '(?m)^(?<type>[a-zA-Z0-9_]+)(!)?(\\\\((?<scope>[a-z ]+)\\\\))?:( (?<title>.+))$(?s).*'
+                bumpExpressions {
+                    major = '(?s)(?m)^[a-zA-Z0-9_]+(!|.*^(BREAKING( |-)CHANGE: )).*'
+                    minor = '(?s)(?m)^feat(?!!|.*^(BREAKING( |-)CHANGE: )).*'
+                    patch = '(?s)(?m)^fix(?!!|.*^(BREAKING( |-)CHANGE: )).*'
+                }
+            }
+        }
+    }
+    dryRun = false
+    initialVersion = rootProject.file('version').text.trim()
+    verbosity = "INFO"
+    scheme = 'SEMVER'
 }
