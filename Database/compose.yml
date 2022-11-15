@@ -7,9 +7,9 @@ services:
     image: mts11.umfrage.db
 
     environment:
-      - SA_PASSWORD SuperD3vPass
-      - ACCEPT_EULA Y
-      - MSSQL_PID Express
+      - SA_PASSWORD=SuperD3vPass
+      - ACCEPT_EULA=Y
+      - MSSQL_PID=Express
       - TZ=Europe/Berlin
       - SET_CONTAINER_TIMEZONE=true
       - CONTAINER_TIMEZONE=Europe/Berlin

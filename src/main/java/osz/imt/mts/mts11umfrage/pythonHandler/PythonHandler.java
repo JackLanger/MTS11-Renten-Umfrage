@@ -3,6 +3,8 @@ package osz.imt.mts.mts11umfrage.pythonHandler;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
 
 public class PythonHandler {
 
@@ -17,13 +19,13 @@ public class PythonHandler {
     String os = System.getProperty("os.name");
 
     // Python script file path
-    String python_file_path =
-        "G:\\pythonProject1\\main.py"; //String sourceDir = System.getProperty("user.dir") +
+    String python_file_path  = FileSystems.getDefault().getPath("/src/main/java/osz/imt/mts/mts11umfrage/pythonHandler/DataHandler/main.py").toAbsolutePath().toString();
+        //"G:\\pythonProject1\\main.py";
     // "\\src";
     // venv path
-    String python_venv_path = "G:\\pythonProject1\\venv\\Scripts";
+    String python_venv_path = FileSystems.getDefault().getPath("/src/main/java/osz/imt/mts/mts11umfrage/pythonHandler/DataHandler/venv/Scripts").toAbsolutePath().toString();//"G:\\pythonProject1\\venv\\Scripts";
     //output Directory
-    String outputDir = "G:\\MTS11-Renten-Umfrage\\src\\main\\resources\\files";
+    String outputDir = FileSystems.getDefault().getPath("/src/main\\resources\\media\\python").toAbsolutePath().toString();//"G:\\MTS11-Renten-Umfrage\\src\\main\\resources\\files";
 
     String outputDir_command = "cd " + outputDir;
 
@@ -46,10 +48,10 @@ public class PythonHandler {
       ProcessBuilder builder = new ProcessBuilder();
       if (os.contains("Windows")) {
         builder.command("cmd.exe", "/c",
-                        python_venv_path + " && " + command + " && " + outputDir_command);
+                        python_venv_path + " && " + command );//+ " && " + outputDir_command);
       } else {
         builder.command("bash", "-c",
-                        python_venv_path + " && " + command + " && " + outputDir_command);
+                        python_venv_path + " && " + command );//+ " && " + outputDir_command);
       }
       builder.redirectErrorStream(true);
       process = builder.start();
