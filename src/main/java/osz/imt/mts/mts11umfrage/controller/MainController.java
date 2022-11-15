@@ -4,6 +4,7 @@ import static osz.imt.mts.mts11umfrage.controller.utils.Endpoints.DOWNLOAD_ENDPO
 import static osz.imt.mts.mts11umfrage.controller.utils.Endpoints.ENDPOINT_JSON;
 import static osz.imt.mts.mts11umfrage.controller.utils.Endpoints.HOME_ENDPOINT;
 import static osz.imt.mts.mts11umfrage.controller.utils.Endpoints.DOWNLOAD_ENDPOINT;
+import static osz.imt.mts.mts11umfrage.utils.PathUtils.DOWNLOAD_PATH;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -135,19 +136,19 @@ public class MainController {
     return null;
   }
 
-/**
- * todo(Moritz): Javadoc.
- *
- * @param response
- * @throws IOException
- *//*
+  /**
+   * todo(Moritz): Javadoc.
+   *
+   * @param response
+   * @throws IOException
+   */
 
   @RequestMapping(value = "/download/xlsx", method = RequestMethod.GET)
   public void downloadExcel(HttpServletResponse response) throws IOException {
 
     PythonHandler pythonHandler = new PythonHandler();
     pythonHandler.runScript();
-    File file = new File("src/main/resources/files/Data.xlsx");
+    File file = new File(DOWNLOAD_PATH + "Data.xlsx");
     InputStream inputStream = new FileInputStream(file);
     response.setContentType("application/octet-stream");
     response.setHeader("Content-Disposition", "attachment; filename=" + file.getName());
@@ -155,20 +156,19 @@ public class MainController {
     FileCopyUtils.copy(inputStream, response.getOutputStream());
   }
 
-  */
-/**
- * todo(Moritz): javadoc.
- *
- * @param response
- * @throws IOException
- *//*
+  /**
+   * todo(Moritz): javadoc.
+   *
+   * @param response
+   * @throws IOException
+   */
 
   @RequestMapping(value = "/download/json", method = RequestMethod.GET)
   public void downloadJson(HttpServletResponse response) throws IOException {
 
     PythonHandler pythonHandler = new PythonHandler();
     pythonHandler.runScript();
-    File file = new File("src/main/resources/files/Data.json");
+    File file = new File(DOWNLOAD_PATH + "Data.json");
     InputStream inputStream = new FileInputStream(file);
     response.setContentType("application/octet-stream");
     response.setHeader("Content-Disposition", "attachment; filename=" + file.getName());
@@ -177,14 +177,13 @@ public class MainController {
   }
 
 
-  */
-/**
- * todo(Moritz):javadoc.
- *
- * @param response
- * @throws IOException
- * @throws JSONException
- *//*
+  /**
+   * todo(Moritz):javadoc.
+   *
+   * @param response
+   * @throws IOException
+   * @throws JSONException
+   */
 
   @RequestMapping(value = "/api/data/json", method = RequestMethod.GET,
       produces = JSON)
@@ -192,12 +191,11 @@ public class MainController {
 
     PythonHandler pythonHandler = new PythonHandler();
     pythonHandler.runScript();
-    String json = Files.readString(Path.of("src/main/resources/files/Data.json"),
+    String json = Files.readString(Path.of(DOWNLOAD_PATH + "Data.json"),
                                    java.nio.charset.StandardCharsets.ISO_8859_1);
     JSONObject jsonObject = new JSONObject(json);
     response.setContentType("application/json");
     response.getWriter().write(jsonObject.toString(), 0, jsonObject.toString().length());
   }
-*/
 
 }

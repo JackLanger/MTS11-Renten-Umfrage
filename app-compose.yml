@@ -4,7 +4,7 @@ services:
   database:
     container_name: mts11.lf7.umfrage.db
     image: ghcr.io/jaceklangertuda/mts11.lf7.umfrage.db:latest
-    pull_policy: always
+    #    pull_policy: always
     environment:
       - SA_PASSWORD=SuperD3vPass
       - ACCEPT_EULA=Y
@@ -16,6 +16,7 @@ services:
     ports:
       - 1433:1433
     volumes:
+
       # Using folders on the host machine (this does not work on my machine):
       # https://github.com/microsoft/mssql-docker/issues/136
       # - ./umfrage-db-backup:/var/opt/mssql/data
@@ -39,7 +40,6 @@ services:
 
     # Container should restart unless it was stopped before.
     restart: unless-stopped
-
     # Limit the resources used by the container.
     cpu_count: 2
     cpu_percent: 75
@@ -47,10 +47,12 @@ services:
   umfrage:
     container_name: mts11.lf7.umfrage.app
     build: .
-    image: ghcr.io/jaceklangertuda/mts11.lf7.umfrage.app:latest
-    pull_policy: always
+    #    image: ghcr.io/jaceklangertuda/mts11.lf7.umfrage.app:latest
+    image: moritz.dont.break.it
+    #    pull_policy: always
     ports:
-      - 5000:8080
+      - 80:8080
+      - 443:8080
 
     environment:
       SPRING_DATASOURCE_URL: jdbc:sqlserver://database:1433;database=umfrage;encrypt=false
@@ -59,6 +61,21 @@ services:
 
     depends_on:
       - database
+
+  nginx:
+    container_name: nginx
+    image:
+      nginx:stable
+    depends_on:
+      - umfrage
+
+
+  certbot:
+    container_name: certbot
+    image:
+      certbot/certbot:latest
+    depends_on:
+      - umfrage
 
 volumes:
   umfrage-db-backup:

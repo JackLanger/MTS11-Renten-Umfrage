@@ -7,11 +7,25 @@ RUN gradle clean assemble --no-daemon
 #FROM eclipse-temurin:11 as jre-build
 FROM openjdk:17-bullseye
 EXPOSE 8080
+USER root
+RUN apt update
+RUN apt install python3 python3-pip python3-venv dos2unix -y
 
 RUN mkdir /app
 
+COPY ./DataHandler/ /bin/venv/
 COPY --from=build "/home/gradle/src/build/libs/MTS-11-Umfrage-*.*.[0-9].jar" "/app/mts11-umfrage.jar"
 # mts11-umfrage.jar
+#USER umfrage
+RUN for file in /bin/venv/*; do dos2unix $file ; done
+RUN chmod +x /bin/venv/python_init
+RUN python3 -m pip install --upgrade pip &&\
+    pip install virtualenv &&\
+    python3 -m venv venv &&\
+    . venv/bin/activate &&\
+    pip install -r /bin/venv/requirements.txt
+
+RUN /bin/venv/python_init
 
 #ENTRYPOINT ["java", "-jar", "/app/mts11-umfrage.jar"]
 

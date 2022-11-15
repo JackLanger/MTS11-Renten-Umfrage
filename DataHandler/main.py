@@ -14,9 +14,6 @@ SERVER = os.getenv("SERVER")
 USER = os.getenv("USER")
 PASSWORD = os.getenv("PASSWORD")
 DATABASE = os.getenv("DATABASE")
-PATH = path.dirname(path.abspath(__file__))
-PATH = path.join(PATH, "..\..\..\..\..\..\..\\resources\media\python")
-PATH= path.normpath(PATH)
 
 UMFRAGE_TABLES = {
     "question": "t_question",
@@ -35,9 +32,9 @@ def replace_session_id(data):
     return new_data
 
 
-def main(file_name="Data"):
+def main(filepath,file_name="Data"):
     #sql_query_handler = SQLQueryHandler(SERVER, USER, PASSWORD, DATABASE)
-    xlsx_path = path.join(PATH, f"{file_name}.xlsx")
+    xlsx_path = path.join(filepath, f"{file_name}.xlsx")
     excel_writer = ExcelWriter(xlsx_path)
     data_handler = DataHandler(sql_query_handler)
     user_answer_dict = data_handler.create_user_answer_dict()
@@ -52,7 +49,7 @@ def main(file_name="Data"):
         "question_answer": question_answer_dict,
         "answers": user_answer_dict
     }
-    json_path = path.join(PATH, f"{file_name}.json")
+    json_path = path.join(filepath, f"{file_name}.json")
     with open(json_path, "w", encoding="utf-8") as f:
         f.write(json.dumps(response_dict, indent=4, ensure_ascii=False))
     excel_writer.create_cover(cover_dict)
@@ -61,7 +58,10 @@ def main(file_name="Data"):
 
 
 if __name__ == '__main__':
-    print(PATH)
-    filename = sys.argv[1] if len(sys.argv) > 1 else "Data"
 
-    main(filename)
+    PATH = None
+    PATH = sys.argv[1] if len(sys.argv)>1 else path.dirname(path.abspath(__file__))
+    filename = sys.argv[2] if len(sys.argv) > 2 else "Data"
+
+
+    main(PATH, filename)
