@@ -1,5 +1,9 @@
 package osz.imt.mts.mts11umfrage.utils;
 
+import java.nio.file.Paths;
+
+import static osz.imt.mts.mts11umfrage.utils.OsInformation.OS;
+
 /**
  * .
  *
@@ -7,12 +11,13 @@ package osz.imt.mts.mts11umfrage.utils;
  * <p>Date: 15.11.2022</p>
  */
 public final class PathUtils {
+    private final static String WINDOWS_DOWNLOAD_PATH_DEVELOPMENT = Paths.get("").toAbsolutePath() + "/src/main/resources/media/python";
+    private final static String LINUX_DOWNLOAD_PATH_PRODUCTION = "/bin/venv/media.python/";
 
-  //public static final String DOWNLOAD_PATH = "/bin/venv/media.python/";
-  public static final String DOWNLOAD_PATH = "C:\\Users\\mole-\\IdeaProjects\\MTS11-Renten-Umfrage\\src\\main\\resources\\media\\python";
+    public final static String DOWNLOAD_PATH = OS.contains("Windows") ? WINDOWS_DOWNLOAD_PATH_DEVELOPMENT : LINUX_DOWNLOAD_PATH_PRODUCTION;
 
-  private PathUtils() {
-    //
-  }
+    private PathUtils() {
+        //
+    }
 
 }

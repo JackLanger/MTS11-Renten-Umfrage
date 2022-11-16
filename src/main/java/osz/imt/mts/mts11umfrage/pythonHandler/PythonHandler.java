@@ -1,6 +1,7 @@
 package osz.imt.mts.mts11umfrage.pythonHandler;
 
 import static osz.imt.mts.mts11umfrage.utils.PathUtils.DOWNLOAD_PATH;
+import static osz.imt.mts.mts11umfrage.utils.OsInformation.OS;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,7 +13,7 @@ public class PythonHandler {
   private String MAIN_PY="";
 
   public PythonHandler() {
-    if (this.os.contains("windows")) {
+    if (OS.contains("windows")) {
       this.MAIN_PY = "/DataHandler/main.py";
     } else {
       this.MAIN_PY = "/DataHandler/main.py";
@@ -34,19 +35,15 @@ public class PythonHandler {
 
 
     // Python script file path
-    String python_file_path = Paths.get("").toAbsolutePath().toString()+MAIN_PY;
+    String python_file_path = Paths.get("").toAbsolutePath() + MAIN_PY;
 
-    String python_venv_path = Paths.get("").toAbsolutePath().toString()+ SCRIPTS;
-
-    //output Directory
-    String outputDir = Paths.get("").toAbsolutePath().toString()+OUTPUT;
+    String python_venv_path = Paths.get("").toAbsolutePath() + SCRIPTS;
 
     System.out.println("Python file path: " + python_file_path);
     System.out.println("Python venv path: " + python_venv_path);
-    System.out.println("Output Directory: " + outputDir);
-    String outputDir_command = "cd " + outputDir;
+    System.out.println("Output Directory: " + DOWNLOAD_PATH);
 
-    if (os.contains("Windows")) {
+    if (OS.contains("Windows")) {
       python_venv_path += "/activate.bat";
     } else {
       python_venv_path += "/activate";
@@ -55,21 +52,39 @@ public class PythonHandler {
 
     //check if os is windows or linux
     String command = "";
-    if (os.contains("Windows")) {
+
+    if (OS.contains("Windows")) {
       command = "py " + python_file_path;
     } else {
       command = "python3 " + python_file_path;
     }
+
     try {
       ProcessBuilder builder = new ProcessBuilder();
-      if (os.contains("Windows")) {
-        builder.command("cmd.exe", "/c",
-                        python_venv_path + " && " + command+ " " +DOWNLOAD_PATH);
+      if (OS.contains("Windows")) {
+        builder.command("cmd.exe", "/c", python_venv_path
+                                        +
+                                        " && "
+                                        +
+                                        command
+                                        +
+                                        " "
+                                        +
+                                        DOWNLOAD_PATH);
+
       } else {
-        builder.command("bash", "-c",
-                        python_venv_path + " && " + command + " "+
-                            DOWNLOAD_PATH);
+        builder.command("bash", "-c", python_venv_path
+                                        +
+                                        " && "
+                                        +
+                                        command
+                                        +
+                                        " "
+                                        +
+                                        DOWNLOAD_PATH);
+
       }
+
       builder.redirectErrorStream(true);
       process = builder.start();
 
