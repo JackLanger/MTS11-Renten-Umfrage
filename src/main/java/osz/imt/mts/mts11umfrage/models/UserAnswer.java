@@ -15,6 +15,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
+import osz.imt.mts.mts11umfrage.dto.UserAnswerDto;
 
 /**
  * User answer entity. Answers given by the user.
@@ -26,7 +27,7 @@ import org.hibernate.annotations.ColumnDefault;
 @Setter
 @Entity
 @Table(name = "t_user_answer")
-public class UserAnswer {
+public class UserAnswer implements DtoTransorm<UserAnswerDto> {
 
   /**
    * Identity of the Object.
@@ -55,5 +56,14 @@ public class UserAnswer {
   @ColumnDefault("GETDATE()")
   private LocalDateTime date;
 
+
+  @Override
+  public UserAnswerDto toDto() {
+
+    return UserAnswerDto.builder()
+                        .answerId(this.questionAnswer.getId())
+                        .userId(this.userId.toString())
+                        .build();
+  }
 
 }

@@ -32,7 +32,7 @@ import osz.imt.mts.mts11umfrage.dto.QuestionDto;
 @NoArgsConstructor
 @Entity
 @Table(name = "t_question")
-public class Question {
+public class Question implements DtoTransorm<QuestionDto> {
 
   /**
    * Public key.

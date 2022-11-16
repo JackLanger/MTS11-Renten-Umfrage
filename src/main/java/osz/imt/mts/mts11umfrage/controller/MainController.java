@@ -1,34 +1,23 @@
 package osz.imt.mts.mts11umfrage.controller;
 
-import static osz.imt.mts.mts11umfrage.controller.utils.Endpoints.DOWNLOAD_ENDPOINT_JSON;
+import static osz.imt.mts.mts11umfrage.controller.utils.Endpoints.DOWNLOAD_ENDPOINT;
 import static osz.imt.mts.mts11umfrage.controller.utils.Endpoints.ENDPOINT_JSON;
 import static osz.imt.mts.mts11umfrage.controller.utils.Endpoints.HOME_ENDPOINT;
-import static osz.imt.mts.mts11umfrage.controller.utils.Endpoints.DOWNLOAD_ENDPOINT;
-import static osz.imt.mts.mts11umfrage.utils.PathUtils.DOWNLOAD_PATH;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.configurationprocessor.json.JSONException;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpServletResponse;
+import osz.imt.mts.mts11umfrage.dto.EvaluationDto;
+import osz.imt.mts.mts11umfrage.dto.UserAnswerDto;
 import osz.imt.mts.mts11umfrage.models.UserAnswer;
-import osz.imt.mts.mts11umfrage.pythonHandler.PythonHandler;
 import osz.imt.mts.mts11umfrage.repository.QuestionAnswerRepository;
 import osz.imt.mts.mts11umfrage.repository.QuestionRepository;
 import osz.imt.mts.mts11umfrage.repository.UserAnswersRepository;
@@ -101,66 +90,48 @@ public class MainController {
     return mav;
   }
 
-  /**
-   * todo(Moritz): Javadoc.
-   *
-   * @param response
-   * @throws IOException
-   */
-
-  @RequestMapping(value = "/download/xlsx", method = RequestMethod.GET)
-  public void downloadExcel(HttpServletResponse response) throws IOException {
-
-    PythonHandler pythonHandler = new PythonHandler();
-    pythonHandler.runScript();
-    File file = new File(DOWNLOAD_PATH + "\\Data.xlsx");
+  //An download Endpoint
+  /*@RequestMapping(value="/download", method= RequestMethod.GET)
+  public void downloadFile(HttpServletResponse response) throws IOException {
+    File file = new File("src/main/resources/cookie-disclaimer.txt");
     InputStream inputStream = new FileInputStream(file);
     response.setContentType("application/octet-stream");
     response.setHeader("Content-Disposition", "attachment; filename=" + file.getName());
     response.setContentLength((int) file.length());
     FileCopyUtils.copy(inputStream, response.getOutputStream());
-  }
+  }*/
 
   /**
-   * todo(Moritz): javadoc.
+   * JSON Endpoint to return all {@link UserAnswer}s as json data.
    *
-   * @param response
-   * @throws IOException
+   * @return List of {@link UserAnswer} as json
    */
+  @RequestMapping(value = ENDPOINT_JSON, method = RequestMethod.GET, produces = JSON)
+  @ResponseBody
+  public List<EvaluationDto> json() {
 
-  @RequestMapping(value = "/download/json", method = RequestMethod.GET)
-  public void downloadJson(HttpServletResponse response) throws IOException {
+    List<UserAnswer> answers = userAnswersRepository.findAll();
+    List<EvaluationDto> dtos = new ArrayList<>();
+    Map<Integer, List<UserAnswerDto>> questions = new ConcurrentHashMap<>();
 
-    PythonHandler pythonHandler = new PythonHandler();
-    pythonHandler.runScript();
-    File file = new File(DOWNLOAD_PATH + "\\Data.json");
-    InputStream inputStream = new FileInputStream(file);
-    response.setContentType("application/octet-stream");
-    response.setHeader("Content-Disposition", "attachment; filename=" + file.getName());
-    response.setContentLength((int) file.length());
-    FileCopyUtils.copy(inputStream, response.getOutputStream());
+    for (UserAnswer answer : answers) {
+      int questionId = answer.getQuestionAnswer().getQuestion().getId();
+      var dto = answer.toDto();
+      if (questions.containsKey(questionId)) {
+        questions.get(questionId).add(dto);
+      } else {
+        List<UserAnswerDto> list = new ArrayList<>();
+        list.add(dto);
+        questions.put(questionId, list);
+      }
+    }
+
+    for (Map.Entry<Integer, List<UserAnswerDto>> entry : questions.entrySet()) {
+      dtos.add(new EvaluationDto(entry.getKey(), entry.getValue()));
+    }
+
+    return dtos;
   }
 
-
-  /**
-   * todo(Moritz):javadoc.
-   *
-   * @param response
-   * @throws IOException
-   * @throws JSONException
-   */
-
-  @RequestMapping(value = "/api/data/json", method = RequestMethod.GET,
-      produces = JSON)
-  public void apiResponseData(HttpServletResponse response) throws IOException, JSONException {
-
-    PythonHandler pythonHandler = new PythonHandler();
-    pythonHandler.runScript();
-    String json = Files.readString(Path.of(DOWNLOAD_PATH + "\\Data.json"),
-                                   java.nio.charset.StandardCharsets.ISO_8859_1);
-    JSONObject jsonObject = new JSONObject(json);
-    response.setContentType("application/json");
-    response.getWriter().write(jsonObject.toString(), 0, jsonObject.toString().length());
-  }
 
 }

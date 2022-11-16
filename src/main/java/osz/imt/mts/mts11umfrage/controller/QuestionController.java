@@ -106,9 +106,19 @@ public class QuestionController {
       }
     }
     this.service.saveAllAnswers(userAnswerDtos);
-    return new ModelAndView("finish");
+    return redirect();
   }
 
+  private ModelAndView redirect() {
+
+    return finishedSurvey();
+  }
+
+  @GetMapping("/Finish")
+  public ModelAndView finishedSurvey() {
+
+    return new ModelAndView("finish");
+  }
 
   private boolean isNotNull(final Object o) {
 
