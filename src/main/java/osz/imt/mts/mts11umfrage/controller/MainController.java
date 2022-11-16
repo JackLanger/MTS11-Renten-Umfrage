@@ -133,5 +133,11 @@ public class MainController {
     return dtos;
   }
 
+  @GetMapping("/agreement")
+  public String agreement() {
+
+    return "agreement";
+  }
+
 
 }
