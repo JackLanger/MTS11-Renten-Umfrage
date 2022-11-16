@@ -8,29 +8,22 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Paths;
 
+
 public class PythonHandler {
-  private final String os = System.getProperty("os.name");
-  private String MAIN_PY="";
+  private final static String MAIN_PY_WINDOWS = "/DataHandler/main.py";
+  private final static String MAIN_PY_LINUX = "/DataHandler/venv/Scripts";
+
+  private final static String SCRIPTS_WINDOWS = "/DataHandler/venv/Scripts";
+  //TODO: To be set
+  private final static String SCRIPTS_LINUX = "";
+
+  private final static String MAIN_PY = OS.contains("Windows") ? MAIN_PY_WINDOWS : MAIN_PY_LINUX;
+  private final static String SCRIPTS = OS.contains("Windows") ? SCRIPTS_WINDOWS : SCRIPTS_LINUX;
 
   public PythonHandler() {
-    if (OS.contains("windows")) {
-      this.MAIN_PY = "/DataHandler/main.py";
-    } else {
-      this.MAIN_PY = "/DataHandler/main.py";
-    }
   }
 
-  private final static String SCRIPTS =
-      "/DataHandler/venv/Scripts";
-
-
-  //private final static String MAIN_PY =
-  //    "/bin/venv/main.py";
-
-  private final static String OUTPUT = "/src/main/resources/media/python";
-
   public void runScript() {
-
     Process process = null;
 
 
@@ -39,9 +32,9 @@ public class PythonHandler {
 
     String python_venv_path = Paths.get("").toAbsolutePath() + SCRIPTS;
 
-    System.out.println("Python file path: " + python_file_path);
+    /*System.out.println("Python file path: " + python_file_path);
     System.out.println("Python venv path: " + python_venv_path);
-    System.out.println("Output Directory: " + DOWNLOAD_PATH);
+    System.out.println("Output Directory: " + DOWNLOAD_PATH);*/
 
     if (OS.contains("Windows")) {
       python_venv_path += "/activate.bat";
