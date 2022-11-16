@@ -58,7 +58,7 @@ dependencies {
     implementation 'org.thymeleaf:thymeleaf-spring5:3.0.15.RELEASE'
     // https://mvnrepository.com/artifact/org.webjars/bootstrap
     implementation 'org.webjars:bootstrap:5.2.2'
-
+    implementation 'org.json:json:20220924'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     // https://mvnrepository.com/artifact/org.testcontainers/testcontainers
     testImplementation 'org.testcontainers:testcontainers:1.17.5'
