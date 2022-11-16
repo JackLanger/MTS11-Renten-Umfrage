@@ -36,3 +36,4 @@ out/
 ### VS Code ###
 .vscode/
 /src/main/java/osz/imt/mts/mts11umfrage/pythonHandler/DataHandler/venv/
+/venv/

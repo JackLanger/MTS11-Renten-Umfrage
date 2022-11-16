@@ -101,41 +101,6 @@ public class MainController {
     return mav;
   }
 
-  //An download Endpoint
-  /*@RequestMapping(value="/download", method= RequestMethod.GET)
-  public void downloadFile(HttpServletResponse response) throws IOException {
-    File file = new File("src/main/resources/cookie-disclaimer.txt");
-    InputStream inputStream = new FileInputStream(file);
-    response.setContentType("application/octet-stream");
-    response.setHeader("Content-Disposition", "attachment; filename=" + file.getName());
-    response.setContentLength((int) file.length());
-    FileCopyUtils.copy(inputStream, response.getOutputStream());
-  }*/
-
-  /**
-   * JSON Endpoint to return all {@link UserAnswer}s as json data.
-   *
-   * @return List of {@link UserAnswer} as json
-   */
-  @RequestMapping(value = ENDPOINT_JSON, method = RequestMethod.GET, produces = JSON)
-  @ResponseBody
-  public List<UserAnswer> json() {
-
-    return userAnswersRepository.findAll();
-  }
-
-  /**
-   * Download Endpoint for a json file containing all {@link UserAnswer}s.
-   *
-   * @return download for a file.
-   */
-  @RequestMapping(value = DOWNLOAD_ENDPOINT_JSON, method = RequestMethod.GET, produces = JSON)
-  @ResponseBody
-  public byte[] jsonDownload() {
-    // TODO: 10.11.2022 implement
-    return null;
-  }
-
   /**
    * todo(Moritz): Javadoc.
    *
@@ -148,7 +113,7 @@ public class MainController {
 
     PythonHandler pythonHandler = new PythonHandler();
     pythonHandler.runScript();
-    File file = new File(DOWNLOAD_PATH + "Data.xlsx");
+    File file = new File(DOWNLOAD_PATH + "\\Data.xlsx");
     InputStream inputStream = new FileInputStream(file);
     response.setContentType("application/octet-stream");
     response.setHeader("Content-Disposition", "attachment; filename=" + file.getName());
@@ -168,7 +133,7 @@ public class MainController {
 
     PythonHandler pythonHandler = new PythonHandler();
     pythonHandler.runScript();
-    File file = new File(DOWNLOAD_PATH + "Data.json");
+    File file = new File(DOWNLOAD_PATH + "\\Data.json");
     InputStream inputStream = new FileInputStream(file);
     response.setContentType("application/octet-stream");
     response.setHeader("Content-Disposition", "attachment; filename=" + file.getName());
@@ -191,7 +156,7 @@ public class MainController {
 
     PythonHandler pythonHandler = new PythonHandler();
     pythonHandler.runScript();
-    String json = Files.readString(Path.of(DOWNLOAD_PATH + "Data.json"),
+    String json = Files.readString(Path.of(DOWNLOAD_PATH + "\\Data.json"),
                                    java.nio.charset.StandardCharsets.ISO_8859_1);
     JSONObject jsonObject = new JSONObject(json);
     response.setContentType("application/json");
