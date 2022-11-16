@@ -25,7 +25,7 @@ import osz.imt.mts.mts11umfrage.utils.HtmlTypes;
 @Setter
 @Entity
 @Table(name = "t_question_answer")
-public class QuestionAnswer {
+public class QuestionAnswer implements DtoTransorm<QuestionAnswerDto> {
 
   /**
    * Primary key for the option. Is Integer value but can be changed to a UUID if need be.

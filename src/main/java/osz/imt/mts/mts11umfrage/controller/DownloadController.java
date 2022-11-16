@@ -6,11 +6,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import javax.servlet.http.HttpServletResponse;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -99,28 +95,6 @@ public class DownloadController {
                          .contentLength(file.length())
                          .contentType(MediaType.APPLICATION_OCTET_STREAM)
                          .body(resource);
-  }
-
-
-  /**
-   * todo(Moritz):javadoc.
-   *
-   * @param response
-   * @throws IOException
-   * @throws JSONException
-   */
-
-  @RequestMapping(value = "/api/data/json", method = RequestMethod.GET,
-      produces = JSON)
-  public void apiResponseData(HttpServletResponse response) throws IOException, JSONException {
-
-    PythonHandler pythonHandler = new PythonHandler();
-    pythonHandler.runScript();
-    String json = Files.readString(Path.of(DOWNLOAD_PATH + "Data.json"),
-                                   java.nio.charset.StandardCharsets.ISO_8859_1);
-    JSONObject jsonObject = new JSONObject(json);
-    response.setContentType("application/json");
-    response.getWriter().write(jsonObject.toString(), 0, jsonObject.toString().length());
   }
 
 }

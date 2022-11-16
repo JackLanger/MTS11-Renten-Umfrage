@@ -7,4 +7,6 @@ import osz.imt.mts.mts11umfrage.models.Question;
  * Extension for {@link JpaRepository}.
  */
 public interface QuestionRepository extends JpaRepository<Question, Integer> {
+
+
 }

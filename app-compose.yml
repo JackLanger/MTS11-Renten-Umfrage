@@ -68,6 +68,9 @@ services:
       nginx:stable
     depends_on:
       - umfrage
+    ports:
+      - 80:80
+      - 443:443
 
 
   certbot:
@@ -76,6 +79,8 @@ services:
       certbot/certbot:latest
     depends_on:
       - umfrage
+    ports:
+      - 443:443
 
 volumes:
   umfrage-db-backup:
