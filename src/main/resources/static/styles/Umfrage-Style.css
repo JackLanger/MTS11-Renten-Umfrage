@@ -6,6 +6,10 @@
     --white: #fff;
 }
 
+.impressum {
+    background: white;
+}
+
 .full-height-wrapper {
     min-height: 100%;
     height: auto !important;
@@ -28,6 +32,10 @@ body, html {
 
     body {
         background: linear-gradient(to right, var(--oszimt-bg-light), var(--oszimt-bg-dark), var(--oszimt-bg-light));
+    }
+
+    .impressum {
+        background: white;
     }
 }
 
