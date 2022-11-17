@@ -109,6 +109,7 @@ public class MainController {
   @RequestMapping(value = ENDPOINT_JSON, method = RequestMethod.GET, produces = JSON)
   @ResponseBody
   public List<EvaluationDto> json() {
+
     List<UserAnswer> answers = userAnswersRepository.findAll();
     List<EvaluationDto> dtos = new ArrayList<>();
     Map<Integer, List<UserAnswerDto>> questions = new ConcurrentHashMap<>();
@@ -131,4 +132,12 @@ public class MainController {
 
     return dtos;
   }
+
+  @GetMapping("/agreement")
+  public String agreement() {
+
+    return "agreement";
+  }
+
+
 }
