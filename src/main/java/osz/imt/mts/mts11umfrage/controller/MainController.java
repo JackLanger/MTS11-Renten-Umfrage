@@ -109,8 +109,6 @@ public class MainController {
   @RequestMapping(value = ENDPOINT_JSON, method = RequestMethod.GET, produces = JSON)
   @ResponseBody
   public List<EvaluationDto> json() {
-    System.out.println("Hello");
-
     List<UserAnswer> answers = userAnswersRepository.findAll();
     List<EvaluationDto> dtos = new ArrayList<>();
     Map<Integer, List<UserAnswerDto>> questions = new ConcurrentHashMap<>();

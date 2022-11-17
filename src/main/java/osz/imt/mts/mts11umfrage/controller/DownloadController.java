@@ -6,16 +6,26 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.PasswordAuthentication;
+import java.security.NoSuchAlgorithmException;
+import java.util.Map;
+import javax.persistence.PostLoad;
 import javax.servlet.http.HttpServletResponse;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import osz.imt.mts.mts11umfrage.pythonHandler.PythonHandler;
+import osz.imt.mts.mts11umfrage.repository.AuthenticationRepository;
+import osz.imt.mts.mts11umfrage.service.AuthService;
 
 /**
  * .
@@ -30,7 +40,8 @@ public class DownloadController {
     //TODO(Moritz): refactor methods should not return void but a ResponseEntity<Resource>
     // otherwise you need to set the response code.
     private static final String JSON = "application/json";
-
+    @Autowired
+    private AuthService authService;
 
     HttpHeaders getHeaders(String filename) {
         HttpHeaders headers = new HttpHeaders();
@@ -42,27 +53,25 @@ public class DownloadController {
         return headers;
     }
 
-    @RequestMapping(value = "/download/xlsx", method = RequestMethod.GET)
-    public ResponseEntity<InputStreamResource> downloadExcel(HttpServletResponse response)
-            throws IOException {
+    @RequestMapping(value = "/download/xlsx", method = RequestMethod.POST)
+    public ResponseEntity<InputStreamResource> downloadExcel(@RequestParam String token, HttpServletResponse response)
+            throws IOException, NoSuchAlgorithmException {
 
-        String filename = "Data";
+        if (authService.verifyToken(token)) {
+            String filename = "Data";
+            PythonHandler pythonHandler = new PythonHandler();
+            pythonHandler.runScript();
+            File file = new File(DOWNLOAD_PATH + "\\" + filename + ".xlsx");
+            InputStream inputStream = new FileInputStream(file);
+            InputStreamResource resource = new InputStreamResource(inputStream);
 
-        PythonHandler pythonHandler = new PythonHandler();
-        pythonHandler.runScript();
-        File file = new File(DOWNLOAD_PATH + "\\" + filename+ ".xlsx");
-        InputStream inputStream = new FileInputStream(file);
-//    response.setContentType("application/octet-stream");
-//    response.setHeader("Content-Disposition", "attachment; filename=" + file.getName());
-//    response.setContentLength((int) file.length());
-//    FileCopyUtils.copy(inputStream, response.getOutputStream());
-        InputStreamResource resource = new InputStreamResource(inputStream);
-
-        return ResponseEntity.ok()
-                .headers(getHeaders(file.getName()))
-                .contentLength(file.length())
-                .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                .body(resource);
+            return ResponseEntity.ok()
+                    .headers(getHeaders(file.getName()))
+                    .contentLength(file.length())
+                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                    .body(resource);
+        }
+        return ResponseEntity.status(401).build();
     }
 
     /**
@@ -73,26 +82,27 @@ public class DownloadController {
      * @throws IOException
      */
 
-    @RequestMapping(value = "/download/json", method = RequestMethod.GET)
-    public ResponseEntity<InputStreamResource> downloadJson(HttpServletResponse response)
-            throws IOException {
-        String filename = "Data";
-        PythonHandler pythonHandler = new PythonHandler();
-        pythonHandler.runScript();
-        File file = new File(DOWNLOAD_PATH + "\\" + filename + ".json");
-        InputStream inputStream = new FileInputStream(file);
-//    response.setContentType("application/octet-stream");
-//    response.setHeader("Content-Disposition", "attachment; filename=" + file.getName());
-//    response.setContentLength((int) file.length());
-//    FileCopyUtils.copy(inputStream, response.getOutputStream());
+    @RequestMapping(value = "/download/json", method = RequestMethod.POST)
+    public ResponseEntity<InputStreamResource> downloadJson(@RequestParam String token, HttpServletResponse response)
+            throws IOException, NoSuchAlgorithmException {
 
-        InputStreamResource resource = new InputStreamResource(inputStream);
+        if (authService.verifyToken(token)) {
+            String filename = "Data";
+            PythonHandler pythonHandler = new PythonHandler();
+            pythonHandler.runScript();
+            File file = new File(DOWNLOAD_PATH + "\\" + filename + ".json");
+            InputStream inputStream = new FileInputStream(file);
 
-        return ResponseEntity.ok()
-                .headers(getHeaders(file.getName()))
-                .contentLength(file.length())
-                .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                .body(resource);
+            InputStreamResource resource = new InputStreamResource(inputStream);
+
+            return ResponseEntity.ok()
+                    .headers(getHeaders(file.getName()))
+                    .contentLength(file.length())
+                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                    .body(resource);
+        }
+        return ResponseEntity.status(401).build();
     }
+
 
 }
