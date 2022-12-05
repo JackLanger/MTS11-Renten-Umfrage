@@ -11,11 +11,11 @@ import java.nio.file.Paths;
 
 public class PythonHandler {
   private final static String MAIN_PY_WINDOWS = "/DataHandler/main.py";
-  private final static String MAIN_PY_LINUX = "/DataHandler/venv/Scripts";
+  private final static String MAIN_PY_LINUX = "/bin/venv/main.py";
 
   private final static String SCRIPTS_WINDOWS = "/DataHandler/venv/Scripts";
   //TODO: To be set
-  private final static String SCRIPTS_LINUX = "";
+  private final static String SCRIPTS_LINUX = "/bin/venv/";
 
   private final static String MAIN_PY = OS.contains("Windows") ? MAIN_PY_WINDOWS : MAIN_PY_LINUX;
   private final static String SCRIPTS = OS.contains("Windows") ? SCRIPTS_WINDOWS : SCRIPTS_LINUX;
@@ -28,9 +28,10 @@ public class PythonHandler {
 
 
     // Python script file path
-    String python_file_path = Paths.get("").toAbsolutePath() + MAIN_PY;
+    String python_file_path = OS.contains("Windows") ? Paths.get("").toAbsolutePath() + MAIN_PY: MAIN_PY;
 
-    String python_venv_path = Paths.get("").toAbsolutePath() + SCRIPTS;
+
+    String python_venv_path = OS.contains("Windows") ? Paths.get("").toAbsolutePath() + SCRIPTS: SCRIPTS;
 
     /*System.out.println("Python file path: " + python_file_path);
     System.out.println("Python venv path: " + python_venv_path);
@@ -66,10 +67,7 @@ public class PythonHandler {
                                         DOWNLOAD_PATH);
 
       } else {
-        builder.command("bash", "-c", python_venv_path
-                                        +
-                                        " && "
-                                        +
+        builder.command("bash", "-c",
                                         command
                                         +
                                         " "

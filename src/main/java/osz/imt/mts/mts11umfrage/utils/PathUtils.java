@@ -1,5 +1,7 @@
 package osz.imt.mts.mts11umfrage.utils;
 
+import org.springframework.beans.factory.annotation.Value;
+
 import java.nio.file.Paths;
 
 import static osz.imt.mts.mts11umfrage.utils.OsInformation.OS;
@@ -12,7 +14,8 @@ import static osz.imt.mts.mts11umfrage.utils.OsInformation.OS;
  */
 public final class PathUtils {
     private final static String WINDOWS_DOWNLOAD_PATH_DEVELOPMENT = Paths.get("").toAbsolutePath() + "/src/main/resources/media/python";
-    private final static String LINUX_DOWNLOAD_PATH_PRODUCTION = "/bin/venv/media.python/";
+    @Value("${python.downloads.path}")
+    private final static String LINUX_DOWNLOAD_PATH_PRODUCTION =""; //"/bin/venv/media/python/";
 
     public final static String DOWNLOAD_PATH = OS.contains("Windows") ? WINDOWS_DOWNLOAD_PATH_DEVELOPMENT : LINUX_DOWNLOAD_PATH_PRODUCTION;
 

@@ -13,7 +13,9 @@ RUN apt install python3 python3-pip python3-venv dos2unix -y
 
 RUN mkdir /app
 
+ENV PYTHONMEDIA=/bin/venv/media/python
 COPY ./DataHandler/ /bin/venv/
+RUN mkdir -p $PYTHONMEDIA
 COPY --from=build "/home/gradle/src/build/libs/MTS-11-Umfrage-*.*.[0-9].jar" "/app/mts11-umfrage.jar"
 # mts11-umfrage.jar
 #USER umfrage
