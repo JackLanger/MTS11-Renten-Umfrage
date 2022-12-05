@@ -1,51 +1,43 @@
 package osz.imt.mts.mts11umfrage.pythonHandler;
 
 import static osz.imt.mts.mts11umfrage.utils.PathUtils.DOWNLOAD_PATH;
+import static osz.imt.mts.mts11umfrage.utils.OsInformation.OS;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.file.FileSystems;
+import java.nio.file.Paths;
+
 
 public class PythonHandler {
+  private final static String MAIN_PY_WINDOWS = "/DataHandler/main.py";
+  private final static String MAIN_PY_LINUX = "/DataHandler/venv/Scripts";
+
+  private final static String SCRIPTS_WINDOWS = "/DataHandler/venv/Scripts";
+  //TODO: To be set
+  private final static String SCRIPTS_LINUX = "";
+
+  private final static String MAIN_PY = OS.contains("Windows") ? MAIN_PY_WINDOWS : MAIN_PY_LINUX;
+  private final static String SCRIPTS = OS.contains("Windows") ? SCRIPTS_WINDOWS : SCRIPTS_LINUX;
 
   public PythonHandler() {
-    // empty
   }
 
-  private final static String SCRIPTS =
-      "/src/main/java/osz/imt/mts/mts11umfrage/pythonHandler/DataHandler/venv/Scripts";
-  private final static String MAIN_PY =
-      "/bin/venv/main.py";
-  private final static String OUTPUT = "/src/main/resources/media/python";
-
   public void runScript() {
-
     Process process = null;
-    String os = System.getProperty("os.name");
+
 
     // Python script file path
-    String python_file_path = FileSystems.getDefault()
-                                         .getPath(MAIN_PY)
-                                         .toAbsolutePath()
-                                         .toString();
+    String python_file_path = Paths.get("").toAbsolutePath() + MAIN_PY;
 
-    String python_venv_path = FileSystems.getDefault()
-                                         .getPath(SCRIPTS)
-                                         .toAbsolutePath()
-                                         .toString();
-    //output Directory
-    String outputDir = FileSystems.getDefault()
-                                  .getPath(OUTPUT)
-                                  .toAbsolutePath()
-                                  .toString();
+    String python_venv_path = Paths.get("").toAbsolutePath() + SCRIPTS;
 
+    /*System.out.println("Python file path: " + python_file_path);
+    System.out.println("Python venv path: " + python_venv_path);
+    System.out.println("Output Directory: " + DOWNLOAD_PATH);*/
 
-    String outputDir_command = "cd " + outputDir;
-
-    if (os.contains("Windows")) {
+    if (OS.contains("Windows")) {
       python_venv_path += "/activate.bat";
-
     } else {
       python_venv_path += "/activate";
       python_venv_path = ". " + python_venv_path;
@@ -53,21 +45,39 @@ public class PythonHandler {
 
     //check if os is windows or linux
     String command = "";
-    if (os.contains("Windows")) {
+
+    if (OS.contains("Windows")) {
       command = "py " + python_file_path;
     } else {
       command = "python3 " + python_file_path;
     }
+
     try {
       ProcessBuilder builder = new ProcessBuilder();
-      if (os.contains("Windows")) {
-        builder.command("cmd.exe", "/c",
-                        python_venv_path + " && " + command);//+ " && " + outputDir_command);
+      if (OS.contains("Windows")) {
+        builder.command("cmd.exe", "/c", python_venv_path
+                                        +
+                                        " && "
+                                        +
+                                        command
+                                        +
+                                        " "
+                                        +
+                                        DOWNLOAD_PATH);
+
       } else {
-        builder.command("bash", "-c",
-                        python_venv_path + " && " + command +
-                            DOWNLOAD_PATH);//+ " && " + outputDir_command);
+        builder.command("bash", "-c", python_venv_path
+                                        +
+                                        " && "
+                                        +
+                                        command
+                                        +
+                                        " "
+                                        +
+                                        DOWNLOAD_PATH);
+
       }
+
       builder.redirectErrorStream(true);
       process = builder.start();
 
