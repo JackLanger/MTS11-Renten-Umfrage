@@ -15,8 +15,11 @@ RUN apt-get install dos2unix
 COPY ./init /init/sql/
 COPY ./entry /entry
 
+
 RUN dos2unix /entry/create.sh
 RUN dos2unix /entry/entrypoint.sh
+RUN chmod +x /entry/create.sh
+RUN chmod +x /entry/entrypoint.sh
 
 USER mssql
 RUN /opt/mssql/bin/sqlservr & /entry/create.sh
