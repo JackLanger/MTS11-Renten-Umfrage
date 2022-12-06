@@ -46,7 +46,6 @@ public class EvaluationService {
       int questionId = answer.getQuestionAnswer().getQuestion().getId();
       var eval = EvaluationDto.builder()
                               .userid(answer.getUserId().toString())
-                              .questionId(answer.getQuestionAnswer().getQuestion().getId())
                               .build();
       eval.addAnswer(questionId, answer.getQuestionAnswer().getAnswerOption());
 

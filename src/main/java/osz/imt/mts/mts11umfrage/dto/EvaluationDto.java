@@ -21,10 +21,6 @@ import lombok.NoArgsConstructor;
 @Getter
 public class EvaluationDto {
 
-  /**
-   * Id of the Question.
-   */
-  public int questionId;
   public String userid;
   public Map<Integer, List<String>> answers;
 
