@@ -1,6 +1,7 @@
 package osz.imt.mts.mts11umfrage.utils;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.converter.json.GsonBuilderUtils;
 
 import java.nio.file.Paths;
 
@@ -13,6 +14,7 @@ import static osz.imt.mts.mts11umfrage.utils.OsInformation.OS;
  * <p>Date: 15.11.2022</p>
  */
 public final class PathUtils {
+    /*
     // General-------------------
     public static final String FILENAME = "Data";
     // Linux---------------------
@@ -35,6 +37,18 @@ public final class PathUtils {
 
 
      public final static String DATA_JSON_PATH_CACHE = DOWNLOAD_PATH + "/cache/data.json";
+*/
+    public final static String FILENAME_JSON = "Data.json";
+    public final static String FILENAME_XLSX = "Data.xlsx";
+    public static String DOWNLOAD_PATH = Paths.get("/bin/venv/media/python").toAbsolutePath().toString();
+    public static String XLSX_DOWNLOAD_PATH = Paths.get(DOWNLOAD_PATH, FILENAME_XLSX).toAbsolutePath().toString();
+    public static String JSON_DOWNLOAD_PATH = Paths.get(DOWNLOAD_PATH, FILENAME_JSON).toAbsolutePath().toString();
+    public final static String DATA_JSON_PATH_CACHE = "/bin/venv/media/python/cache/data.json";
+    public final static String MAIN_PY = "/bin/venv/main.py";
+    //TODO: WENNS ÜBERHAUTPT NICHT FUNKTIONIERT
+    //public final static String XLSX_DOWNLOAD_PATH = "/bin/venv/media/python/Data.xlsx";
+    //public final static String JSON_DOWNLOAD_PATH = "/bin/venv/media/python/Data.json";
+
 
     private PathUtils() {
     }

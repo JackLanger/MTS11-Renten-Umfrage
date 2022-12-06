@@ -1,8 +1,5 @@
 package osz.imt.mts.mts11umfrage.controller;
 
-import static osz.imt.mts.mts11umfrage.utils.PathUtils.DOWNLOAD_PATH;
-import static osz.imt.mts.mts11umfrage.utils.PathUtils.FILENAME;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -21,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import osz.imt.mts.mts11umfrage.pythonHandler.PythonHandler;
 import osz.imt.mts.mts11umfrage.service.AuthService;
+
+import static osz.imt.mts.mts11umfrage.utils.PathUtils.*;
 
 /**
  * .
@@ -65,7 +64,7 @@ public class DownloadController {
         if (authService.verifyToken(token)) {
 
             pythonHandler.runScript();
-            File file = new File(DOWNLOAD_PATH + "\\" + FILENAME + ".xlsx");
+            File file = new File(XLSX_DOWNLOAD_PATH);
             InputStream inputStream = new FileInputStream(file);
             InputStreamResource resource = new InputStreamResource(inputStream);
 
@@ -92,7 +91,7 @@ public class DownloadController {
 
         if (authService.verifyToken(token)) {
             pythonHandler.runScript();
-            File file = new File(DOWNLOAD_PATH + "\\" + FILENAME + ".json");
+            File file = new File(JSON_DOWNLOAD_PATH);
             InputStream inputStream = new FileInputStream(file);
 
             InputStreamResource resource = new InputStreamResource(inputStream);
