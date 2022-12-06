@@ -6,6 +6,8 @@ import RebuildJackJson
 from ExcelWriter import ExcelWriter
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DOWNLOAD_DIR = "/bin/venv/media/python/Data.xlsx"
+CACHE_DIR = "/bin/venv/media/python/cache/data.json"
 
 
 def run(data, header, download_path):
@@ -19,5 +21,5 @@ if __name__ == '__main__':
     download_path_index = sys.argv[sys.argv[1:].index("-downloadpath") + 1]
     data_path_index = sys.argv[sys.argv[1:].index("-datapath") + 1]
 
-    data, header = RebuildJackJson.rebuild_jack_json(data_path_index)
-    run(data, header, download_path_index)
+    data, header = RebuildJackJson.rebuild_jack_json(CACHE_DIR)
+    run(data, header, DOWNLOAD_DIR)
