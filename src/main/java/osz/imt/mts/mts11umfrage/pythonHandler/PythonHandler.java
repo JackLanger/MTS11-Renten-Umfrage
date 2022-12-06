@@ -26,10 +26,10 @@ public class PythonHandler{
   public static void createFile(String content, String path) throws IOException {
 
 
-    Path file = Files.createFile(Path.of(path));
+//    Path file = Files.createFile(Path.of(path));
 
     Files.writeString(
-            file.toAbsolutePath(),
+            Path.of(path).toAbsolutePath(),
             content);
   }
 
