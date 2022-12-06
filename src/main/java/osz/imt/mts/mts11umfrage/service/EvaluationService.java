@@ -28,7 +28,6 @@ public class EvaluationService {
   @Autowired
   private QuestionRepository questionRepository;
 
-
   public List<Object> findAll() {
 
     List<UserAnswer> answers = userAnswersRepository.findAll();

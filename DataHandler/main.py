@@ -18,8 +18,5 @@ def run(data, header, download_path):
 
 
 if __name__ == '__main__':
-    download_path_index = sys.argv[sys.argv[1:].index("-downloadpath") + 1]
-    data_path_index = sys.argv[sys.argv[1:].index("-datapath") + 1]
-
     data, header = RebuildJackJson.rebuild_jack_json(CACHE_DIR)
     run(data, header, DOWNLOAD_DIR)

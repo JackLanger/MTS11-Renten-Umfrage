@@ -15,8 +15,8 @@ RUN mkdir /app
 
 ENV PYTHONMEDIA=/bin/venv/media/python
 COPY ./DataHandler/ /bin/venv/
-RUN mkdir -p $PYTHONMEDIA
-RUN mkdir -p $PYTHONMEDIA/cache/
+RUN mkdir -p /bin/venv/media/python
+RUN mkdir -p /bin/venv/media/python/cache/
 
 COPY --from=build "/home/gradle/src/build/libs/MTS-11-Umfrage-*.*.[0-9].jar" "/app/mts11-umfrage.jar"
 # mts11-umfrage.jar
