@@ -7,7 +7,7 @@ VALUES (1, N'Geschlecht', 1),
        (3, N'Anzahl Kinder', 1),
        (4, N'Höchster Abschluss', 1),
        (5, N'Berufsgruppe', 1),
-       (6, N'Bruttoeinkommen', 4),
+       (6, N'Monatliches Bruttoeinkommen', 4),
        (7, N'In welchem Umfeld wurden Sie auf das Thema Rente aufmerksam geworden', 2),
        (8, N'In wieweit hat das Thema Rente Einfluss auf Ihre Familienplanung', 1),
        (9, N'Was glauben Sie wird das Renteneintrittsalter sein wenn Sie in Rente gehen?', 1),
@@ -41,7 +41,6 @@ VALUES (1, N'Geschlecht', 1),
         2),
        (23, N'Wie sicher fühlen Sie sich bezüglich ihrer Vorkehrungen', 1),
        (24, N'Wie viel Geld investieren Sie in etwa monatlich in Ihre private Altersvorsorge?', 1)
-
 
 SET IDENTITY_INSERT dbo.t_question OFF
 
@@ -117,7 +116,7 @@ VALUES (1, N'männlich', 0, 'a'),      -- geschlecht
        (9, N'65', 65, 'span'),
        (9, N'67', 67, 'span'),
        (9, N'69', 69, 'span'),
-       (9, N'61', 71, 'span'),
+       (9, N'71', 71, 'span'),
        (9, N'73', 73, 'span'),
        (9, N'75', 75, 'span'),
        (9, N'77', 77, 'span'),
@@ -128,7 +127,7 @@ VALUES (1, N'männlich', 0, 'a'),      -- geschlecht
        (10, N'65', 65, 'span'),
        (10, N'67', 67, 'span'),
        (10, N'69', 69, 'span'),
-       (10, N'61', 71, 'span'),
+       (10, N'71', 71, 'span'),
        (10, N'73', 73, 'span'),
        (10, N'75', 75, 'span'),
        (10, N'77', 77, 'span'),
@@ -244,3 +243,7 @@ VALUES (1, N'männlich', 0, 'a'),      -- geschlecht
        (24, N'300-499 €', 5, 'span'),
        (24, N'500-999 €', 6, 'span'),
        (24, N'mehr als 1000 €', 7, 'span')
+
+--
+-- INSERT INTO dbo.t_token_authentification (hash, salt)
+-- VALUES ("1017f7a6cf6853db7add138cfd4d3b1e02cd60c3ecb5e3e7aabeb84ce4db780b", "85738f8f9a7f1b04b5329c590ebcb9e425925c6d0984089c43a022de4f19c28")

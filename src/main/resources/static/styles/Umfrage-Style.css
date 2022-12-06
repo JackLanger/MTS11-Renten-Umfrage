@@ -5,11 +5,21 @@
     --oszimt-bg-light: #c3c6cb;
     --white: #fff;
 }
-
+.nbar-container{
+ box-sizing: border-box;
+    padding-left: 0;
+    padding-right: 0;
+    padding-bottom: 3rem;
+}
 .impressum {
     background: white;
 }
 
+.impressum-container{
+    width: 100%;
+    box-sizing: border-box;
+    padding-top: 5rem;
+}
 .full-height-wrapper {
     min-height: 100%;
     height: auto !important;
@@ -36,6 +46,12 @@ body, html {
 
     .impressum {
         background: white;
+    }
+
+    .impressum-container{
+        width: 100%;
+        box-sizing: border-box;
+        padding-top: 5rem;
     }
 }
 

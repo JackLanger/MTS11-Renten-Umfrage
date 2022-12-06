@@ -1,5 +1,9 @@
 package osz.imt.mts.mts11umfrage.utils;
 
+import static osz.imt.mts.mts11umfrage.utils.OsInformation.OS;
+
+import java.nio.file.Paths;
+
 /**
  * .
  *
@@ -8,7 +12,14 @@ package osz.imt.mts.mts11umfrage.utils;
  */
 public final class PathUtils {
 
-  public static final String DOWNLOAD_PATH = "/bin/venv/media.python/";
+  private final static String WINDOWS_DOWNLOAD_PATH_DEVELOPMENT = Paths.get("").toAbsolutePath() +
+      "/src/main/resources/media/python";
+  //    @Value("${python.downloads.path}")
+  private final static String LINUX_DOWNLOAD_PATH_PRODUCTION = "/bin/venv/media/python/";
+
+  public final static String DOWNLOAD_PATH = OS.contains("Windows") ?
+                                             WINDOWS_DOWNLOAD_PATH_DEVELOPMENT :
+                                             LINUX_DOWNLOAD_PATH_PRODUCTION;
 
   private PathUtils() {
     //

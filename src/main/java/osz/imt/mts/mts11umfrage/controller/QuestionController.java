@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -71,7 +72,7 @@ public class QuestionController {
     final Cookie cookie = createCookie("mts11-umfrage-session",
                                        UUID.randomUUID().toString());
 
-    response.addCookie(cookie);
+//    response.addCookie(cookie);
     return showAll();
   }
 
@@ -83,7 +84,8 @@ public class QuestionController {
    */
   @PostMapping("/saveData")
   public ModelAndView saveData(@ModelAttribute final SurveyDto surveyAnswers,
-                               @CookieValue("mts11-umfrage-session") final String sessionId) {
+                               @Nullable @CookieValue("mts11-umfrage-session") String sessionId) {
+    String session = Objects.isNull(sessionId) ? UUID.randomUUID().toString() :sessionId;
 
     final var answerList = surveyAnswers.getAnswers();
 
@@ -94,25 +96,21 @@ public class QuestionController {
         for (final int val : surveyAnswerDto.getMultianswerOptIds()) {
           userAnswerDtos.add(UserAnswerDto.builder()
                                           .answerId(val)
-                                          .userId(sessionId)
+                                          .userId(session)
                                           .build());
         }
         // radio button answer.
       } else if (isNotNull(surveyAnswerDto.getAnswerOptId())) {
         userAnswerDtos.add(UserAnswerDto.builder()
-                                        .userId(sessionId)
+                                        .userId(session)
                                         .answerId(surveyAnswerDto.getAnswerOptId())
                                         .build());
       }
     }
     this.service.saveAllAnswers(userAnswerDtos);
-    return redirect();
-  }
-
-  private ModelAndView redirect() {
-
     return finishedSurvey();
   }
+
 
   @GetMapping("/Finish")
   public ModelAndView finishedSurvey() {

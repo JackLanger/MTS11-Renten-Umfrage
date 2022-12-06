@@ -54,13 +54,11 @@ public class MainController {
   @Autowired
   public MainController(QuestionRepository questionRepository,
                         QuestionAnswerRepository questionAnswerRepository,
-                        UserAnswersRepository userAnswersRepository,
-                        EvaluationService evaluationService) {
+                        UserAnswersRepository userAnswersRepository) {
 
     this.questionRepository = questionRepository;
     this.questionAnswerRepository = questionAnswerRepository;
     this.userAnswersRepository = userAnswersRepository;
-    this.evaluationService = evaluationService;
   }
 
   /**
@@ -89,16 +87,14 @@ public class MainController {
     return mav;
   }
 
-  //An download Endpoint
-  /*@RequestMapping(value="/download", method= RequestMethod.GET)
-  public void downloadFile(HttpServletResponse response) throws IOException {
-    File file = new File("src/main/resources/cookie-disclaimer.txt");
-    InputStream inputStream = new FileInputStream(file);
-    response.setContentType("application/octet-stream");
-    response.setHeader("Content-Disposition", "attachment; filename=" + file.getName());
-    response.setContentLength((int) file.length());
-    FileCopyUtils.copy(inputStream, response.getOutputStream());
-  }*/
+  /**
+   * Endpoint for the impressum.
+   * @return impressum html
+   */
+  @GetMapping("/impressum")
+  public ModelAndView impressum(){
+    return new ModelAndView("impressum");
+  }
 
   /**
    * JSON Endpoint to return all {@link UserAnswer}s as json data.

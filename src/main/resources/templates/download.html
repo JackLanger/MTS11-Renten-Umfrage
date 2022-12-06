@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -9,36 +9,67 @@
 
 </head>
 <style>
-    .bdr {
-        border-radius: 10px;
-        overflow: hidden;
+    .btn {
+        width: 10%;
+        min-width: 8rem;
+
     }
 
 
-
 </style>
-<body style="background-color: #181818">
-    <br>
-    <div style="text-align: center; color: #FFFFFF"><h1>Downloads</h1></div>
+<body class="min-vh-100" style="background-color: #181818; overflow-x: hidden; min-width: 360px">
+<br>
 
-    <table class="table  table-dark bdr border border-danger" style="width:90vw; margin-left: 5vw; margin-right: 5vw; margin-top: 2.5vh ">
-        <tr>
-            <th class="col-5" style="text-align: center">File Format</th>
-            <th class="col-5" style="text-align: center">Link</th>
-        </tr>
-        <tr>
-            <td >.xlsx</td>
-            <td style="text-align: center"><a th:href="@{/download/xlsx}">Download</a></td>
-        </tr>
-        <tr>
-            <td>.json</td>
-            <td style="text-align: center"><a th:href="@{/download/json}">Download</a></td>
-        </tr>
-        <tr>
-            <td>JSON Response</td>
-            <td style="text-align: center"><a th:href="@{/api/data/json}"> APIResponse</a></td>
-        </tr>
-    </table>
+<div class="mt-1" style="text-align: center; color: #FFFFFF">
+    <h1 style="font-size:3.5em">Downloads</h1>
+</div>
+
+<div style="min-height: 55vh;">
+    <div class="d-flex justify-content-center">
+        <div class="card mb-5 py-3 text-center  border-0"
+             style="width: 50vw;background-color: #181818;margin-top:17.5vh">
+            <div class="card-body text-white-50">
+                <h6 class="card-text">There are three options for retrieving Data.<br>
+                    All three methods require a token.<br>
+                    So make sure, you enter the token down below first.<br>
+                    For an api response have a look <a th:href="@{/downloads}">here</a>.<br></h6>
+
+                <div class="d-flex justify-content-center mt-4">
+                    <form class="col-8" id="download_form">
+                        <div class="form-group">
+                            <label for="token" class="form-label"></label>
+                            <input class="form-control" type="text" id="token" name="token"
+                                   placeholder="Enter your token">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    <div class="d-flex flex-xl-row justify-content-xl-around mx-xl-5 my-xl-3 my-auto flex-column ">
+
+        <button type="submit" class="btn btn-danger my-xl-0 my-2 mx-xl-3 mx-2 col-xl-1 col-12 w-auto" form="download_form" th:formaction="@{/download/xlsx}"
+                formmethod="post">
+            Download xlsx
+        </button>
+        <button type="submit" class="btn btn-danger my-xl-0 my-2 col-xl-1 mx-xl-3 mx-2 col-12 w-auto" form="download_form" th:formaction="@{/download/json}"
+                formmethod="post">
+            Download json
+        </button>
+        <button type="submit" class="btn btn-danger my-xl-0 my-2 col-xl-1 col-12 mx-xl-3 mx-2 w-auto" form="download_form" th:formaction="@{/json}" formmethod="get">
+            API Response
+        </button>
+    </div>
+</div>
+
+<div class="container"></div>
+<footer class="pt-3 mt-4 fixed-bottom" style="background-color: #333333;height: 60px">
+    <p class="text-center text-muted">&copy; 2022 OSZIMT</p>
+</footer>
+<div style="height: 60px;"></div>
 
 </body>
 

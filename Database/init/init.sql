@@ -29,7 +29,12 @@ CREATE TABLE t_user_answer
 	CONSTRAINT pk_t_user_answer PRIMARY KEY (id)
 )
 GO
-
+Create TABLE t_token_authentification
+(
+    hash varchar(64) primary key NOT NULL,
+    salt varchar(64) NOT NULL,
+)
+GO
 
 ALTER TABLE t_question_answer
 	ADD CONSTRAINT FK_QUESTIONANSWER_ON_QUESTION_P_QUESTION FOREIGN KEY (question_p_question_id) REFERENCES t_question (id)

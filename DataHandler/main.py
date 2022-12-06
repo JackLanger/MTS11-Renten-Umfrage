@@ -33,7 +33,7 @@ def replace_session_id(data):
 
 
 def main(filepath,file_name="Data"):
-    #sql_query_handler = SQLQueryHandler(SERVER, USER, PASSWORD, DATABASE)
+    sql_query_handler = SQLQueryHandler(SERVER, USER, PASSWORD, DATABASE)
     xlsx_path = path.join(filepath, f"{file_name}.xlsx")
     excel_writer = ExcelWriter(xlsx_path)
     data_handler = DataHandler(sql_query_handler)
@@ -58,10 +58,8 @@ def main(filepath,file_name="Data"):
 
 
 if __name__ == '__main__':
-
     PATH = None
     PATH = sys.argv[1] if len(sys.argv)>1 else path.dirname(path.abspath(__file__))
     filename = sys.argv[2] if len(sys.argv) > 2 else "Data"
-
-
+    print(PATH,filename)
     main(PATH, filename)
