@@ -64,7 +64,6 @@ public class DownloadController {
 
         if (authService.verifyToken(token)) {
 
-            PythonHandler pythonHandler = new PythonHandler();
             pythonHandler.runScript();
             File file = new File(DOWNLOAD_PATH + "\\" + FILENAME + ".xlsx");
             InputStream inputStream = new FileInputStream(file);
@@ -92,8 +91,6 @@ public class DownloadController {
             throws IOException, NoSuchAlgorithmException {
 
         if (authService.verifyToken(token)) {
-
-            PythonHandler pythonHandler = new PythonHandler();
             pythonHandler.runScript();
             File file = new File(DOWNLOAD_PATH + "\\" + FILENAME + ".json");
             InputStream inputStream = new FileInputStream(file);
