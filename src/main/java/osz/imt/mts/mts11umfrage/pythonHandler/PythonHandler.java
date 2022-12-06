@@ -1,12 +1,14 @@
 package osz.imt.mts.mts11umfrage.pythonHandler;
 
 
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import osz.imt.mts.mts11umfrage.dto.EvaluationDto;
 import osz.imt.mts.mts11umfrage.dto.UserAnswerDto;
 import osz.imt.mts.mts11umfrage.models.UserAnswer;
 import osz.imt.mts.mts11umfrage.repository.UserAnswersRepository;
+import osz.imt.mts.mts11umfrage.service.EvaluationService;
 import osz.imt.mts.mts11umfrage.utils.JsonResponse;
 import osz.imt.mts.mts11umfrage.utils.PathUtils;
 
@@ -25,10 +27,14 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-
+@Service
 public class PythonHandler{
+  @Autowired
+  private EvaluationService evaluationService;
+
 
   public static void create_file(String content, String path) throws IOException {
+
     Files.writeString(
             Paths.get(path).toAbsolutePath(),
             content);
@@ -39,9 +45,11 @@ public class PythonHandler{
 
   public void runScript() {
     //TODO: Hier muss dto übergeben werden
+    Gson gson = new Gson();
 
+    String json = gson.toJson(evaluationService.findAll());
     try{
-      create_file(,DATA_JSON_PATH_CACHE);
+      create_file(json,DATA_JSON_PATH_CACHE);
     }
     catch (IOException e) {
       e.printStackTrace();

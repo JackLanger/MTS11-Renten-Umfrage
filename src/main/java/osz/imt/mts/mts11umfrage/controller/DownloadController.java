@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.security.NoSuchAlgorithmException;
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -34,10 +35,18 @@ public class DownloadController {
   //TODO(Moritz): refactor methods should not return void but a ResponseEntity<Resource>
   // otherwise you need to set the response code.
   private static final String JSON = "application/json";
-  @Autowired
-  private AuthService authService;
 
-  HttpHeaders getHeaders(String filename) {
+  private final AuthService authService;
+  private final PythonHandler pythonHandler;
+
+  @Autowired
+    public DownloadController(AuthService authService, PythonHandler pythonHandler) {
+        this.authService = authService;
+        this.pythonHandler = pythonHandler;
+    }
+
+
+    HttpHeaders getHeaders(String filename) {
 
     HttpHeaders headers = new HttpHeaders();
     headers.add("Cache-Control", "no-cache, no-store, must-revalidate");

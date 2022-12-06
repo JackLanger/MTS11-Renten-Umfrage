@@ -18,6 +18,7 @@ import osz.imt.mts.mts11umfrage.models.UserAnswer;
 import osz.imt.mts.mts11umfrage.repository.QuestionAnswerRepository;
 import osz.imt.mts.mts11umfrage.repository.QuestionRepository;
 import osz.imt.mts.mts11umfrage.repository.UserAnswersRepository;
+import osz.imt.mts.mts11umfrage.service.EvaluationService;
 import osz.imt.mts.mts11umfrage.utils.JsonResponse;
 
 
@@ -44,7 +45,7 @@ public class MainController {
    * Repository for userAnswers.
    */
   final UserAnswersRepository userAnswersRepository;
-  private final  EvaluationService evaluationService;
+  private final EvaluationService evaluationService;
 
   /**
    * Initializes the respective repositories used for fetching data.
