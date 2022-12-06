@@ -5,7 +5,12 @@
     --oszimt-bg-light: #c3c6cb;
     --white: #fff;
 }
-
+.nbar-container{
+ box-sizing: border-box;
+    padding-left: 0;
+    padding-right: 0;
+    padding-bottom: 3rem;
+}
 .impressum {
     background: white;
 }
