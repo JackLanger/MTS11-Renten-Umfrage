@@ -114,10 +114,10 @@ public class MainController {
     return evaluationService.findAll();
   }
 
-  @GetMapping("/agreement")
+  @GetMapping("/impressum")
   public String agreement() {
 
-    return "agreement";
+    return "impressum";
   }
 
 
