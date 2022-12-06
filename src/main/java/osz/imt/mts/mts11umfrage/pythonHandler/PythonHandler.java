@@ -2,6 +2,7 @@ package osz.imt.mts.mts11umfrage.pythonHandler;
 
 
 import com.google.gson.Gson;
+import java.nio.file.Path;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import osz.imt.mts.mts11umfrage.service.EvaluationService;
@@ -22,14 +23,14 @@ public class PythonHandler{
   private EvaluationService evaluationService;
 
 
+
   public static void create_file(String content, String path) throws IOException {
+
     Files.writeString(
-            Paths.get(path).toAbsolutePath(),
+            file.toAbsolutePath(),
             content);
   }
 
-  public PythonHandler() {
-  }
 
   public void runScript() {
     //TODO: Hier muss dto übergeben werden
@@ -37,7 +38,7 @@ public class PythonHandler{
 
     String json = gson.toJson(evaluationService.findAll());
     try{
-      create_file(json,DATA_JSON_PATH_CACHE);
+      createFile(json, DATA_JSON_PATH_CACHE);
     }
     catch (IOException e) {
       e.printStackTrace();
@@ -45,7 +46,6 @@ public class PythonHandler{
 
 
     Process process = null;
-
 
     // Python script file path
     String python_file_path = OS.contains("Windows") ? Paths.get("").toAbsolutePath() + MAIN_PY: MAIN_PY;
