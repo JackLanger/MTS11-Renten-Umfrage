@@ -24,7 +24,7 @@ VALUES
         2),
        (16, N'Wie ausschlaggebend war die betriebliche Rente oder Möglichkeiten zu vermögenswirksamen Leistungen o.Ä. für die Wahl Ihres Arbeitgebers?', 1),
        (17,
-        N'Für wie wahrscheinlich halten Sie es, dass Sie in Ihrem aktuellem Beruf bis zur Rente arbeiten werden?',
+        N'Für wie wahrscheinlich halten Sie es, dass Sie in Ihrem aktuellem Beruf bis zum regulären Renteneintrittsalter arbeiten werden?',
         1),
        (18, N'In welchem Alter haben Sie angefangen Regelmäßig in die Gesetzliche Rentenversicherung einzuzahlen?',
         4),
@@ -258,6 +258,7 @@ VALUES
        (25, N'300-499 €', 5, 'span'),
        (25, N'500-999 €', 6, 'span'),
        (25, N'mehr als 1000 €', 7, 'span'),
+       --26
     (26, N'Ja €', 0, 'span'),
     (26, N'Ich bin mir nicht sicher', 1, 'span'),
     (26, N'Nein', 2, 'span'),
