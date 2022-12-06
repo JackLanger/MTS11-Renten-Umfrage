@@ -9,6 +9,10 @@
           crossorigin="anonymous">
 </head>
 <body>
+<div th:replace="fragments/footer::footnote">
+    <a th:href="@{/impressum}">impressum</a>
+    <a th:href="@{/index}">home</a>
+</div>
 <div class="container-md">
     <form id="surveyForm"
           class="p-md-5 align-content-center centered col-md-8"
@@ -104,6 +108,7 @@
                    value="absenden"
                    type="submit">
         </div>
+
     </form>
 </div>
 <div th:replace="fragments/bootstrap :: bootstrapjs">

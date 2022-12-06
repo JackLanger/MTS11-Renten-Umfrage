@@ -1,19 +1,25 @@
 # MTS11-Renten-Umfrage
+
 Umfrageplattform zum Thema Rente in Deutschland.
 
 ![Develop](https://github.com/jaceklangertuda/MTS11-renten-umfrage/actions/workflows/docker-image.yml/badge.svg)
+[![Version](https://img.shields.io/badge/powered%20by-Nyx-blue)](https://github.com/mooltiverse/nyx)
 
-Eine Plattform um Umfragen durhzuführen und die ergebnisse mittels eines REST-Endpoints auslesen zu können. 
-Es handelt sich dabei um ein [Springboot](https://spring.io/) Projekt das [Gradle](https://gradle.org/) als build tool verwendet. 
-Die [Datenbank](https://github.com/JacekLangerTUDA/MTS-Umfrage-database) kommt in form eines [Docker](https://docker.com)-Containers
-und basiert auf dem [MS-SQL-Server-Container](https://hub.docker.com/_/microsoft-mssql-server). 
+Eine Plattform um Umfragen durhzuführen und die ergebnisse mittels eines REST-Endpoints auslesen zu
+können.
+Es handelt sich dabei um ein [Springboot](https://spring.io/) Projekt
+das [Gradle](https://gradle.org/) als build tool verwendet.
+Die [Datenbank](https://github.com/JacekLangerTUDA/MTS-Umfrage-database) kommt in form
+eines [Docker](https://docker.com)-Containers
+und basiert auf dem [MS-SQL-Server-Container](https://hub.docker.com/_/microsoft-mssql-server).
 Ein dynamisches HTML design wird durch [Thymeleaf](https://www.thymeleaf.org/) ermöglicht.
 
 ## Für Contributor:
 
 ### Codestyle
 
-Aktuell wird noch kein Codestyle forciert. Es ist empfehlenswert sich and die [Google-Style-Guide](https://google.github.io/styleguide/javaguide.html) zu halten. 
+Aktuell wird noch kein Codestyle forciert. Es ist empfehlenswert sich and
+die [Google-Style-Guide](https://google.github.io/styleguide/javaguide.html) zu halten.
 Werden vermehrt grobe verstöße gegen diese Guidlines festgestellt können diese Durchgesetzt werden.
 
 ## Technologie stack:

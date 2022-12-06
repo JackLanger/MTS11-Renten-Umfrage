@@ -13,6 +13,9 @@ public class Endpoints {
    * Index endpoint.
    */
   public static final String HOME_ENDPOINT = "/";
+  public static final String DOWNLOAD_ENDPOINT = "/download";
+  public static final String DOWNLOAD_ENDPOINT_JSON = "/downloads/json";
+  public static final String ENDPOINT_JSON = "/json";
 
 
 }

@@ -4,6 +4,10 @@ plugins {
     id 'java'
     id 'checkstyle'
     id 'pmd'
+
+    // https://mooltiverse.github.io/nyx/guide/user/
+    // https://github.com/mooltiverse/nyx
+    id "com.mooltiverse.oss.nyx" version "1.2.2"
 }
 
 def checkstyleVersion = '10.3.4'
@@ -21,9 +25,7 @@ configurations {
 
 jar {
     manifest {
-        attributes(
-                'Main-Class': 'osz.imt.mts.mts11umfrage.Mts11UmfrageApplication'
-        )
+        attributes('Main-Class': 'osz.imt.mts.mts11umfrage.Mts11UmfrageApplication')
     }
 }
 
@@ -37,6 +39,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'com.google.code.gson:gson:2.10'
 //    implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.session:spring-session-data-redis:2.7.0'
 //    implementation 'org.springframework.session:spring-session-jdbc:2.7.0'
@@ -56,8 +59,7 @@ dependencies {
     implementation 'org.thymeleaf:thymeleaf-spring5:3.0.15.RELEASE'
     // https://mvnrepository.com/artifact/org.webjars/bootstrap
     implementation 'org.webjars:bootstrap:5.2.2'
-
-
+    implementation 'org.json:json:20220924'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     // https://mvnrepository.com/artifact/org.testcontainers/testcontainers
     testImplementation 'org.testcontainers:testcontainers:1.17.5'
@@ -93,3 +95,115 @@ pmd {
 //    sourceSets = [sourceSets.main]
     ignoreFailures = true // TODO:Nach der Umstrukturierung
 }
+
+
+nyx {
+    // todo(Stefan/Jack): decide on strategy.
+
+    changelog {
+        path = 'CHANGELOG.md'
+        sections = [
+                'Added': '^feat$',
+                'Fixed': '^fix$',
+        ]
+        substitutions = [
+                '(?m)#([0-9]+)(?s)': '[#%s](https://github.com/JacekLangerTUDA/MTS11-Renten-Umfrage/issues)'
+        ]
+    }
+
+    releaseTypes {
+        publicationServices = ['github']
+        enabled = ['mainline', 'internal']
+        items {
+            mainline {
+                description = '{{#file.content}}CHANGELOG.md{{/file.content}}'
+                collapseVersions = false
+                filterTags = '^()?([0-9]\\d*)\\.([0-9]\\d*)\\.([0-9]\\d*)$'
+                gitCommit = 'true'
+                gitCommitMessage = 'Release version '
+                gitPush = 'true'
+                gitTag = 'true'
+                gitTagMessage = 'Tag release '
+                matchBranches = '^(develop)$'
+                matchEnvironmentVariables {
+                    CI = '^true$'
+                }
+                matchWorkspaceStatus = 'CLEAN'
+                publish = 'true'
+                versionRangeFromBranchName = false
+            }
+            internal {
+                collapseVersions = false
+                collapsedVersionQualifier = 'internal'
+                description = 'Internal release '
+                filterTags = '^()?([0-9]\\d*)\\.([0-9]\\d*)\\.([0-9]\\d*)$'
+                gitCommit = 'false'
+                gitPush = 'false'
+                gitTag = 'false'
+                identifiers {
+                    '0' {
+                        position = 'BUILD'
+                        qualifier = 'branch'
+                        value = ''
+                    }
+                    '1' {
+                        position = 'BUILD'
+                        qualifier = 'commit'
+                        value = ''
+                    }
+                    '2' {
+                        position = 'BUILD'
+                        qualifier = 'timestamp'
+                        value = ''
+                    }
+                    '3' {
+                        position = 'BUILD'
+                        qualifier = 'user'
+                        value = ''
+                    }
+                }
+                publish = 'false'
+                versionRangeFromBranchName = false
+            }
+        }
+
+    }
+    services {
+        github {
+            type = 'GITHUB'
+            options {
+                AUTHENTICATION_TOKEN = '{{#environment.variable}}REGISTRY_TOKEN{{/environment.variable}}'
+                REPOSITORY_NAME = 'MTS11-Renten-Umfrage'
+                REPOSITORY_OWNER = 'JacekLangerTUDA'
+            }
+        }
+    }
+
+    commitMessageConventions {
+        enabled = ['conventionalCommits']
+        items {
+            conventionalCommits {
+
+                expression = '(?m)^(?<type>[a-zA-Z0-9_]+)(!)?(\\\\((?<scope>[a-z ]+)\\\\))?:( (?<title>.+))$(?s).*'
+                bumpExpressions {
+                    major = '(?s)(?m)^[a-zA-Z0-9_]+(!|.*^(BREAKING( |-)CHANGE: )).*'
+                    minor = '(?s)(?m)^feat(?!!|.*^(BREAKING( |-)CHANGE: )).*'
+                    patch = '(?s)(?m)^fix(?!!|.*^(BREAKING( |-)CHANGE: )).*'
+                }
+            }
+        }
+    }
+    dryRun = false
+    initialVersion = rootProject.file('version').text.trim()
+    verbosity = "INFO"
+    scheme = 'SEMVER'
+}
+
+task updateVersion {
+    dependsOn nyxInfer
+    doLast {
+        rootProject.file('version').write(version)
+    }
+}
+
+tasks.updateVersion.onlyIf { rootProject.nyxState.newRelease }
