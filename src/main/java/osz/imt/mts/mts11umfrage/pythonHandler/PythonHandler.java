@@ -1,56 +1,78 @@
 package osz.imt.mts.mts11umfrage.pythonHandler;
 
+
+import com.google.gson.Gson;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import osz.imt.mts.mts11umfrage.dto.EvaluationDto;
+import osz.imt.mts.mts11umfrage.dto.UserAnswerDto;
+import osz.imt.mts.mts11umfrage.models.UserAnswer;
+import osz.imt.mts.mts11umfrage.repository.UserAnswersRepository;
+import osz.imt.mts.mts11umfrage.service.EvaluationService;
+import osz.imt.mts.mts11umfrage.utils.JsonResponse;
+import osz.imt.mts.mts11umfrage.utils.PathUtils;
+
 import static osz.imt.mts.mts11umfrage.utils.OsInformation.OS;
-import static osz.imt.mts.mts11umfrage.utils.PathUtils.DOWNLOAD_PATH;
+import static osz.imt.mts.mts11umfrage.utils.PathUtils.*;
+import static osz.imt.mts.mts11umfrage.utils.PathUtils.DATA_JSON_PATH_CACHE;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
+@Service
+public class PythonHandler{
+  @Autowired
+  private EvaluationService evaluationService;
 
 
-public class PythonHandler {
+  public static void create_file(String content, String path) throws IOException {
 
-  private final static String MAIN_PY_WINDOWS = "/DataHandler/main.py";
-  private final static String MAIN_PY_LINUX = "/bin/venv/main.py";
-
-  private final static String SCRIPTS_WINDOWS = "/DataHandler/venv/bin";
-  //TODO: To be set
-  private final static String SCRIPTS_LINUX = "/bin/venv/";
-
-  private final static String MAIN_PY = OS.contains("Windows") ? MAIN_PY_WINDOWS : MAIN_PY_LINUX;
-  private final static String SCRIPTS = OS.contains("Windows") ? SCRIPTS_WINDOWS : SCRIPTS_LINUX;
+    Files.writeString(
+            Paths.get(path).toAbsolutePath(),
+            content);
+  }
 
   public PythonHandler() {
-
   }
 
   public void runScript() {
+    //TODO: Hier muss dto übergeben werden
+    Gson gson = new Gson();
+
+    String json = gson.toJson(evaluationService.findAll());
+    try{
+      create_file(json,DATA_JSON_PATH_CACHE);
+    }
+    catch (IOException e) {
+      e.printStackTrace();
+    }
+
 
     Process process = null;
 
 
     // Python script file path
-    String python_file_path = OS.contains("Windows") ? Paths.get("").toAbsolutePath() + MAIN_PY :
-                              MAIN_PY;
+    String python_file_path = OS.contains("Windows") ? Paths.get("").toAbsolutePath() + MAIN_PY: MAIN_PY;
 
 
-    String python_venv_path = OS.contains("Windows") ? Paths.get("").toAbsolutePath() + SCRIPTS :
-                              SCRIPTS;
+    String python_venv_path = OS.contains("Windows") ? Paths.get("").toAbsolutePath() + SCRIPTS: SCRIPTS;
 
-    /*System.out.println("Python file path: " + python_file_path);
-    System.out.println("Python venv path: " + python_venv_path);
-    System.out.println("Output Directory: " + DOWNLOAD_PATH);*/
-/*
+
     if (OS.contains("Windows")) {
-      python_venv_path += "/activate";
-      python_venv_path = "" + python_venv_path;
-
+      python_venv_path += "/activate.bat";
     } else {
       python_venv_path += "/activate";
       python_venv_path = ". " + python_venv_path;
     }
-*/
+
     //check if os is windows or linux
     String command = "";
 
@@ -63,23 +85,24 @@ public class PythonHandler {
     try {
       ProcessBuilder builder = new ProcessBuilder();
       if (OS.contains("Windows")) {
-        builder.command("cmd.exe", "/c", /*python_venv_path
-            +
-            " && "
-            +*/
-                        command
-                            +
-                            " "
-                            +
-                            DOWNLOAD_PATH);
+        builder.command("cmd.exe", "/c", python_venv_path
+                                        +
+                                        " && "
+                                        +
+                                        command
+                                        +
+                                        " "
+                                        +
+                                        DOWNLOAD_PATH);
 
       } else {
         builder.command("bash", "-c",
-                        command
-                            +
-                            " "
-                            +
-                            DOWNLOAD_PATH);
+                                        command
+                                        +
+                                        " "
+                                        +"-downloadpath " +
+                                        DOWNLOAD_PATH+"//"+FILENAME+".xlsx"
+                                        +" -datapath " + DATA_JSON_PATH_CACHE);
 
       }
 

@@ -5,6 +5,7 @@ import static osz.imt.mts.mts11umfrage.controller.utils.Endpoints.ENDPOINT_JSON;
 import static osz.imt.mts.mts11umfrage.controller.utils.Endpoints.HOME_ENDPOINT;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,11 +13,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import osz.imt.mts.mts11umfrage.dto.EvaluationDto;
 import osz.imt.mts.mts11umfrage.models.UserAnswer;
 import osz.imt.mts.mts11umfrage.repository.QuestionAnswerRepository;
 import osz.imt.mts.mts11umfrage.repository.QuestionRepository;
 import osz.imt.mts.mts11umfrage.repository.UserAnswersRepository;
 import osz.imt.mts.mts11umfrage.service.EvaluationService;
+import osz.imt.mts.mts11umfrage.utils.JsonResponse;
 
 
 /**
@@ -42,7 +45,7 @@ public class MainController {
    * Repository for userAnswers.
    */
   final UserAnswersRepository userAnswersRepository;
-  private final  EvaluationService evaluationService;
+  private final EvaluationService evaluationService;
 
   /**
    * Initializes the respective repositories used for fetching data.
@@ -90,14 +93,16 @@ public class MainController {
     return mav;
   }
 
-  /**
-   * Endpoint for the impressum.
-   * @return impressum html
-   */
-  @GetMapping("/impressum")
-  public ModelAndView impressum(){
-    return new ModelAndView("impressum");
-  }
+  //An download Endpoint
+  /*@RequestMapping(value="/download", method= RequestMethod.GET)
+  public void downloadFile(HttpServletResponse response) throws IOException {
+    File file = new File("src/main/resources/cookie-disclaimer.txt");
+    InputStream inputStream = new FileInputStream(file);
+    response.setContentType("application/octet-stream");
+    response.setHeader("Content-Disposition", "attachment; filename=" + file.getName());
+    response.setContentLength((int) file.length());
+    FileCopyUtils.copy(inputStream, response.getOutputStream());
+  }*/
 
   /**
    * JSON Endpoint to return all {@link UserAnswer}s as json data.
