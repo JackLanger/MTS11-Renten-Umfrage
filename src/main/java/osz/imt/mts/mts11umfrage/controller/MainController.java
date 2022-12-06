@@ -4,10 +4,7 @@ import static osz.imt.mts.mts11umfrage.controller.utils.Endpoints.DOWNLOAD_ENDPO
 import static osz.imt.mts.mts11umfrage.controller.utils.Endpoints.ENDPOINT_JSON;
 import static osz.imt.mts.mts11umfrage.controller.utils.Endpoints.HOME_ENDPOINT;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,12 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import osz.imt.mts.mts11umfrage.dto.EvaluationDto;
-import osz.imt.mts.mts11umfrage.dto.UserAnswerDto;
 import osz.imt.mts.mts11umfrage.models.UserAnswer;
 import osz.imt.mts.mts11umfrage.repository.QuestionAnswerRepository;
 import osz.imt.mts.mts11umfrage.repository.QuestionRepository;
 import osz.imt.mts.mts11umfrage.repository.UserAnswersRepository;
+import osz.imt.mts.mts11umfrage.service.EvaluationService;
 
 
 /**
@@ -46,6 +42,7 @@ public class MainController {
    * Repository for userAnswers.
    */
   final UserAnswersRepository userAnswersRepository;
+  private final  EvaluationService evaluationService;
 
   /**
    * Initializes the respective repositories used for fetching data.
@@ -53,15 +50,18 @@ public class MainController {
    * @param questionRepository       the {@link QuestionRepository}
    * @param questionAnswerRepository the {@link QuestionAnswerRepository}
    * @param userAnswersRepository    the {@link UserAnswersRepository}
+   * @param evaluationService         the {@link EvaluationService}
    */
   @Autowired
   public MainController(QuestionRepository questionRepository,
                         QuestionAnswerRepository questionAnswerRepository,
-                        UserAnswersRepository userAnswersRepository) {
+                        UserAnswersRepository userAnswersRepository,
+                        EvaluationService evaluationService) {
 
     this.questionRepository = questionRepository;
     this.questionAnswerRepository = questionAnswerRepository;
     this.userAnswersRepository = userAnswersRepository;
+    this.evaluationService = evaluationService;
   }
 
   /**
@@ -106,29 +106,9 @@ public class MainController {
    */
   @RequestMapping(value = ENDPOINT_JSON, method = RequestMethod.GET, produces = JSON)
   @ResponseBody
-  public List<EvaluationDto> json() {
+  public List<Object> json() {
 
-    List<UserAnswer> answers = userAnswersRepository.findAll();
-    List<EvaluationDto> dtos = new ArrayList<>();
-    Map<Integer, List<UserAnswerDto>> questions = new ConcurrentHashMap<>();
-
-    for (UserAnswer answer : answers) {
-      int questionId = answer.getQuestionAnswer().getQuestion().getId();
-      var dto = answer.toDto();
-      if (questions.containsKey(questionId)) {
-        questions.get(questionId).add(dto);
-      } else {
-        List<UserAnswerDto> list = new ArrayList<>();
-        list.add(dto);
-        questions.put(questionId, list);
-      }
-    }
-
-    for (Map.Entry<Integer, List<UserAnswerDto>> entry : questions.entrySet()) {
-      dtos.add(new EvaluationDto(entry.getKey(), entry.getValue()));
-    }
-
-    return dtos;
+    return evaluationService.findAll();
   }
 
   @GetMapping("/agreement")

@@ -1,5 +1,6 @@
 package osz.imt.mts.mts11umfrage.models;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -18,6 +19,7 @@ import lombok.Setter;
 import osz.imt.mts.mts11umfrage.data.QuestionTypes;
 import osz.imt.mts.mts11umfrage.dto.QuestionAnswerDto;
 import osz.imt.mts.mts11umfrage.dto.QuestionDto;
+import osz.imt.mts.mts11umfrage.dto.QuestionInfoDto;
 
 /**
  * Data model of a Question used in the survey.
@@ -73,6 +75,15 @@ public class Question implements DtoTransorm<QuestionDto> {
       dto.addQuestionAnswer(questionAnswer.toDto());
     }
     return dto;
+  }
+
+  public QuestionInfoDto toInfoDto() {
+
+    List<String> answers = new ArrayList<>();
+    for (QuestionAnswer questionAnswer : this.questionAnswers) {
+      answers.add(questionAnswer.getAnswerOption());
+    }
+    return new QuestionInfoDto(this.id, this.questionText, this.questionType, answers);
   }
 
 }
