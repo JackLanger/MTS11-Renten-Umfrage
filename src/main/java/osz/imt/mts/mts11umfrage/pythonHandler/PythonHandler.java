@@ -23,10 +23,8 @@ public class PythonHandler{
   private EvaluationService evaluationService;
 
 
-  public static void createFile(String content, String path) throws IOException {
 
-
-    Path file = Files.createFile(Path.of(path));
+  public static void create_file(String content, String path) throws IOException {
 
     Files.writeString(
             file.toAbsolutePath(),
@@ -88,11 +86,11 @@ public class PythonHandler{
       } else {
         builder.command("bash", "-c",
                                         command
-                                        +
+                                        /*+
                                         " "
                                         +"-downloadpath " +
                                         "/bin/venv/media/python/"+FILENAME+".xlsx"
-                                        +" -datapath " + "/bin/venv/media/python/cache/data.json");
+                                        +" -datapath " + "/bin/venv/media/python/cache/data.json"*/);
 
       }
 
