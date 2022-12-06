@@ -42,7 +42,7 @@ public class MainController {
    * Repository for userAnswers.
    */
   final UserAnswersRepository userAnswersRepository;
-  private EvaluationService evaluationService;
+  private final  EvaluationService evaluationService;
 
   /**
    * Initializes the respective repositories used for fetching data.
@@ -50,15 +50,18 @@ public class MainController {
    * @param questionRepository       the {@link QuestionRepository}
    * @param questionAnswerRepository the {@link QuestionAnswerRepository}
    * @param userAnswersRepository    the {@link UserAnswersRepository}
+   * @param evaluationService         the {@link EvaluationService}
    */
   @Autowired
   public MainController(QuestionRepository questionRepository,
                         QuestionAnswerRepository questionAnswerRepository,
-                        UserAnswersRepository userAnswersRepository) {
+                        UserAnswersRepository userAnswersRepository,
+                        EvaluationService evaluationService) {
 
     this.questionRepository = questionRepository;
     this.questionAnswerRepository = questionAnswerRepository;
     this.userAnswersRepository = userAnswersRepository;
+    this.evaluationService = evaluationService;
   }
 
   /**
