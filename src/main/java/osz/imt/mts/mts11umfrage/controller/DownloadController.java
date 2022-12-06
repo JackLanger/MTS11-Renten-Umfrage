@@ -1,6 +1,7 @@
 package osz.imt.mts.mts11umfrage.controller;
 
 import static osz.imt.mts.mts11umfrage.utils.PathUtils.DOWNLOAD_PATH;
+import static osz.imt.mts.mts11umfrage.utils.PathUtils.FILENAME;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -58,10 +59,10 @@ public class DownloadController {
             throws IOException, NoSuchAlgorithmException {
 
         if (authService.verifyToken(token)) {
-            String filename = "Data";
+
             PythonHandler pythonHandler = new PythonHandler();
             pythonHandler.runScript();
-            File file = new File(DOWNLOAD_PATH + "\\" + filename + ".xlsx");
+            File file = new File(DOWNLOAD_PATH + "\\" + FILENAME + ".xlsx");
             InputStream inputStream = new FileInputStream(file);
             InputStreamResource resource = new InputStreamResource(inputStream);
 
@@ -87,10 +88,10 @@ public class DownloadController {
             throws IOException, NoSuchAlgorithmException {
 
         if (authService.verifyToken(token)) {
-            String filename = "Data";
+
             PythonHandler pythonHandler = new PythonHandler();
             pythonHandler.runScript();
-            File file = new File(DOWNLOAD_PATH + "\\" + filename + ".json");
+            File file = new File(DOWNLOAD_PATH + "\\" + FILENAME + ".json");
             InputStream inputStream = new FileInputStream(file);
 
             InputStreamResource resource = new InputStreamResource(inputStream);
