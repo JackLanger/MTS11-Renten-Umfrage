@@ -42,7 +42,6 @@ VALUES (1, N'Geschlecht', 1),
        (23, N'Wie sicher fühlen Sie sich bezüglich ihrer Vorkehrungen', 1),
        (24, N'Wie viel Geld investieren Sie in etwa monatlich in Ihre private Altersvorsorge?', 1)
 
-
 SET IDENTITY_INSERT dbo.t_question OFF
 
 -- questions
@@ -244,3 +243,7 @@ VALUES (1, N'männlich', 0, 'a'),      -- geschlecht
        (24, N'300-499 €', 5, 'span'),
        (24, N'500-999 €', 6, 'span'),
        (24, N'mehr als 1000 €', 7, 'span')
+
+--
+-- INSERT INTO dbo.t_token_authentification (hash, salt)
+-- VALUES ("1017f7a6cf6853db7add138cfd4d3b1e02cd60c3ecb5e3e7aabeb84ce4db780b", "85738f8f9a7f1b04b5329c590ebcb9e425925c6d0984089c43a022de4f19c28")

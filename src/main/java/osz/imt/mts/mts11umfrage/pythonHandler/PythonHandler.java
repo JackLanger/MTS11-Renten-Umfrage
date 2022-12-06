@@ -1,7 +1,7 @@
 package osz.imt.mts.mts11umfrage.pythonHandler;
 
-import static osz.imt.mts.mts11umfrage.utils.PathUtils.DOWNLOAD_PATH;
 import static osz.imt.mts.mts11umfrage.utils.OsInformation.OS;
+import static osz.imt.mts.mts11umfrage.utils.PathUtils.DOWNLOAD_PATH;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,10 +10,11 @@ import java.nio.file.Paths;
 
 
 public class PythonHandler {
+
   private final static String MAIN_PY_WINDOWS = "/DataHandler/main.py";
   private final static String MAIN_PY_LINUX = "/bin/venv/main.py";
 
-  private final static String SCRIPTS_WINDOWS = "/DataHandler/venv/Scripts";
+  private final static String SCRIPTS_WINDOWS = "/DataHandler/venv/bin";
   //TODO: To be set
   private final static String SCRIPTS_LINUX = "/bin/venv/";
 
@@ -21,29 +22,35 @@ public class PythonHandler {
   private final static String SCRIPTS = OS.contains("Windows") ? SCRIPTS_WINDOWS : SCRIPTS_LINUX;
 
   public PythonHandler() {
+
   }
 
   public void runScript() {
+
     Process process = null;
 
 
     // Python script file path
-    String python_file_path = OS.contains("Windows") ? Paths.get("").toAbsolutePath() + MAIN_PY: MAIN_PY;
+    String python_file_path = OS.contains("Windows") ? Paths.get("").toAbsolutePath() + MAIN_PY :
+                              MAIN_PY;
 
 
-    String python_venv_path = OS.contains("Windows") ? Paths.get("").toAbsolutePath() + SCRIPTS: SCRIPTS;
+    String python_venv_path = OS.contains("Windows") ? Paths.get("").toAbsolutePath() + SCRIPTS :
+                              SCRIPTS;
 
     /*System.out.println("Python file path: " + python_file_path);
     System.out.println("Python venv path: " + python_venv_path);
     System.out.println("Output Directory: " + DOWNLOAD_PATH);*/
-
+/*
     if (OS.contains("Windows")) {
-      python_venv_path += "/activate.bat";
+      python_venv_path += "/activate";
+      python_venv_path = "" + python_venv_path;
+
     } else {
       python_venv_path += "/activate";
       python_venv_path = ". " + python_venv_path;
     }
-
+*/
     //check if os is windows or linux
     String command = "";
 
@@ -56,23 +63,23 @@ public class PythonHandler {
     try {
       ProcessBuilder builder = new ProcessBuilder();
       if (OS.contains("Windows")) {
-        builder.command("cmd.exe", "/c", python_venv_path
-                                        +
-                                        " && "
-                                        +
-                                        command
-                                        +
-                                        " "
-                                        +
-                                        DOWNLOAD_PATH);
+        builder.command("cmd.exe", "/c", /*python_venv_path
+            +
+            " && "
+            +*/
+                        command
+                            +
+                            " "
+                            +
+                            DOWNLOAD_PATH);
 
       } else {
         builder.command("bash", "-c",
-                                        command
-                                        +
-                                        " "
-                                        +
-                                        DOWNLOAD_PATH);
+                        command
+                            +
+                            " "
+                            +
+                            DOWNLOAD_PATH);
 
       }
 

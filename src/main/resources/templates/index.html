@@ -81,7 +81,10 @@
             </div>
         </div>
     </form>
-    <div th:replace="fragments/impressum:: impressum"></div>
+    <div class="p-2 p-md-3 p-lg-5 impressum-container">
+
+        <div th:replace="fragments/impressum:: impressum"></div>
+    </div>
 </div>
 <div th:replace="fragments/bootstrap :: bootstrapjs">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
