@@ -16,8 +16,8 @@ public final class PathUtils {
     // General-------------------
     public static final String FILENAME = "Data";
     // Linux---------------------
-    @Value("${python.downloads.path}")
-    private final static String LINUX_DOWNLOAD_PATH_PRODUCTION =""; //"/bin/venv/media/python/";
+    //@Value("${python.downloads.path}")
+    private final static String LINUX_DOWNLOAD_PATH_PRODUCTION ="/bin/venv/media/python"; //"/bin/venv/media/python/";
     private final static String MAIN_PY_LINUX = "/bin/venv/main.py";
     private final static String SCRIPTS_LINUX = "/bin/venv/";
 

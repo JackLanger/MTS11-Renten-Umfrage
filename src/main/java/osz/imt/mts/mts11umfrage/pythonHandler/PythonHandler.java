@@ -90,8 +90,8 @@ public class PythonHandler{
                                         +
                                         " "
                                         +"-downloadpath " +
-                                        DOWNLOAD_PATH+"//"+FILENAME+".xlsx"
-                                        +" -datapath " + DATA_JSON_PATH_CACHE);
+                                        "/bin/venv/media/python/"+FILENAME+".xlsx"
+                                        +" -datapath " + "/bin/venv/media/python/cache/data.json");
 
       }
 
