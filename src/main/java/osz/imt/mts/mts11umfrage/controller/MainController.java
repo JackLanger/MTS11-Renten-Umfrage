@@ -44,8 +44,7 @@ public class MainController {
    * Repository for userAnswers.
    */
   final UserAnswersRepository userAnswersRepository;
-  final
-  JsonResponse jsonResponse;
+  private final  EvaluationService evaluationService;
 
   /**
    * Initializes the respective repositories used for fetching data.
@@ -53,17 +52,18 @@ public class MainController {
    * @param questionRepository       the {@link QuestionRepository}
    * @param questionAnswerRepository the {@link QuestionAnswerRepository}
    * @param userAnswersRepository    the {@link UserAnswersRepository}
-   * @param jsonResponse            The JsonResponse service
+   * @param evaluationService         the {@link EvaluationService}
    */
   @Autowired
   public MainController(QuestionRepository questionRepository,
                         QuestionAnswerRepository questionAnswerRepository,
-                        UserAnswersRepository userAnswersRepository, JsonResponse jsonResponse) {
+                        UserAnswersRepository userAnswersRepository,
+                        EvaluationService evaluationService) {
 
     this.questionRepository = questionRepository;
     this.questionAnswerRepository = questionAnswerRepository;
     this.userAnswersRepository = userAnswersRepository;
-    this.jsonResponse = jsonResponse;
+    this.evaluationService = evaluationService;
   }
 
   /**
@@ -110,13 +110,10 @@ public class MainController {
    */
   @RequestMapping(value = ENDPOINT_JSON, method = RequestMethod.GET, produces = JSON)
   @ResponseBody
-  public List<EvaluationDto> json_response() {
+  public List<Object> json() {
 
-    return jsonResponse.json();
+    return evaluationService.findAll();
   }
-
-
-
 
   @GetMapping("/agreement")
   public String agreement() {

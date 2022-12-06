@@ -7,25 +7,18 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.PasswordAuthentication;
 import java.security.NoSuchAlgorithmException;
-import java.util.Map;
-import javax.persistence.PostLoad;
 import javax.servlet.http.HttpServletResponse;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import osz.imt.mts.mts11umfrage.pythonHandler.PythonHandler;
-import osz.imt.mts.mts11umfrage.repository.AuthenticationRepository;
 import osz.imt.mts.mts11umfrage.service.AuthService;
 
 /**
@@ -38,25 +31,27 @@ import osz.imt.mts.mts11umfrage.service.AuthService;
 public class DownloadController {
 
 
-    //TODO(Moritz): refactor methods should not return void but a ResponseEntity<Resource>
-    // otherwise you need to set the response code.
-    private static final String JSON = "application/json";
-    @Autowired
-    private AuthService authService;
+  //TODO(Moritz): refactor methods should not return void but a ResponseEntity<Resource>
+  // otherwise you need to set the response code.
+  private static final String JSON = "application/json";
+  @Autowired
+  private AuthService authService;
 
-    HttpHeaders getHeaders(String filename) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
-        headers.add("Pragma", "no-cache");
-        headers.add("Expires", "0");
-        headers.add("Content-Disposition", "attachment; filename=" + filename);
+  HttpHeaders getHeaders(String filename) {
 
-        return headers;
-    }
+    HttpHeaders headers = new HttpHeaders();
+    headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
+    headers.add("Pragma", "no-cache");
+    headers.add("Expires", "0");
+    headers.add("Content-Disposition", "attachment; filename=" + filename);
 
-    @RequestMapping(value = "/download/xlsx", method = RequestMethod.POST)
-    public ResponseEntity<InputStreamResource> downloadExcel(@RequestParam String token, HttpServletResponse response)
-            throws IOException, NoSuchAlgorithmException {
+    return headers;
+  }
+
+  @RequestMapping(value = "/download/xlsx", method = RequestMethod.POST)
+  public ResponseEntity<InputStreamResource> downloadExcel(@RequestParam String token,
+                                                           HttpServletResponse response)
+      throws IOException, NoSuchAlgorithmException {
 
         if (authService.verifyToken(token)) {
 
