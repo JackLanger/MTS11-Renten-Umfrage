@@ -237,7 +237,7 @@ class ExcelWriter:
                 string = string.replace(",", ";")
                 string = string.replace("[", "")
                 string = string.replace("]", "")
-                self.worksheet.cell(row=row + 1, column=question).value = string
-                self.worksheet.cell(row=row, column=int(k)).alignment = openpyxl.styles.Alignment(horizontal="fill")
+                self.worksheet.cell(row=row + 1, column=int(question)).value = f"[{string}]"
+                self.worksheet.cell(row=row, column=int(question)).alignment = openpyxl.styles.Alignment(horizontal="fill")
                 column += 1
             row += 1

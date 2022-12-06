@@ -34,8 +34,7 @@ public final class PathUtils {
 
 
 
-    public final static String HEADER_JSON_PATH_CACHE = DOWNLOAD_PATH + "/cache/header.json";
-    public final static String DATA_JSON_PATH_CACHE = DOWNLOAD_PATH + "/cache/data.json";
+     public final static String DATA_JSON_PATH_CACHE = DOWNLOAD_PATH + "/cache/data.json";
 
     private PathUtils() {
     }

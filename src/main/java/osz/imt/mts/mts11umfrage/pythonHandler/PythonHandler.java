@@ -39,8 +39,9 @@ public class PythonHandler{
 
   public void runScript() {
     //TODO: Hier muss dto übergeben werden
+
     try{
-      create_file(headerJson().toString(),DATA_JSON_PATH_CACHE);
+      create_file(,DATA_JSON_PATH_CACHE);
     }
     catch (IOException e) {
       e.printStackTrace();
@@ -91,11 +92,9 @@ public class PythonHandler{
                                         command
                                         +
                                         " "
-                                        +"-dp " +
+                                        +"-downloadpath " +
                                         DOWNLOAD_PATH+"//"+FILENAME+".xlsx"
-                                        +" -hcp " +
-                                        HEADER_JSON_PATH_CACHE
-                                        +" -dcp " + DATA_JSON_PATH_CACHE);
+                                        +" -datapath " + DATA_JSON_PATH_CACHE);
 
       }
 
