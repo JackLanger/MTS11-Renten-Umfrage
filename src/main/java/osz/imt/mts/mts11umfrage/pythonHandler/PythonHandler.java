@@ -4,13 +4,7 @@ package osz.imt.mts.mts11umfrage.pythonHandler;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import osz.imt.mts.mts11umfrage.dto.EvaluationDto;
-import osz.imt.mts.mts11umfrage.dto.UserAnswerDto;
-import osz.imt.mts.mts11umfrage.models.UserAnswer;
-import osz.imt.mts.mts11umfrage.repository.UserAnswersRepository;
 import osz.imt.mts.mts11umfrage.service.EvaluationService;
-import osz.imt.mts.mts11umfrage.utils.JsonResponse;
-import osz.imt.mts.mts11umfrage.utils.PathUtils;
 
 import static osz.imt.mts.mts11umfrage.utils.OsInformation.OS;
 import static osz.imt.mts.mts11umfrage.utils.PathUtils.*;
@@ -21,12 +15,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
 @Service
 public class PythonHandler{
   @Autowired
