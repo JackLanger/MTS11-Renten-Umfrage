@@ -76,7 +76,7 @@ VALUES
 -- 4 -- abschluss
 	(5, N'Ohne Abschluss', 0, 'span'),
 	(5, N'Hauptschulabschluss', 1, 'span'),
-	(5, N'Mittlere Reife/Realschulabschluss', 2, 'span'),
+	(5, N'Mittlere Reife / Realschulabschluss', 2, 'span'),
 	(5, N'Hochschulreife', 3, 'span'),
 	(5, N'Nachschulischer Abschluss', 4, 'span'),
 	(5, N'Ausbildung', 5, 'span'),
@@ -88,7 +88,7 @@ VALUES
 	(6, N'Angestellte*r', 3, 'span'),
 	(6, N'Selbstständige*r', 4, 'span'),
 	(6, N'Beamte*r', 5, 'span'),
-	(6, N'Rentner*in/Pensionär*in', 6, 'span'),
+	(6, N'Rentner*in / Pensionär*in', 6, 'span'),
 -- 6 Bruttoeinkommen
 	(7, N'Kein Einkommen', 0, 'span'),
 	(7, N'Weniger als 520 €', 1, 'span'),
