@@ -85,18 +85,6 @@ public class MainController {
     return mav;
   }
 
-  //An download Endpoint
-  /*@RequestMapping(value="/download", method= RequestMethod.GET)
-  public void downloadFile(HttpServletResponse response) throws IOException {
-    File file = new File("src/main/resources/cookie-disclaimer.txt");
-    InputStream inputStream = new FileInputStream(file);
-    response.setContentType("application/octet-stream");
-    response.setHeader("Content-Disposition", "attachment; filename=" + file.getName());
-    response.setContentLength((int) file.length());
-    FileCopyUtils.copy(inputStream, response.getOutputStream());
-  }*/
-
-
   @GetMapping("/impressum")
   public String agreement() {
 
