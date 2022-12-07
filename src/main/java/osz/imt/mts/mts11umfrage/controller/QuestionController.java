@@ -85,7 +85,8 @@ public class QuestionController {
   @PostMapping("/saveData")
   public ModelAndView saveData(@ModelAttribute final SurveyDto surveyAnswers,
                                @Nullable @CookieValue("mts11-umfrage-session") String sessionId) {
-    String session = Objects.isNull(sessionId) ? UUID.randomUUID().toString() :sessionId;
+
+    String session = Objects.isNull(sessionId) ? UUID.randomUUID().toString() : sessionId;
 
     final var answerList = surveyAnswers.getAnswers();
 
@@ -112,7 +113,7 @@ public class QuestionController {
   }
 
 
-  @GetMapping("/Finish")
+  @GetMapping("/finish")
   public ModelAndView finishedSurvey() {
 
     return new ModelAndView("finish");

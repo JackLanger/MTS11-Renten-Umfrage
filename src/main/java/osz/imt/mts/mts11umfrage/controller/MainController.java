@@ -81,6 +81,7 @@ public class MainController {
   public ModelAndView download() {
 
     final ModelAndView mav = new ModelAndView("download");
+    mav.addObject("count", userAnswersRepository.findAllUserAnswerCount());
     return mav;
   }
 
