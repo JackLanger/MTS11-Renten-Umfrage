@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -34,6 +35,9 @@
                     So make sure, you enter the token down below first.<br>
                     For an api response have a look <a th:href="@{/downloads}">here</a>.<br></h6>
 
+                <p> A Total of <span th:text="${count}">3</span> Answers is available</p>
+
+
                 <div class="d-flex justify-content-center mt-4">
                     <form class="col-8" id="download_form">
                         <div class="form-group">
@@ -51,15 +55,21 @@
 <div>
     <div class="d-flex flex-xl-row justify-content-xl-around mx-xl-5 my-xl-3 my-auto flex-column ">
 
-        <button type="submit" class="btn btn-danger my-xl-0 my-2 mx-xl-3 mx-2 col-xl-1 col-12 w-auto" form="download_form" th:formaction="@{/download/xlsx}"
+        <button type="submit"
+                class="btn btn-danger my-xl-0 my-2 mx-xl-3 mx-2 col-xl-1 col-12 w-auto"
+                form="download_form" th:formaction="@{/download/xlsx}"
                 formmethod="post">
             Download xlsx
         </button>
-        <button type="submit" class="btn btn-danger my-xl-0 my-2 col-xl-1 mx-xl-3 mx-2 col-12 w-auto" form="download_form" th:formaction="@{/download/json}"
+        <button type="submit"
+                class="btn btn-danger my-xl-0 my-2 col-xl-1 mx-xl-3 mx-2 col-12 w-auto"
+                form="download_form" th:formaction="@{/download/json}"
                 formmethod="post">
             Download json
         </button>
-        <button type="submit" class="btn btn-danger my-xl-0 my-2 col-xl-1 col-12 mx-xl-3 mx-2 w-auto" form="download_form" th:formaction="@{/json}" formmethod="get">
+        <button type="submit"
+                class="btn btn-danger my-xl-0 my-2 col-xl-1 col-12 mx-xl-3 mx-2 w-auto"
+                form="download_form" th:formaction="@{/json}" formmethod="get">
             API Response
         </button>
     </div>

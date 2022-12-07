@@ -1,13 +1,18 @@
 package osz.imt.mts.mts11umfrage.controller;
 
+import static osz.imt.mts.mts11umfrage.controller.utils.Endpoints.DOWNLOAD_EXCEL;
+import static osz.imt.mts.mts11umfrage.controller.utils.Endpoints.DOWNLOAD_JSON;
 import static osz.imt.mts.mts11umfrage.controller.utils.Endpoints.ENDPOINT_JSON;
-import static osz.imt.mts.mts11umfrage.utils.PathUtils.JSON_DOWNLOAD_PATH;
+import static osz.imt.mts.mts11umfrage.utils.PathUtils.DOWNLOAD_PATH;
 import static osz.imt.mts.mts11umfrage.utils.PathUtils.XLSX_DOWNLOAD_PATH;
 
+import com.google.gson.Gson;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
@@ -24,6 +29,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import osz.imt.mts.mts11umfrage.dto.JsonResponseEvaluationDto;
 import osz.imt.mts.mts11umfrage.models.UserAnswer;
 import osz.imt.mts.mts11umfrage.pythonHandler.PythonHandler;
+import osz.imt.mts.mts11umfrage.repository.UserAnswersRepository;
 import osz.imt.mts.mts11umfrage.service.AuthService;
 import osz.imt.mts.mts11umfrage.service.EvaluationService;
 
@@ -39,20 +45,22 @@ public class DownloadController {
 
   //TODO(Moritz): refactor methods should not return void but a ResponseEntity<Resource>
   // otherwise you need to set the response code.
-  private static final String JSON = "application/json";
+  public static final String JSON = "application/json";
 
   private final EvaluationService evalService;
   private final AuthService authService;
   private final PythonHandler pythonHandler;
+  private final UserAnswersRepository userAnswerRepo;
 
   @Autowired
   public DownloadController(EvaluationService evalService,
                             AuthService authService,
-                            PythonHandler pythonHandler) {
+                            PythonHandler pythonHandler, UserAnswersRepository userAnswerRepo) {
 
     this.evalService = evalService;
     this.authService = authService;
     this.pythonHandler = pythonHandler;
+    this.userAnswerRepo = userAnswerRepo;
   }
 
 
@@ -67,7 +75,7 @@ public class DownloadController {
     return headers;
   }
 
-  @RequestMapping(value = "/download/xlsx", method = RequestMethod.POST)
+  @RequestMapping(value = DOWNLOAD_EXCEL, method = RequestMethod.POST)
   public ResponseEntity<InputStreamResource> downloadExcel(@RequestParam String token,
                                                            HttpServletResponse response)
       throws IOException, NoSuchAlgorithmException {
@@ -96,14 +104,27 @@ public class DownloadController {
    * @throws IOException
    */
 
-  @RequestMapping(value = "/download/json", method = RequestMethod.POST)
+  @RequestMapping(value = DOWNLOAD_JSON, method = RequestMethod.POST)
   public ResponseEntity<InputStreamResource> downloadJson(@RequestParam String token,
                                                           HttpServletResponse response)
       throws IOException, NoSuchAlgorithmException {
 
     if (authService.verifyToken(token)) {
       pythonHandler.runScript();
-      File file = new File(JSON_DOWNLOAD_PATH);
+      // create json file as temp file
+      int count = userAnswerRepo.findAllUserAnswerCount();
+      Path jsonPath = Path.of(
+          String.format("%s/jsonData-%d.json", DOWNLOAD_PATH, count));
+      File file = jsonPath.toFile();
+      file.deleteOnExit();
+
+      Files.createFile(jsonPath);
+      Gson gson = new Gson();
+      // marshall data to string and write to file
+      String jsonString = gson.toJson(evalService.createJsonResponse());
+      Files.write(jsonPath, jsonString.getBytes());
+
+//      File file = new File(JSON_DOWNLOAD_PATH);
       InputStream inputStream = new FileInputStream(file);
 
       InputStreamResource resource = new InputStreamResource(inputStream);
@@ -116,7 +137,6 @@ public class DownloadController {
     }
     return ResponseEntity.status(401).build();
   }
-
 
   /**
    * JSON Endpoint to return all {@link UserAnswer}s as json data.
