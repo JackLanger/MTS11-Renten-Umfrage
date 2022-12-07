@@ -13,9 +13,22 @@ public class Endpoints {
    * Index endpoint.
    */
   public static final String HOME_ENDPOINT = "/";
+  /**
+   * Download endpoint.
+   */
   public static final String DOWNLOAD_ENDPOINT = "/download";
-  public static final String DOWNLOAD_ENDPOINT_JSON = "/downloads/json";
+  /**
+   * Json endpoint for json api response.
+   */
   public static final String ENDPOINT_JSON = "/json";
+  /**
+   * Download endpoint for excel files.
+   */
+  public static final String DOWNLOAD_EXCEL = "/download/xlsx";
+  /**
+   * Download endpoint for json files.
+   */
+  public static final String DOWNLOAD_JSON = "/download/json";
 
 
 }
