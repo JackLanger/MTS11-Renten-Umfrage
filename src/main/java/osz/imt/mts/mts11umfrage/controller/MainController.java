@@ -1,19 +1,12 @@
 package osz.imt.mts.mts11umfrage.controller;
 
 import static osz.imt.mts.mts11umfrage.controller.utils.Endpoints.DOWNLOAD_ENDPOINT;
-import static osz.imt.mts.mts11umfrage.controller.utils.Endpoints.ENDPOINT_JSON;
 import static osz.imt.mts.mts11umfrage.controller.utils.Endpoints.HOME_ENDPOINT;
-
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import osz.imt.mts.mts11umfrage.models.UserAnswer;
 import osz.imt.mts.mts11umfrage.repository.QuestionAnswerRepository;
 import osz.imt.mts.mts11umfrage.repository.QuestionRepository;
 import osz.imt.mts.mts11umfrage.repository.UserAnswersRepository;
@@ -51,7 +44,7 @@ public class MainController {
    * @param questionRepository       the {@link QuestionRepository}
    * @param questionAnswerRepository the {@link QuestionAnswerRepository}
    * @param userAnswersRepository    the {@link UserAnswersRepository}
-   * @param evaluationService         the {@link EvaluationService}
+   * @param evaluationService        the {@link EvaluationService}
    */
   @Autowired
   public MainController(QuestionRepository questionRepository,
@@ -102,17 +95,6 @@ public class MainController {
     FileCopyUtils.copy(inputStream, response.getOutputStream());
   }*/
 
-  /**
-   * JSON Endpoint to return all {@link UserAnswer}s as json data.
-   *
-   * @return List of {@link UserAnswer} as json
-   */
-  @RequestMapping(value = ENDPOINT_JSON, method = RequestMethod.GET, produces = JSON)
-  @ResponseBody
-  public List<Object> json() {
-
-    return evaluationService.findAll();
-  }
 
   @GetMapping("/impressum")
   public String agreement() {
