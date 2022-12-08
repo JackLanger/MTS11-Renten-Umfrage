@@ -5,7 +5,7 @@ Umfrageplattform zum Thema Rente in Deutschland.
 ![Develop](https://github.com/jaceklangertuda/MTS11-renten-umfrage/actions/workflows/docker-image.yml/badge.svg)
 [![Version](https://img.shields.io/badge/powered%20by-Nyx-blue)](https://github.com/mooltiverse/nyx)
 
-Eine Plattform um Umfragen durhzuführen und die ergebnisse mittels eines REST-Endpoints auslesen zu
+Eine Plattform um Umfragen durhzuführen und die Ergebnisse mittels eines REST-Endpoints auslesen zu
 können.
 Es handelt sich dabei um ein [Springboot](https://spring.io/) Projekt
 das [Gradle](https://gradle.org/) als build tool verwendet.
