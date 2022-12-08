@@ -120,7 +120,7 @@ VALUES
 	(9, N'Großer Einfluss', 5, 'span'),
 	(9, N'Sehr großer Einfluss', 6, 'span'),
 -- 9 <63 <65 <67 <69 <71 <73 <75 >=75 ggf input
-	(10, N'unter 60', 59, 'span'),
+	(10, N'Unter 60', 59, 'span'),
 	(10, N'61', 61, 'span'),
 	(10, N'63', 63, 'span'),
 	(10, N'65', 65, 'span'),
@@ -131,7 +131,7 @@ VALUES
 	(10, N'75', 75, 'span'),
 	(10, N'77', 77, 'span'),
 -- 10 Mit welchem Alter würden Sie gerne in Rente gehen?
-	(11, N'vor 60', 59, 'span'),
+	(11, N'Unter 60', 59, 'span'),
 	(11, N'61', 61, 'span'),
 	(11, N'63', 63, 'span'),
 	(11, N'65', 65, 'span'),
@@ -257,7 +257,8 @@ VALUES
 	(25, N'mehr als 1000 €', 7, 'span'),
 	--26
 	(26, N'Ja €', 0, 'span'),
-	(26, N'Ich bin mir nicht sicher', 1, 'span'),
-	(26, N'Nein', 2, 'span'),
-	(26, N'Nerv mich doch nicht', 3, 'span'),
-	(26, N'Ich bin Schwabe...', 4, 'span')
+	(26, N'Eher Ja', 1, 'span'),
+	(26, N'Ich bin mir nicht Sicher', 2, 'span'),
+	(26, N'Eher nein', 3, 'span'),
+	(26, N'Nein', 4, 'span'),
+	(7, N'Keine Angabe', 10, 'span')

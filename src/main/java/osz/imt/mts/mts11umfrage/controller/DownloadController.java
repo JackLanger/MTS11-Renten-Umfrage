@@ -2,7 +2,6 @@ package osz.imt.mts.mts11umfrage.controller;
 
 import static osz.imt.mts.mts11umfrage.controller.utils.Endpoints.DOWNLOAD_EXCEL;
 import static osz.imt.mts.mts11umfrage.controller.utils.Endpoints.DOWNLOAD_JSON;
-import static osz.imt.mts.mts11umfrage.controller.utils.Endpoints.ENDPOINT_JSON;
 import static osz.imt.mts.mts11umfrage.utils.PathUtils.DOWNLOAD_PATH;
 import static osz.imt.mts.mts11umfrage.utils.PathUtils.XLSX_DOWNLOAD_PATH;
 
@@ -22,11 +21,12 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import osz.imt.mts.mts11umfrage.dto.JsonResponseEvaluationDto;
+import osz.imt.mts.mts11umfrage.dto.Evaluation;
 import osz.imt.mts.mts11umfrage.models.UserAnswer;
 import osz.imt.mts.mts11umfrage.pythonHandler.PythonHandler;
 import osz.imt.mts.mts11umfrage.repository.UserAnswersRepository;
@@ -121,7 +121,7 @@ public class DownloadController {
       Files.createFile(jsonPath);
       Gson gson = new Gson();
       // marshall data to string and write to file
-      String jsonString = gson.toJson(evalService.createJsonResponse());
+      String jsonString = gson.toJson(evalService.createJsonResponseV1());
       Files.write(jsonPath, jsonString.getBytes());
 
 //      File file = new File(JSON_DOWNLOAD_PATH);
@@ -137,23 +137,32 @@ public class DownloadController {
     }
     return ResponseEntity.status(401).build();
   }
+  
 
   /**
    * JSON Endpoint to return all {@link UserAnswer}s as json data.
    *
    * @return List of {@link UserAnswer} as json
    */
-  @RequestMapping(value = ENDPOINT_JSON, method = RequestMethod.GET, produces = JSON)
+  @RequestMapping(value = "/json/{version}", method = RequestMethod.GET, produces = JSON)
   @ResponseBody
-  public List<JsonResponseEvaluationDto> json(@RequestParam String token)
+  public ResponseEntity<List<? extends Evaluation>> json(@RequestParam String token,
+                                                         @PathVariable String version)
       throws NoSuchAlgorithmException {
 
     if (authService.verifyToken(token)) {
-      List<JsonResponseEvaluationDto> response;
 
-      return evalService.createJsonResponse();
+      var resource = switch (version) {
+        default -> evalService.createJsonResponseV1();
+        case "v2" -> evalService.createJsonResponseV2(-1);
+      };
+      return ResponseEntity.ok()
+                           .contentType(MediaType.APPLICATION_JSON)
+                           .body(resource);
+
+
     }
-    return null;
+    return ResponseEntity.status(401).build();
   }
 
 }
