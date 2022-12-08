@@ -70,8 +70,13 @@
         </button>
         <button type="submit"
                 class="btn btn-danger my-xl-0 my-2 col-xl-1 col-12 mx-xl-3 mx-2 w-auto"
-                form="download_form" th:formaction="@{/json}" formmethod="get">
-            API Response
+                form="download_form" th:formaction="@{/json/v1}" formmethod="get">
+            API Response v1
+        </button>
+        <button type="submit"
+                class="btn btn-danger my-xl-0 my-2 col-xl-1 col-12 mx-xl-3 mx-2 w-auto"
+                form="download_form" th:formaction="@{/json/v2}" formmethod="get">
+            API Response v2
         </button>
     </div>
 </div>

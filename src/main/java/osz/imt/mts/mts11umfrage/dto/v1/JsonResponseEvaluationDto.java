@@ -1,4 +1,4 @@
-package osz.imt.mts.mts11umfrage.dto;
+package osz.imt.mts.mts11umfrage.dto.v1;
 
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import osz.imt.mts.mts11umfrage.dto.Evaluation;
 
 /**
  * .
@@ -18,7 +19,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class JsonResponseEvaluationDto {
+public class JsonResponseEvaluationDto implements Evaluation {
 
   private int questionid;
   private String question;
