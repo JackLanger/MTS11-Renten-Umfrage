@@ -30,5 +30,7 @@ public class Endpoints {
    */
   public static final String DOWNLOAD_JSON = "/download/json";
 
+  public static final String ENDPOINT_CSV = "/download/csv";
+
 
 }

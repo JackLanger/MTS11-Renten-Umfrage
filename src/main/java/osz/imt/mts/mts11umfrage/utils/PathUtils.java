@@ -39,14 +39,21 @@ public final class PathUtils {
 */
   public final static String FILENAME_JSON = "Data.json";
   public final static String FILENAME_XLSX = "Data.xlsx";
+
+  public final static String FILENAME_CSV = "Data.csv";
   public final static String DOWNLOAD_PATH = Paths.get("/bin/venv/media/python").toAbsolutePath()
                                                   .toString();
   public final static String XLSX_DOWNLOAD_PATH = Paths.get(DOWNLOAD_PATH, FILENAME_XLSX)
                                                        .toAbsolutePath().toString();
   public final static String JSON_DOWNLOAD_PATH = Paths.get(DOWNLOAD_PATH, FILENAME_JSON)
                                                        .toAbsolutePath().toString();
+
+  public final static String CSV_DOWNLOAD_PATH = Paths.get(DOWNLOAD_PATH, FILENAME_CSV)
+                                                         .toAbsolutePath().toString();
   public final static String DATA_JSON_PATH_CACHE = "/bin/venv/media/python/cache/data.json";
-  public final static String MAIN_PY = "/bin/venv/main.py";
+  public final static String EXCEL_PY = "/bin/venv/main.py";
+
+  public final static String CSV_PY = "/bin/venv/csv_writer.py";
   //TODO: WENNS ÜBERHAUTPT NICHT FUNKTIONIERT
   //public final static String XLSX_DOWNLOAD_PATH = "/bin/venv/media/python/Data.xlsx";
   //public final static String JSON_DOWNLOAD_PATH = "/bin/venv/media/python/Data.json";

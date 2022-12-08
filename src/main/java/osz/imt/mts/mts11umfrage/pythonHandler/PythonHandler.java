@@ -31,7 +31,15 @@ public class PythonHandler {
     public PythonHandler() {
     }
 
-    public void runScript() {
+
+    public void runScript(String type) {
+        String command = "python3 ";
+        switch (type) {
+            case "csv" -> command += CSV_PY;
+            case "xlsx" -> command += EXCEL_PY;
+            default -> throw new IllegalStateException("Unexpected value: " + type);
+        }
+
         Gson gson = new Gson();
 
         String json = gson.toJson(evaluationService.findAll());
@@ -44,7 +52,7 @@ public class PythonHandler {
 
         Process process = null;
 
-        String command = "python3 " + MAIN_PY;
+
 
         try {
             ProcessBuilder builder = new ProcessBuilder();
@@ -72,5 +80,7 @@ public class PythonHandler {
             e.printStackTrace();
         }
     }
+
+
 
 }
