@@ -38,3 +38,5 @@ out/
 /src/main/java/osz/imt/mts/mts11umfrage/pythonHandler/DataHandler/venv/
 /venv/
 /DataHandler/venv/
+/src/main/resources/static/styles/node_modules/
+/src/main/resources/static/styles/bs/
