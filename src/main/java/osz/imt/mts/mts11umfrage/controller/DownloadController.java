@@ -3,8 +3,8 @@ package osz.imt.mts.mts11umfrage.controller;
 import static osz.imt.mts.mts11umfrage.controller.utils.Endpoints.DOWNLOAD_EXCEL;
 import static osz.imt.mts.mts11umfrage.controller.utils.Endpoints.DOWNLOAD_JSON;
 import static osz.imt.mts.mts11umfrage.controller.utils.Endpoints.ENDPOINT_JSON;
-import static osz.imt.mts.mts11umfrage.utils.PathUtils.DOWNLOAD_PATH;
-import static osz.imt.mts.mts11umfrage.utils.PathUtils.XLSX_DOWNLOAD_PATH;
+import static osz.imt.mts.mts11umfrage.controller.utils.Endpoints.ENDPOINT_CSV;
+import static osz.imt.mts.mts11umfrage.utils.PathUtils.*;
 
 import com.google.gson.Gson;
 import java.io.File;
@@ -82,7 +82,7 @@ public class DownloadController {
 
     if (authService.verifyToken(token)) {
 
-      pythonHandler.runScript();
+      pythonHandler.runScript("xlsx");
       File file = new File(XLSX_DOWNLOAD_PATH);
       InputStream inputStream = new FileInputStream(file);
       InputStreamResource resource = new InputStreamResource(inputStream);
@@ -96,47 +96,26 @@ public class DownloadController {
     return ResponseEntity.status(401).build();
   }
 
-  /**
-   * todo(Moritz): javadoc.
-   *
-   * @param response
-   * @return
-   * @throws IOException
-   */
+    @RequestMapping(value = ENDPOINT_CSV, method = RequestMethod.POST)
+    public ResponseEntity<InputStreamResource> downloadCsv(@RequestParam String token,
+                                                             HttpServletResponse response)
+        throws IOException, NoSuchAlgorithmException {
+      if (authService.verifyToken(token)) {
+        pythonHandler.runScript("csv");
+        File file = new File(CSV_DOWNLOAD_PATH);
+        InputStream inputStream = new FileInputStream(file);
+        InputStreamResource resource = new InputStreamResource(inputStream);
 
-  @RequestMapping(value = DOWNLOAD_JSON, method = RequestMethod.POST)
-  public ResponseEntity<InputStreamResource> downloadJson(@RequestParam String token,
-                                                          HttpServletResponse response)
-      throws IOException, NoSuchAlgorithmException {
+        return ResponseEntity.ok()
+                .headers(getHeaders(file.getName()))
+                .contentLength(file.length())
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .body(resource);
 
-    if (authService.verifyToken(token)) {
-      pythonHandler.runScript();
-      // create json file as temp file
-      int count = userAnswerRepo.findAllUserAnswerCount();
-      Path jsonPath = Path.of(
-          String.format("%s/jsonData-%d.json", DOWNLOAD_PATH, count));
-      File file = jsonPath.toFile();
-      file.deleteOnExit();
+      }
 
-      Files.createFile(jsonPath);
-      Gson gson = new Gson();
-      // marshall data to string and write to file
-      String jsonString = gson.toJson(evalService.createJsonResponse());
-      Files.write(jsonPath, jsonString.getBytes());
-
-//      File file = new File(JSON_DOWNLOAD_PATH);
-      InputStream inputStream = new FileInputStream(file);
-
-      InputStreamResource resource = new InputStreamResource(inputStream);
-
-      return ResponseEntity.ok()
-                           .headers(getHeaders(file.getName()))
-                           .contentLength(file.length())
-                           .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                           .body(resource);
+      return ResponseEntity.status(401).build();
     }
-    return ResponseEntity.status(401).build();
-  }
 
   /**
    * JSON Endpoint to return all {@link UserAnswer}s as json data.
