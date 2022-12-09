@@ -7,7 +7,10 @@ import osz.imt.mts.mts11umfrage.repository.AuthenticationRepository;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 
 @Service
 public class AuthService {
@@ -24,7 +27,8 @@ public class AuthService {
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
 
 
-        var salts = authenticationRepository.getAllSalts();
+        var salts_ = authenticationRepository.getAllSalts();
+        List<String> salts = new ArrayList<>(new HashSet<>(salts_));
         for (String salt : salts) {
             var hashAndSalt = digest.digest((Token + salt).getBytes(StandardCharsets.UTF_8));
             if (authenticationRepository.findByHashAndSalt(toHexString(hashAndSalt), salt) != null) {
