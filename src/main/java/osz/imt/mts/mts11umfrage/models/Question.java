@@ -80,9 +80,13 @@ public class Question implements DtoTransorm<QuestionDto> {
   public QuestionInfoDto toInfoDto() {
 
     List<String> answers = new ArrayList<>();
-    for (QuestionAnswer questionAnswer : this.questionAnswers) {
-      answers.add(questionAnswer.getAnswerOption());
-    }
+    if (questionAnswers.isEmpty())
+      answers.add("keine");
+    else
+      for (QuestionAnswer questionAnswer : this.questionAnswers) {
+        answers.add(questionAnswer.getAnswerOption());
+      }
+
     return new QuestionInfoDto(this.id, this.questionText, this.questionType, answers);
   }
 
