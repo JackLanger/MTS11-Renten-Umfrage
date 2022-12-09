@@ -39,4 +39,4 @@ out/
 /venv/
 /DataHandler/venv/
 /src/main/resources/static/styles/node_modules/
-/src/main/resources/static/styles/bs/
+#/src/main/resources/static/styles/bs/
