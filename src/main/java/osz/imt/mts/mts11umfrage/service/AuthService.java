@@ -26,9 +26,7 @@ public class AuthService {
     public boolean verifyToken(String Token) throws NoSuchAlgorithmException {
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
 
-
-        var salts_ = authenticationRepository.getAllSalts();
-        List<String> salts = new ArrayList<>(new HashSet<>(salts_));
+        List<String> salts = new ArrayList<>(new HashSet<>(authenticationRepository.getAllSalts()));
         for (String salt : salts) {
             var hashAndSalt = digest.digest((Token + salt).getBytes(StandardCharsets.UTF_8));
             if (authenticationRepository.findByHashAndSalt(toHexString(hashAndSalt), salt) != null) {
