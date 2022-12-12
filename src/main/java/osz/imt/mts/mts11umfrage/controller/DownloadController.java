@@ -20,6 +20,7 @@ import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -129,17 +130,32 @@ public class DownloadController {
                                                          @PathVariable String version)
       throws NoSuchAlgorithmException {
 
+    return jsonById(token, version, null);
+  }
+
+
+  /**
+   * JSON Endpoint to return all {@link UserAnswer}s as json data.
+   *
+   * @return List of {@link UserAnswer} as json
+   */
+  @RequestMapping(value = "/json/{version}/{index}", method = RequestMethod.GET, produces = JSON)
+  @ResponseBody
+  public ResponseEntity<List<? extends Evaluation>> jsonById(@RequestParam String token,
+                                                             @PathVariable String version,
+                                                             @PathVariable @Nullable String index)
+      throws NoSuchAlgorithmException {
+
     if (authService.verifyToken(token)) {
 
+      int i = index == null ? -1 : Integer.parseInt(index);
       var resource = switch (version) {
         default -> evalService.createJsonResponseV1();
-        case "v2" -> evalService.createJsonResponseV2(-1);
+        case "v2" -> evalService.createJsonResponseV2(i);
       };
       return ResponseEntity.ok()
                            .contentType(MediaType.APPLICATION_JSON)
                            .body(resource);
-
-
     }
     return ResponseEntity.status(401).build();
   }
