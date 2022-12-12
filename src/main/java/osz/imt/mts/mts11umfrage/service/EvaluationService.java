@@ -70,6 +70,26 @@ public class EvaluationService {
   }
 
 
+  public Map<String, List<UUID>> getMapedUserAnswersForQuestion(int index) {
+
+    Map<String, List<UUID>> answerMap = new ConcurrentHashMap<>();
+
+
+    questionRepository.findById(index).ifPresent(q -> {
+      q.getQuestionAnswers().forEach(a -> {
+        answerMap.put(a.getAnswerOption(), new ArrayList<>());
+      });
+    });
+
+    List<UserAnswer> result = userAnswersRepository.findByQuestionAnswer_Question_Id(index);
+    for (UserAnswer userAnswer : result) {
+      answerMap.get(userAnswer.getQuestionAnswer().getAnswerOption()).add(userAnswer.getUserId());
+    }
+
+
+    return answerMap;
+  }
+
   /**
    * Returns V2 json response entities as defined in  {@link JsonResponseEvaluationDto}. Indexing
    * not yet implemented.

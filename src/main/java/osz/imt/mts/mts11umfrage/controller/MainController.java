@@ -3,10 +3,13 @@ package osz.imt.mts.mts11umfrage.controller;
 import static osz.imt.mts.mts11umfrage.controller.utils.Endpoints.DOWNLOAD_ENDPOINT;
 import static osz.imt.mts.mts11umfrage.controller.utils.Endpoints.HOME_ENDPOINT;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
+import osz.imt.mts.mts11umfrage.dto.DownloadForm;
+import osz.imt.mts.mts11umfrage.models.Question;
 import osz.imt.mts.mts11umfrage.repository.QuestionAnswerRepository;
 import osz.imt.mts.mts11umfrage.repository.QuestionRepository;
 import osz.imt.mts.mts11umfrage.repository.UserAnswersRepository;
@@ -82,6 +85,25 @@ public class MainController {
 
     final ModelAndView mav = new ModelAndView("download");
     mav.addObject("count", userAnswersRepository.findAllUserAnswerCount());
+    List<Question> questions = questionRepository.findAll();
+    mav.addObject("questions", questions);
+    mav.addObject("indizes", new DownloadForm());
+    return mav;
+  }
+
+  /**
+   * Download UserAnswers.
+   *
+   * @return
+   */
+  @GetMapping("/download/data")
+  public ModelAndView downloadData() {
+
+    final ModelAndView mav = new ModelAndView("downloadv2");
+    mav.addObject("count", userAnswersRepository.findAllUserAnswerCount());
+    List<Question> questions = questionRepository.findAll();
+    mav.addObject("questions", questions);
+    mav.addObject("form", new DownloadForm());
     return mav;
   }
 
