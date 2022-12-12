@@ -11,10 +11,13 @@
         min-width: 8rem;
 
     }
+    form {
+        background: #181818 !important;
+    }
 
 
 </style>
-<body class="min-vh-100" style="background-color: #181818; overflow-x: hidden; min-width: 360px">
+<body class="min-vh-100" style="background: #181818 !important; overflow-x: hidden; min-width: 360px">
 <div th:replace="fragments/footer::footnote"></div>
 <br>
 
@@ -25,7 +28,7 @@
 <div style="min-height: 40vh;">
     <div class="d-flex justify-content-center">
         <div class="card mb-3 py-3 text-center  border-0"
-             style="width: 50vw;background-color: #181818;margin-top:8vh">
+             style="width: 70vw;background-color: #181818;margin-top:8vh">
             <div class="card-body text-white-50">
                 <h6 class="card-text">There are three options for retrieving Data.<br>
                     All three methods require a token.<br>
@@ -35,7 +38,7 @@
                 <p> A Total of <span th:text="${count}">3</span> Answers is available</p>
 
 
-                <div class="d-flex justify-content-center mt-4">
+                <div class="d-flex justify-content-center mt-4" style="">
                     <form class="col-8" id="download_form">
                         <div class="form-group">
                             <label for="token" class="form-label"></label>
