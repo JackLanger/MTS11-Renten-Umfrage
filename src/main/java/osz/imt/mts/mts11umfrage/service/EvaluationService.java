@@ -139,57 +139,61 @@ public class EvaluationService {
    */
   public List<JsonResponseEvaluationV2Dto> createJsonResponseV2(int index) {
 
+    List<Question> questions;
+    List<UserAnswer> answers;
+    List<JsonResponseEvaluationV2Dto> result = new ArrayList<>();
     if (index < 0) {
-      List<Question> questions = questionRepository.findAll();
-      List<UserAnswer> answers = userAnswersRepository.findAll();
-      List<JsonResponseEvaluationV2Dto> result = new ArrayList<>();
-
-      for (Question question : questions) {
-
-        List<String> answerOpts = new ArrayList<>();
-        // get al the string values for the questions
-        question.getQuestionAnswers().forEach(a -> answerOpts.add(a.getAnswerOption()));
-        // filter the answers and sort by the respective question.
-        List<JsonUserAnswerDto> jsonAnswers = new ArrayList<>();
-        List<UserAnswer> questionAnsweredByUser = new ArrayList<>();
-        for (UserAnswer answer : answers) {
-          // filter the answers and collect only answers for the respective question
-          if (answer.getQuestionAnswer().getQuestion().getId() == question.getId()) {
-            questionAnsweredByUser.add(answer);
-          }
-        }
-        // build map of answers by user id
-        Map<UUID, List<String>> userIdUserAnswersMap = new ConcurrentHashMap<>();
-        for (UserAnswer userAnswer : questionAnsweredByUser) {
-          UUID key = userAnswer.getUserId();
-          if (userIdUserAnswersMap.containsKey(key)) {
-            userIdUserAnswersMap.get(key).add(userAnswer.getQuestionAnswer().getAnswerOption());
-          } else {
-            List<String> userAnswers = new ArrayList<>();
-            userAnswers.add(userAnswer.getQuestionAnswer().getAnswerOption());
-            userIdUserAnswersMap.put(key, userAnswers);
-          }
-        }
-        // map to dto
-        for (Map.Entry<UUID, List<String>> uuidListEntry : userIdUserAnswersMap.entrySet()) {
-          jsonAnswers.add(
-              new JsonUserAnswerDto(uuidListEntry.getKey().toString(), uuidListEntry.getValue()));
-        }
-
-
-        JsonResponseEvaluationV2Dto resp = JsonResponseEvaluationV2Dto.builder()
-                                                                      .questionid(question.getId())
-                                                                      .question(
-                                                                          question.getQuestionText())
-                                                                      .answerOptions(answerOpts)
-                                                                      .userAnswers(jsonAnswers)
-                                                                      .build();
-        result.add(resp);
-      }
-      return result;
+      answers = userAnswersRepository.findAll();
+      questions = questionRepository.findAll();
+    } else {
+      questions = questionRepository.findById(index).stream().toList();
+      answers = userAnswersRepository.findByQuestionAnswer_Question_Id(index);
     }
 
-    throw new NotYetImplementedException("This feature is not yet available!");
+    for (Question question : questions) {
+
+      List<String> answerOpts = new ArrayList<>();
+      // get al the string values for the questions
+      question.getQuestionAnswers().forEach(a -> answerOpts.add(a.getAnswerOption()));
+      // filter the answers and sort by the respective question.
+      List<JsonUserAnswerDto> jsonAnswers = new ArrayList<>();
+      List<UserAnswer> questionAnsweredByUser = new ArrayList<>();
+      for (UserAnswer answer : answers) {
+        // filter the answers and collect only answers for the respective question
+        if (answer.getQuestionAnswer().getQuestion().getId() == question.getId()) {
+          questionAnsweredByUser.add(answer);
+        }
+      }
+      // build map of answers by user id
+      Map<UUID, List<String>> userIdUserAnswersMap = new ConcurrentHashMap<>();
+      for (UserAnswer userAnswer : questionAnsweredByUser) {
+        UUID key = userAnswer.getUserId();
+        if (userIdUserAnswersMap.containsKey(key)) {
+          userIdUserAnswersMap.get(key).add(userAnswer.getQuestionAnswer().getAnswerOption());
+        } else {
+          List<String> userAnswers = new ArrayList<>();
+          userAnswers.add(userAnswer.getQuestionAnswer().getAnswerOption());
+          userIdUserAnswersMap.put(key, userAnswers);
+        }
+      }
+      // map to dto
+      for (Map.Entry<UUID, List<String>> uuidListEntry : userIdUserAnswersMap.entrySet()) {
+        jsonAnswers.add(
+            new JsonUserAnswerDto(uuidListEntry.getKey().toString(), uuidListEntry.getValue()));
+      }
+
+
+      JsonResponseEvaluationV2Dto resp = JsonResponseEvaluationV2Dto.builder()
+                                                                    .questionid(question.getId())
+                                                                    .question(
+                                                                        question.getQuestionText())
+                                                                    .answerOptions(answerOpts)
+                                                                    .userAnswers(jsonAnswers)
+                                                                    .build();
+      result.add(resp);
+    }
+    return result;
+
   }
 
 }
