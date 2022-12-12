@@ -1,22 +1,19 @@
 package osz.imt.mts.mts11umfrage.controller;
 
 import static osz.imt.mts.mts11umfrage.controller.utils.Endpoints.DOWNLOAD_EXCEL;
-import static osz.imt.mts.mts11umfrage.controller.utils.Endpoints.DOWNLOAD_JSON;
-import static osz.imt.mts.mts11umfrage.utils.PathUtils.DOWNLOAD_PATH;
-import static osz.imt.mts.mts11umfrage.utils.PathUtils.XLSX_DOWNLOAD_PATH;
-import static osz.imt.mts.mts11umfrage.controller.utils.Endpoints.ENDPOINT_JSON;
 import static osz.imt.mts.mts11umfrage.controller.utils.Endpoints.ENDPOINT_CSV;
-import static osz.imt.mts.mts11umfrage.utils.PathUtils.*;
+import static osz.imt.mts.mts11umfrage.utils.PathUtils.CSV_DOWNLOAD_PATH;
+import static osz.imt.mts.mts11umfrage.utils.PathUtils.XLSX_DOWNLOAD_PATH;
 
-import com.google.gson.Gson;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -99,26 +96,27 @@ public class DownloadController {
     return ResponseEntity.status(401).build();
   }
 
-    @RequestMapping(value = ENDPOINT_CSV, method = RequestMethod.POST)
-    public ResponseEntity<InputStreamResource> downloadCsv(@RequestParam String token,
-                                                             HttpServletResponse response)
-        throws IOException, NoSuchAlgorithmException {
-      if (authService.verifyToken(token)) {
-        pythonHandler.runScript("csv");
-        File file = new File(CSV_DOWNLOAD_PATH);
-        InputStream inputStream = new FileInputStream(file);
-        InputStreamResource resource = new InputStreamResource(inputStream);
+  @RequestMapping(value = ENDPOINT_CSV, method = RequestMethod.POST)
+  public ResponseEntity<InputStreamResource> downloadCsv(@RequestParam String token,
+                                                         HttpServletResponse response)
+      throws IOException, NoSuchAlgorithmException {
 
-        return ResponseEntity.ok()
-                .headers(getHeaders(file.getName()))
-                .contentLength(file.length())
-                .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                .body(resource);
+    if (authService.verifyToken(token)) {
+      pythonHandler.runScript("csv");
+      File file = new File(CSV_DOWNLOAD_PATH);
+      InputStream inputStream = new FileInputStream(file);
+      InputStreamResource resource = new InputStreamResource(inputStream);
 
-      }
+      return ResponseEntity.ok()
+                           .headers(getHeaders(file.getName()))
+                           .contentLength(file.length())
+                           .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                           .body(resource);
 
-      return ResponseEntity.status(401).build();
     }
+
+    return ResponseEntity.status(401).build();
+  }
 
   /**
    * JSON Endpoint to return all {@link UserAnswer}s as json data.
@@ -142,6 +140,34 @@ public class DownloadController {
                            .body(resource);
 
 
+    }
+    return ResponseEntity.status(401).build();
+  }
+
+
+  @RequestMapping("/csv/{index}")
+  public ResponseEntity<Object> csv(@RequestParam String token,
+                                    @PathVariable String index) throws NoSuchAlgorithmException {
+
+    var result = evalService.getMapedUserAnswersForQuestion(Integer.parseInt(index));
+
+    if (authService.verifyToken(token)) {
+      String[][] table = new String[result.size()][];
+
+      int i = 0;
+      for (Map.Entry<String, List<UUID>> stringListEntry : result.entrySet()) {
+        String tableHead = stringListEntry.getKey();
+        List<String> valuesAndHead = new ArrayList<>();
+        valuesAndHead.add(tableHead);
+        for (UUID uuid : stringListEntry.getValue()) {
+          valuesAndHead.add(uuid.toString());
+        }
+        table[i++] = valuesAndHead.toArray(String[]::new);
+      }
+
+      return ResponseEntity.ok()
+                           .contentType(MediaType.APPLICATION_JSON)
+                           .body(table);
     }
     return ResponseEntity.status(401).build();
   }
