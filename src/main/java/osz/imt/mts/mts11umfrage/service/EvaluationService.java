@@ -1,10 +1,14 @@
 package osz.imt.mts.mts11umfrage.service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentSkipListSet;
 import org.hibernate.cfg.NotYetImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +18,7 @@ import osz.imt.mts.mts11umfrage.dto.v1.JsonResponseEvaluationDto;
 import osz.imt.mts.mts11umfrage.dto.v2.JsonResponseEvaluationV2Dto;
 import osz.imt.mts.mts11umfrage.dto.v2.JsonUserAnswerDto;
 import osz.imt.mts.mts11umfrage.models.Question;
+import osz.imt.mts.mts11umfrage.models.QuestionAnswer;
 import osz.imt.mts.mts11umfrage.models.UserAnswer;
 import osz.imt.mts.mts11umfrage.repository.QuestionRepository;
 import osz.imt.mts.mts11umfrage.repository.UserAnswersRepository;
@@ -142,6 +147,15 @@ public class EvaluationService {
     List<Question> questions;
     List<UserAnswer> answers;
     List<JsonResponseEvaluationV2Dto> result = new ArrayList<>();
+    List<Integer> multipleChoiceIndices =  List.of(8, 15, 23 );
+    List<UUID> allIds = new ArrayList<>();
+    if( multipleChoiceIndices.contains(index)){
+      var res = userAnswersRepository.findByQuestionAnswer_Question_Id(1);
+      for (UserAnswer a : res) {
+        allIds.add(a.getUserId());
+      }
+    }
+
     if (index < 0) {
       answers = userAnswersRepository.findAll();
       questions = questionRepository.findAll();
@@ -158,11 +172,28 @@ public class EvaluationService {
       // filter the answers and sort by the respective question.
       List<JsonUserAnswerDto> jsonAnswers = new ArrayList<>();
       List<UserAnswer> questionAnsweredByUser = new ArrayList<>();
+      if (allIds.isEmpty()){
+
       for (UserAnswer answer : answers) {
         // filter the answers and collect only answers for the respective question
         if (answer.getQuestionAnswer().getQuestion().getId() == question.getId()) {
           questionAnsweredByUser.add(answer);
         }
+      }
+      }else{
+        Set<UUID> uuids = new HashSet<>();
+          for (UserAnswer answer : answers) {
+            // filter the answers and collect only answers for the respective question
+            if (answer.getQuestionAnswer().getQuestion().getId() == question.getId()) {
+              questionAnsweredByUser.add(answer);
+              uuids.add(answer.getUserId());
+            }
+        }
+          allIds.removeAll(uuids);
+          var qst = questionRepository.findById(index);
+          for (UUID id : allIds) {
+            questionAnsweredByUser.add(UserAnswer.none(id,qst.get()));
+          }
       }
       // build map of answers by user id
       Map<UUID, List<String>> userIdUserAnswersMap = new ConcurrentHashMap<>();
