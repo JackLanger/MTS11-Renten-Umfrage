@@ -11,8 +11,6 @@ import osz.imt.mts.mts11umfrage.models.UserAnswer;
 public interface UserAnswersRepository extends JpaRepository<UserAnswer, Integer> {
 
   List<UserAnswer> findByQuestionAnswer_Question_Id(int id);
-
-
   @Query("SELECT Count(DISTINCT user_session_id) from UserAnswer ")
   int findAllUserAnswerCount();
 

@@ -56,6 +56,11 @@ public class UserAnswer implements DtoTransorm<UserAnswerDto> {
   @ColumnDefault("GETDATE()")
   private LocalDateTime date;
 
+  public static UserAnswer none(UUID userid,Question question) {
+
+    return new UserAnswer(UUID.randomUUID(),QuestionAnswer.defaultFor(question),userid,LocalDateTime.now());
+  }
+
 
   @Override
   public UserAnswerDto toDto() {

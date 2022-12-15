@@ -54,6 +54,10 @@ public class QuestionAnswer implements DtoTransorm<QuestionAnswerDto> {
    */
   private String htmlType = HtmlTypes.TEXT;
 
+  public static QuestionAnswer defaultFor(Question question){
+    return new QuestionAnswer(-1,question,"Keine",-1,"span");
+  }
+
   /**
    * Returns the Dto Version of this entry.
    *
