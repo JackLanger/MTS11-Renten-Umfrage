@@ -1,0 +1,10 @@
+== Einführung
+:author: Jacek Langer
+
+=== Aufgabenstellung
+
+=== Implementation
+
+==== Techstack
+
+==== System Anforderungen
