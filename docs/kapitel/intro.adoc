@@ -40,6 +40,12 @@ Dies ermöglicht es den HTML Code auf ein minimum zu halten und häufig die Komp
 - *Python:* Python wird verwendet um Excel und CSV Dateien zu erstellen.
 Das Python Script wird über einen Wrapper im entsprechenden Download Endpoint aufgerufen.
 
+- *PMD*: Hierbei handelt es sich um ein Tool zum Überprüfen von Industriestandards.
+Darüber hinaus dient es dazu Fehlerquellen zu vermeiden.
+
+- *Checkstyle*: Checkstyle ist für die Einhaltung der vorgegebenen Code Stylerichtlinien verantwortlich.
+Dabei werden die angegebenen Richtlinien überprüft.
+
 ==== System Anforderungen
 
 Minimum 2.5 GB RAM Docker
@@ -52,10 +58,23 @@ Sollte auf die verwendung von Containern verzichtet werden, müssen:
 
 vorhanden sein.
 
-=== Repository
+=== Repository und Codestyle
 
 Die Entwicklung der Anwendung wird in einem https://git-scm.com/[GIT] Repository verwaltet.
 Als externer Git-Server dient https://github.com/[github].
+
+==== Branching
+
+Als Git branching https://www.flagship.io/git-branching-strategies/[Strategie] wird *Gitflow* verwendet.
+Dabei wird großteils auf die Einhaltung der https://www.conventionalcommits.org/en/v1.0.0/[Conventional Commits] richtlinien geachtet.
+
+==== Codestyle
+
+Die Richtlinie für den Codestyle stellen die von Google bereitgestellten https://google.github.io/styleguide/javaguide.html[Google Guidelines] für Java dar.
+Diese werden über das https://checkstyle.sourceforge.io/[Checkstyle] plugin kontrolliert.
+Darüber hinaus dient https://pmd.github.io/[PMD] zur vermeidung von diversen Fehlerquellen und einhaltung von Industriestandards.
+
+Über das Erstellen und verwenden von https://git-scm.com/docs/githooks[GitHooks] können sowohl die Einhaltung von Checkstyle Richtlinien und Industriestandards forciert werden.
 
 Das Repository zur Applikation findet sich https://github.com/jaceklangertuda/mts11-renten-umfrage/[hier].
 
