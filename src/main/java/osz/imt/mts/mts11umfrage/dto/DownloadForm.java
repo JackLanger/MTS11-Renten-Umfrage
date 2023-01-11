@@ -9,10 +9,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * .
+ * Download Form object to provide functionality for download of multiple questions in a single
+ * response.
  *
  * <p>Created by: Jack</p>
  * <p>Date: 12.12.2022</p>
+ *
+ * @author Jacek Langer
  */
 @Getter
 @Setter
@@ -21,10 +24,21 @@ import lombok.Setter;
 @Builder
 public class DownloadForm {
 
+  /**
+   * Indizes to download.
+   */
   List<Integer> indizes;
+  /**
+   * Token.
+   */
   String secretToken;
 
-  public void add(Integer i) {
+  /**
+   * Adds a new index to the list of indices
+   *
+   * @param i the index of the question to retrieve.
+   */
+  public void add(int i) {
 
     if (indizes == null) {
       this.indizes = new ArrayList<>();

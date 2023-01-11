@@ -26,6 +26,8 @@ import osz.imt.mts.mts11umfrage.repository.UserAnswersRepository;
  *
  * <p>Created by: Jack</p>
  * <p>Date: 17.11.2022</p>
+ *
+ * @author Jacek Langer
  */
 @Service
 public class EvaluationService {
@@ -91,7 +93,10 @@ public class EvaluationService {
   }
 
   /**
-   * @return
+   * Creates a V1 Json Response of all questions by mapping questions against the V1
+   * {@link JsonResponseEvaluationDto}.
+   *
+   * @return List of {@link JsonResponseEvaluationDto}
    */
   public List<JsonResponseEvaluationDto> createJsonResponseV1() {
 
@@ -174,7 +179,7 @@ public class EvaluationService {
    * @return a list of {@link JsonResponseEvaluationV2Dto}
    */
   public List<JsonResponseEvaluationV2Dto> createJsonResponseV2(int index) {
-
+    // todo: needs refactoring!!
     List<Question> questions;
     List<UserAnswer> answers;
     List<JsonResponseEvaluationV2Dto> result = new ArrayList<>();

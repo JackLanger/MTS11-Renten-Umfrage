@@ -54,8 +54,21 @@ public class QuestionAnswer implements DtoTransorm<QuestionAnswerDto> {
    */
   private String htmlType = HtmlTypes.TEXT;
 
-  public static QuestionAnswer defaultFor(Question question){
-    return new QuestionAnswer(-1,question,"Keine",-1,"span");
+  /**
+   * Creates a default {@link QuestionAnswer} for the provided {@link Question},where:
+   * <ul>
+   *   <li>id: -1</li>
+   *   <li>answerOption: Keine</li>
+   *   <li>answerValue: -1</li>
+   *   <li>htmlType: span</li>
+   * </ul>
+   *
+   * @param question the question to create a default answer for
+   * @return {@link QuestionAnswer} with default values.
+   */
+  public static QuestionAnswer defaultFor(Question question) {
+
+    return new QuestionAnswer(-1, question, "Keine", -1, "span");
   }
 
   /**

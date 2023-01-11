@@ -1,12 +1,14 @@
 package osz.imt.mts.mts11umfrage.controller.utils;
 
 /**
- * Endpoints for the umfrage app..
+ * Endpoints for the survey app.
  *
  * <p>Created by: Jack</p>
  * <p>Date: 24.10.2022</p>
+ *
+ * @author Jacek Langer
  */
-public class Endpoints {
+public final class Endpoints {
 
 
   /**
@@ -30,6 +32,9 @@ public class Endpoints {
    */
   public static final String DOWNLOAD_JSON = "/download/json";
 
+  /**
+   * Download endpoint for csv files.
+   */
   public static final String ENDPOINT_CSV = "/download/csv";
 
 

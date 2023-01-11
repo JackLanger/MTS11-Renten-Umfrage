@@ -26,6 +26,8 @@ import osz.imt.mts.mts11umfrage.dto.QuestionInfoDto;
  *
  * <p>Created by: Jack</p>
  * <p>Date: 10.10.2022</p>
+ *
+ * @author Jacek Langer
  */
 @Builder
 @Setter
@@ -77,15 +79,21 @@ public class Question implements DtoTransorm<QuestionDto> {
     return dto;
   }
 
+  /**
+   * Maps this Question object to a {@link QuestionInfoDto}.
+   *
+   * @return {@link QuestionInfoDto} with mapped values from this {@link Question}.
+   */
   public QuestionInfoDto toInfoDto() {
 
     List<String> answers = new ArrayList<>();
-    if (questionAnswers.isEmpty())
+    if (questionAnswers.isEmpty()) {
       answers.add("keine");
-    else
+    } else {
       for (QuestionAnswer questionAnswer : this.questionAnswers) {
         answers.add(questionAnswer.getAnswerOption());
       }
+    }
 
     return new QuestionInfoDto(this.id, this.questionText, this.questionType, answers);
   }
