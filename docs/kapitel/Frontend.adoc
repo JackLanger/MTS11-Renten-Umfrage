@@ -1,2 +1,39 @@
 == Frontend
 :author: Jacek Langer
+:email: Jacek.langer@tu-darmstadt.de
+
+Für das Erstellen des Frontends wird https://www.thymeleaf.org/[Thymeleaf] verwendet.
+Dies nicht zuletzt am geringen Lernaufwand der notwendig ist um funktionsfähige dynamische Webseiten zu gestalten.
+Dabei dient thymeleaf als template engine und ermöglicht das erstellen und wiederverwenden von sog. html Templates.
+Aufgrund der ähnlichen vorgehensweise wie bei Gradle ist eine Ordnerstruktur von Thymeleaf und Gradle festgelegt.
+
+Um den Konfigurationsaufwand niedrig zu halten und eine reibungslose Einbindung von Thymeleaf zu gewährleisten müssen sich alle HTML seiten in `src/main/resources/templates/` befinden.
+`templates` enthält wiederum einen Ordner `fragments` in dem alle Komponenten residieren.
+
+Stylesheets und Skript Dateien müssen unter `src/main/resources/static` abgelegt werden, diese werden von Thymeleaf unter angabe des Pfades relativ zu `static` angegeben
+
+Thymeleaf elemente müssen dabei mit `th:` gekennzeichnet werden.
+
+.Thymeleaf th: Attribut
+[source]
+----
+<link th:href="@{/node_modules/bootstrap/dist/css/bootstrap.min.css}"
+          th:rel="stylesheet">
+----
+
+Die als thymeleaf element gekennzeichneten Attribute werden von Thymeleaf zur laufzeit gesetzt.
+Dies hat den Vorteil das man zur Entwicklung beispiel Attribute oder Werte setzen kann, das Frontend zu gestalten ohne das man auf die Ausführung des Programms angewiesen ist.
+
+.Beispiel eines Paragrafen mit Beispiel Text
+[source]
+----
+<p class="lead" th:text="|${question.id}. ${question.questionText}|">Beispiel Frage</p>
+----
+
+Bei diesem Codebeispiel wird  `1. Question text` durch den Controller übergebene Frage und Fragen ID ersetzt.
+
+=== Bootstrap
+
+Für die optische Gestaltung und teilweise für die Funktionalität des Frontends wird https://getbootstrap.com[Bootstrap] verwendet.
+Dabei wird auf die von Bootstrap definierten Klassen zugegriffen um Elemente zu gestalten und zu positionieren.
+

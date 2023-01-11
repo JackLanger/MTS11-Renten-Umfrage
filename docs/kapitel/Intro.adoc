@@ -1,5 +1,6 @@
 == Einführung
 :author: Jacek Langer
+:email: Jacek.langer@tu-darmstadt.de
 
 === Aufgabenstellung
 

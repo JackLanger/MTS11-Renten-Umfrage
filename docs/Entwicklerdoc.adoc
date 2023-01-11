@@ -8,8 +8,9 @@
 :imagesdir: docs/abb/
 :rootDir: docs
 
-include::kapitel/intro.adoc[offset=1]
+include::kapitel/Intro.adoc[offset=1]
 include::kapitel/Frontend.adoc[offset=1]
+include::kapitel/Controller.adoc[offset=1]
 include::kapitel/Services.adoc[offset=1]
 include::kapitel/API.adoc[offset=1]
 include::kapitel/Fragen.adoc[offset=1]
