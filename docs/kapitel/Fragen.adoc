@@ -1,0 +1,258 @@
+== Die Fragen
+
+|===
+|Nummer |Frage |Antwortmöglichkeiten |Typ
+
+|1
+|Bitte geben Sie Ihr Alter an
+|Jünger als 20 bis Älter als 70 in schritten von 10 Jahren
+|Eine Antwort
+
+|2
+|Bitte geben Sie Ihre geschlechtliche Identität an
+|Männlich,Weiblich,Diverse
+|Eine Antwort
+
+|3
+|Bitte geben Sie Ihren Familienstand an
+|Ledig,
+Verheiratet,
+Eingetragene Lebenspartnerschaft,
+Geschieden,
+Verwitwet
+|Eine Antwort
+
+|4
+|Wie viele Kinder haben Sie?
+|Keine,
+Eins,
+Zwei,
+Drei,
+Vier,
+Fünf,
+Mehr als fünf
+|Eine Antwort
+
+|5
+|Was ist Ihr höchster Abschluss?
+|Ohne Abschluss,
+Hauptschulabschluss,
+Mittlere Reife / Realschulabschluss,
+Hochschulreife,
+Nachschulischer Abschluss,
+Ausbildung,
+Studium
+|Eine Antwort
+
+|6
+|Welcher Berufsgruppe gehören Sie an?
+|Schüler*in,
+Auszubildende*r,
+Student*in,
+Angestellte*r,
+Selbstständige*r,
+Beamte*r,
+Rentner*in / Pensionär*in
+|Eine Antwort
+
+|7
+|Bitte geben Sie Ihr monatliches Bruttoeinkommen an
+|Kein Einkommen, bis mehr als 6000 €
+|Eine Antwort
+
+|8
+| In welchem Umfeld wurden Sie auf das Thema Rente aufmerksam gemacht?
+|Familie,
+Freunde,
+Beruf,
+Schule,
+Rentenbescheid,
+Werbekampagne,
+Politik,
+Soziale Medien,
+Sonstige,
+Rente? Noch nie gehört.
+|Multiple
+
+|9
+|Inwieweit hat das Thema Rente Einfluss auf Ihre Familienplanung?
+|Kein Einfluss,
+Sehr geringer Einfluss,
+Geringer Einfluss,
+Eher geringer Einfluss,
+Eher großer Einfluss,
+Großer Einfluss,
+Sehr großer Einfluss
+|Single
+
+|10
+|Was glauben Sie wird das Renteneintrittsalter sein wenn Sie in Rente gehen?
+|unter 60 bis 77 in schritten von 2 Jahren
+|Eine Antwort
+
+|11
+|Mit welchem Alter würden Sie gerne in Rente gehen?
+|unter 60 bis 77 in schritten von 2 Jahren
+|Eine Antwort
+
+
+|12
+|Wie sehr haben Sie sich bisher mit dem Thema Rente beschäftigt?
+|Gar nicht,
+Sehr wenig,
+Wenig,
+Eher wenig,
+Eher ausführlich,
+Ausführlich,
+Sehr ausführlich
+|Eine Antwort
+
+|13
+|Wie gut schätzen Sie Ihr Wissen über die gesetzliche Rentenversicherung ein?
+|Ich kenne mich nicht aus,
+Sehr schlecht,
+Schlecht,
+Eher schlecht,
+Eher gut,
+Gut,
+Sehr gut
+|Eine Antwort
+
+|14
+|„Denn eins ist sicher – die Rente“. Würden Sie dieser Aussage eines Wahlplakats von 1986 heute noch zustimmen?
+|Kann mit der Aussage nichts anfangen,
+Stimme überhaupt nicht zu,
+Stimme nicht zu,
+Stimme eher nicht zu,
+Stimme eher zu,
+Stimme zu,
+Stimme voll zu
+|Eine Antwort
+
+|15
+|Welche der folgenden Begriffe könnten Sie jemand anderem in einfachen Worten erklären?
+|Rentenpunkte,
+Standardrente,
+Demografischer Wandel,
+Umlageverfahren,
+Rentenbescheid,
+Grundsicherung im Alter,
+Rentenniveau,
+Renteneintrittsalter,
+Frührente,
+Rentenformel,
+Generationenvertrag
+|Multiple
+
+|16
+|Wie ausschlaggebend war die betriebliche Rente oder Möglichkeiten zu vermögenswirksamen Leistungen o.Ä. für die Wahl Ihres Arbeitgebers?
+|Gar nicht,
+Sehr gering,
+Gering,
+Ich habe mir Gedanken gemacht,
+War mir wichtig,
+War mir sehr wichtig,
+War ausschlaggebend
+|Eine Antwort
+
+|17
+| Für wie wahrscheinlich halten Sie es, dass Sie in Ihrem aktuellen Beruf bis zum regulären Renteneintrittsalter arbeiten werden?
+|Keine Ahnung,
+Sehr unwahrscheinlich,
+Unwahrscheinlich,
+Eher unwahrscheinlich,
+Eher wahrscheinlich,
+Wahrscheinlich,
+Sehr wahrscheinlich
+|Eine Antwort
+
+|18
+|In welchem Alter haben Sie angefangen regelmäßig in die gesetzliche Rentenversicherung einzuzahlen?
+|Unter 20 bis 60 in 10er Schritten, ebenfalls "Ich habe nicht Eingezahlt"
+|Eine Antwort
+
+|19
+|Wie schätzen sie ihre finanzielle Absicherung im Alter durch die gesetzliche Rente ein?
+|Keine Ahnung,
+Sehr schlecht,
+Schlecht,
+Eher schlecht,
+Eher gut,
+Gut,
+Sehr gut
+|Eine Antwort
+
+|20
+|In welchem Alter haben Sie angefangen regelmäßig privat vorzusorgen?
+|Unter 20 bis 60 in 10er Schritten, ebenfalls "Ich habe nicht Eingezahlt"
+|Eine Antwort
+
+
+|21
+|Wie schätzen Sie die Auswirkungen durch die aktuellen Preissteigerungen auf Ihre Rentensituation ein?
+|Keine Auswirkungen,
+Sehr gering,
+Gering,
+Eher gering,
+Eher stark,
+Stark,
+Sehr stark
+|Eine Antwort
+
+|22
+|Wie viel Aufwand haben Sie in die Planung Ihrer Altersvorsorge gesteckt?
+|Gar keinen,
+Sehr wenig,
+Wenig,
+Eher wenig,
+Eher viel,
+Viel
+
+|Eine Antwort
+
+|23
+|Welche der folgenden Maßnahmen zur Sicherung Ihrer Rente haben Sie bereits getroffen?
+|Betriebliche Altersvorsorge,
+Private Rentenversicherung,
+Lebensversicherung,
+Anlagen,
+Immobilien und Wertgegenstände,
+ETF und Aktien,
+Andere
+|Eine Antwort
+
+|24
+|Wie sicher fühlen Sie sich bezüglich ihrer Vorkehrungen?
+|Sehr unsicher,
+Unsicher,
+Eher unsicher,
+Eher sicher,
+Sicher,
+Sehr sicher
+|Eine Antwort
+
+|25
+|Wie viel Geld investieren Sie in etwa monatlich in Ihre private Altersvorsorge?
+|Nichts,
+Weniger als 50€,
+50-99 €,
+100-199 €,
+200-299 €,
+300-499 €,
+500-999 €,
+Mehr als 1000 €
+|Eine Antwort
+
+|26
+|Hat diese Umfrage Sie angeregt Maßnahmen für Ihre Rente zu ergreifen?
+|Ja,
+Eher ja,
+Ich bin mir nicht sicher,
+Eher nein,
+Nein
+|Eine Antwort
+
+|===
+
+
+

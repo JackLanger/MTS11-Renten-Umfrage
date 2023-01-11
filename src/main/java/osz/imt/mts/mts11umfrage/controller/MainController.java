@@ -13,7 +13,6 @@ import osz.imt.mts.mts11umfrage.models.Question;
 import osz.imt.mts.mts11umfrage.repository.QuestionAnswerRepository;
 import osz.imt.mts.mts11umfrage.repository.QuestionRepository;
 import osz.imt.mts.mts11umfrage.repository.UserAnswersRepository;
-import osz.imt.mts.mts11umfrage.service.EvaluationService;
 
 
 /**
@@ -21,6 +20,8 @@ import osz.imt.mts.mts11umfrage.service.EvaluationService;
  *
  * <p>Created by: Jack</p>
  * <p>Date: 10.10.2022</p>
+ *
+ * @author Jacek Langer
  */
 @Controller
 @SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
@@ -39,7 +40,6 @@ public class MainController {
    * Repository for userAnswers.
    */
   final UserAnswersRepository userAnswersRepository;
-  private final EvaluationService evaluationService;
 
   /**
    * Initializes the respective repositories used for fetching data.
@@ -47,18 +47,15 @@ public class MainController {
    * @param questionRepository       the {@link QuestionRepository}
    * @param questionAnswerRepository the {@link QuestionAnswerRepository}
    * @param userAnswersRepository    the {@link UserAnswersRepository}
-   * @param evaluationService        the {@link EvaluationService}
    */
   @Autowired
   public MainController(QuestionRepository questionRepository,
                         QuestionAnswerRepository questionAnswerRepository,
-                        UserAnswersRepository userAnswersRepository,
-                        EvaluationService evaluationService) {
+                        UserAnswersRepository userAnswersRepository) {
 
     this.questionRepository = questionRepository;
     this.questionAnswerRepository = questionAnswerRepository;
     this.userAnswersRepository = userAnswersRepository;
-    this.evaluationService = evaluationService;
   }
 
   /**
@@ -76,9 +73,10 @@ public class MainController {
   }
 
   /**
-   * Download UserAnswers.
+   * Endpoint leading to the download page (download.html).
    *
-   * @return
+   * @return {@link ModelAndView} containing a questions and form objects as well as the total
+   *     answer count.
    */
   @GetMapping(DOWNLOAD_ENDPOINT)
   public ModelAndView download() {
@@ -92,13 +90,15 @@ public class MainController {
   }
 
   /**
-   * Download UserAnswers.
+   * Endpoint leading to the download page (download.html).
    *
-   * @return
+   * @return {@link ModelAndView} containing a questions and form objects as well as the total
+   *     answer count.
    */
   @GetMapping("/download/data")
+  @Deprecated
   public ModelAndView downloadData() {
-
+    // This method is not yet working
     final ModelAndView mav = new ModelAndView("downloadv2");
     mav.addObject("count", userAnswersRepository.findAllUserAnswerCount());
     List<Question> questions = questionRepository.findAll();
@@ -107,6 +107,12 @@ public class MainController {
     return mav;
   }
 
+  /**
+   * Endpoint for the impressum page. Impressum is seperated from pages but still has to be
+   * accessible.
+   *
+   * @return Impressum.html
+   */
   @GetMapping("/impressum")
   public String agreement() {
 

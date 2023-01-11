@@ -2,8 +2,8 @@ package osz.imt.mts.mts11umfrage.controller;
 
 import static osz.imt.mts.mts11umfrage.controller.utils.Endpoints.DOWNLOAD_EXCEL;
 import static osz.imt.mts.mts11umfrage.controller.utils.Endpoints.ENDPOINT_CSV;
-import static osz.imt.mts.mts11umfrage.utils.PathUtils.CSV_DOWNLOAD_PATH;
-import static osz.imt.mts.mts11umfrage.utils.PathUtils.XLSX_DOWNLOAD_PATH;
+import static osz.imt.mts.mts11umfrage.utils.PathConstants.CSV_DOWNLOAD_PATH;
+import static osz.imt.mts.mts11umfrage.utils.PathConstants.XLSX_DOWNLOAD_PATH;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -30,38 +30,54 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import osz.imt.mts.mts11umfrage.dto.Evaluation;
 import osz.imt.mts.mts11umfrage.models.UserAnswer;
 import osz.imt.mts.mts11umfrage.pythonHandler.PythonHandler;
-import osz.imt.mts.mts11umfrage.repository.UserAnswersRepository;
 import osz.imt.mts.mts11umfrage.service.AuthService;
 import osz.imt.mts.mts11umfrage.service.EvaluationService;
 
 /**
- * .
+ * Download Controller, responsible for managing download endpoints.
  *
  * <p>Created by: Jack</p>
  * <p>Date: 16.11.2022</p>
+ *
+ * @author Moritz Hartmann, Jacek Langer
  */
 @Controller
 public class DownloadController {
 
 
-  //TODO(Moritz): refactor methods should not return void but a ResponseEntity<Resource>
-  // otherwise you need to set the response code.
+  /**
+   * Constant to be set for response for controller endpoints producing json responses.
+   */
   public static final String JSON = "application/json";
-
+  /**
+   * Evaluation Service to handle Evaluation tasks.
+   */
   private final EvaluationService evalService;
+  /**
+   * Authentication service to handle authentication.
+   */
   private final AuthService authService;
+  /**
+   * Python handler, responsible for generating csv and xlsx files.
+   */
   private final PythonHandler pythonHandler;
-  private final UserAnswersRepository userAnswerRepo;
 
+  /**
+   * Creates a new Download controller. This should not be used as Springboot autowires needed
+   * services.
+   *
+   * @param evalService   The Evaluation Service
+   * @param authService   the Authentication Service
+   * @param pythonHandler the python handler
+   */
   @Autowired
   public DownloadController(EvaluationService evalService,
                             AuthService authService,
-                            PythonHandler pythonHandler, UserAnswersRepository userAnswerRepo) {
+                            PythonHandler pythonHandler) {
 
     this.evalService = evalService;
     this.authService = authService;
     this.pythonHandler = pythonHandler;
-    this.userAnswerRepo = userAnswerRepo;
   }
 
 
@@ -76,6 +92,17 @@ public class DownloadController {
     return headers;
   }
 
+  /**
+   * Endpoint to provide a download for a xlsx file. Basically this endpoint provides a Filestream
+   * to the user.
+   *
+   * @param token    Token used for authentication
+   * @param response {@link HttpServletResponse} from the server containing cookies etc.
+   * @return {@link ResponseEntity} containing a {@link InputStreamResource}.
+   * @throws IOException              A {@link IOException} is thrown if the file to be provided is
+   *                                  not to be found
+   * @throws NoSuchAlgorithmException if the hashing is not a valid hashing algorithm.
+   */
   @RequestMapping(value = DOWNLOAD_EXCEL, method = RequestMethod.POST)
   public ResponseEntity<InputStreamResource> downloadExcel(@RequestParam String token,
                                                            HttpServletResponse response)
@@ -97,6 +124,17 @@ public class DownloadController {
     return ResponseEntity.status(401).build();
   }
 
+  /**
+   * Endpoint to provide a download for a CSV file. Basically this endpoint provides a Filestream to
+   * the user.
+   *
+   * @param token    Token used for authentication
+   * @param response {@link HttpServletResponse} from the server containing cookies etc.
+   * @return {@link ResponseEntity} containing a {@link InputStreamResource}.
+   * @throws IOException              A {@link IOException} is thrown if the file to be provided is
+   *                                  not to be found
+   * @throws NoSuchAlgorithmException if the hashing is not a valid hashing algorithm.
+   */
   @RequestMapping(value = ENDPOINT_CSV, method = RequestMethod.POST)
   public ResponseEntity<InputStreamResource> downloadCsv(@RequestParam String token,
                                                          HttpServletResponse response)
@@ -120,9 +158,14 @@ public class DownloadController {
   }
 
   /**
-   * JSON Endpoint to return all {@link UserAnswer}s as json data.
+   * Shorthand endpoint to return the respective <strong>Json Response Entity Objects</strong> for
+   * all questions dependent on the version provided.
    *
-   * @return List of {@link UserAnswer} as json
+   * @param token   the token provided by the user
+   * @param version the verion to use "v1" or "v2"
+   * @return {@link ResponseEntity} containing a List of <strong>Json Response Entity
+   *     Objects</strong> as json
+   * @throws NoSuchAlgorithmException If hashing is not possible with the algorithm used
    */
   @RequestMapping(value = "/json/{version}", method = RequestMethod.GET, produces = JSON)
   @ResponseBody
@@ -135,9 +178,25 @@ public class DownloadController {
 
 
   /**
-   * JSON Endpoint to return all {@link UserAnswer}s as json data.
+   * Endpoint to return all {@link UserAnswer} objects associated with a given question. The
+   * response is dependent of the version and index provided.
+   * <p>
+   * Possible options for the version are:
    *
-   * @return List of {@link UserAnswer} as json
+   *   <ul>
+   *     <li>v1: {@link osz.imt.mts.mts11umfrage.dto.v1.JsonResponseEvaluationDto}</li>
+   *     <li>v2: {@link osz.imt.mts.mts11umfrage.dto.v2.JsonResponseEvaluationV2Dto}</li>
+   *   </ul>
+   * Dependent of the given version a list of the respective response format is appended to the
+   * {@link ResponseEntity}
+   *
+   * @param token   Validation token provided by user
+   * @param version version of the json response expected. e.g. "v1"
+   * @param index   the index of the question to be returned. All answers for the question are
+   *                returned. If the value is null all Questions are considered.
+   * @return A {@link ResponseEntity} containing the respective <strong>Json Response Evaluation
+   *     Dto</strong>.
+   * @throws NoSuchAlgorithmException If hashing using the provided algorithm is not possible
    */
   @RequestMapping(value = "/json/{version}/{index}", method = RequestMethod.GET, produces = JSON)
   @ResponseBody
@@ -160,7 +219,15 @@ public class DownloadController {
     return ResponseEntity.status(401).build();
   }
 
-
+  /**
+   * Endpoint to provide a download for a CSV file containing only to the question with the provided
+   * id. Basically this endpoint provides a Filestream to the user.
+   *
+   * @param token Token used for authentication
+   * @param index index of the question to map
+   * @return {@link ResponseEntity} containing a {@link InputStreamResource}.
+   * @throws NoSuchAlgorithmException if the hashing is not a valid hashing algorithm.
+   */
   @RequestMapping("/csv/{index}")
   public ResponseEntity<Object> csv(@RequestParam String token,
                                     @PathVariable String index) throws NoSuchAlgorithmException {

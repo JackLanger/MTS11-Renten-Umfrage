@@ -1,0 +1,137 @@
+== Controller
+:author: Jacek Langer
+:email: Jacek.langer@tu-darmstadt.de
+
+Die Applikation verwendet drei Controller, um Daten zu verwalten und mit dem Frontend zu verknüpfen.
+
+Ein `Controller` sorgt für das routing zu den registrierten Seiten der Applikation (Index, Questions und Download).
+Dafür werden über `Get` Mappings die routes angegeben.
+Wird eine registrierte Adresse angesteuert, feuert die entsprechende Methode.
+
+Adressen werden z.B. über die Annotation `@GetMapping(<route>)` festgelegt.
+
+Um eine Seite Html Seite dem Nutzer zu übergeben, wenn dieser einen Endpoint ansteuert muss die verantwortliche Methode eine String mit dem exakten Namen ohne Endung zurückgeben oder ein `ModelAndView` Objekt das den Namen der Seite als Titel enthält.
+
+Alle Endpoints müssen mit public Methoden verknüpft sein.
+
+.Beispielcode für einen Controller Endpoint mit ModelAndView und mit String
+[source]
+----
+@GetMapping("/MyHome")
+public ModelAndView myHome(){
+    ModelAndView mav = new ModelAndView("myHome");
+    return mav;
+}
+
+@GetMapping("/SecondPage")
+public String secondPage(){
+
+    return "secondPage";
+}
+----
+
+Die verwendung von ModelAndView hat den Vorteil, das Objekte an die angesteuerte Webseite übergeben werden können.
+Dies ermöglicht das Erstellen von dynamischen Webseiten ohne eine Kopplung des Frontends mit dem Backend.
+
+.Übergeben eines Objektes an das Frontend
+[source]
+----
+@GetMapping("/MyHome")
+public ModelAndView myHome(){
+    ModelAndView mav = new ModelAndView("myHome");
+    mav.addObejct("mySecretNumber",27)
+    return mav;
+}
+----
+
+.Konsumieren eines Objektes mit Thymeleaf
+[source]
+----
+<p th:text="${mySecretNumber}">secret number</p>
+----
+
+=== MainController
+
+Verwaltet die Get Routes zu allen Seiten der Applikation.
+D.h. es sind routes für die Downloads, den Index und die Fragen festgelegt.
+Bei Bedarf werden die für Webseiten notwendigen Objekte erzeugt und an die `MAV` übergeben.
+
+=== QuestionController
+
+Verwaltet die Endpoints mit relevanz für die Fragen.
+Dies beinhaltete das Laden und Speichern der Fragen Objekte aus und in die Datenbank.
+Sowie eine Weiterleitung nach beendigung der Umfrage.
+
+=== DownloadController
+
+Der Download Controller ist für die Bereitstellung der Fragen zum Download als Datei oder über eine REST-API in Form einer JSON antwort verantwortlich.
+
+=== Routes
+
+.Übersicht der Endpoints und der zugehörigen Controller
+|===
+|Route |Request Type |Controller| Aufgabe
+
+| /
+|GET
+|MainController
+|Führt zum Index mit Einwilligungserklärung
+
+|/impressum
+|GET
+|MainController
+|Führt zum Impressum der Webapplikation
+
+|/download
+|GET
+|MainController
+|Führt zur Download Seite
+
+|/json/{version}/{index}
+|GET
+|DownloadController
+|Stellt eine JSON Response der angegebenen Version und für die Frage mit dem angegebenen Index bereit
+
+|/json/{version}
+|GET
+|DownloadController
+|Stellt eine JSON Response mit allen Fragen und Antworten bereit
+
+|/download/csv
+|GET
+|DownloadController
+|Stellt einen Download einer CSV Datei mit allen Fragen und Antworten
+
+|/download/xlsx
+|GET
+|DownloadController
+|Stellt einen Download einer XLSX Datei mit allen Fragen und Antworten
+
+|/csv/{index}
+|GET
+|DownloadController
+|Stellt einen Download einer CSV Datei mit den Antworten zur Frage mit dem angegebenen Index bereit
+
+|/questions
+|GET
+|QuestionController
+|Führt zu den Fragen
+
+
+|/questions
+|POST
+|QuestionController
+|Sendet die Verifikation der Einwilligungserklärung an den Server und erzeugt einen Cookie für den Nutzer der im weiteren Verlauf zur identifikation des Antwortsatzes genutzt wird.
+
+|/saveData
+|POST
+|QuestionController
+|Sendet die Ergebnisse der Umfrage an den Controller weiter und sichert diese in der Datenbank
+
+|/finish
+|GET
+|QuestionController
+|Leitet den Nutzer auf die Auf wiedersehen Seite weiter.
+|===
+
+
