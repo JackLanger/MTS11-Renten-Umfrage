@@ -16,10 +16,10 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import osz.imt.mts.mts11umfrage.data.QuestionTypes;
 import osz.imt.mts.mts11umfrage.dto.QuestionAnswerDto;
 import osz.imt.mts.mts11umfrage.dto.QuestionDto;
 import osz.imt.mts.mts11umfrage.dto.QuestionInfoDto;
+import osz.imt.mts.mts11umfrage.dto.util.QuestionTypes;
 
 /**
  * Data model of a Question used in the survey.

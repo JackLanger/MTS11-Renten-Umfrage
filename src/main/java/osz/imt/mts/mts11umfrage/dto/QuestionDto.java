@@ -8,7 +8,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import osz.imt.mts.mts11umfrage.data.QuestionTypes;
+import osz.imt.mts.mts11umfrage.dto.util.QuestionTypes;
 import osz.imt.mts.mts11umfrage.models.Question;
 
 /**

@@ -9,10 +9,18 @@ import lombok.Setter;
 import osz.imt.mts.mts11umfrage.dto.Evaluation;
 
 /**
- * .
+ * Response object for Json response of version 1.
+ *
+ * <p>Example Response</p>
+ * <p>
+ * {@code { "questionid":1, "question":"QuestionText", "answerOptions":["answer",...],
+ * "userAnswers":["answer",...]  } }
+ * </p>
  *
  * <p>Created by: Jack</p>
  * <p>Date: 07.12.2022</p>
+ *
+ * @author Jacek Langer
  */
 @Builder
 @Getter
