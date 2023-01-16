@@ -1,0 +1,16 @@
+= OSZIMT MTS11 Renten Umfrage
+
+:authors: Jacek Langer, Marvin Bittner, Moritz Hartman
+:compat-mode!:
+:toc: left
+:toclevels: 4
+:icons: font
+:imagesdir: docs/abb/
+:rootDir: docs
+
+include::kapitel/Intro.adoc[offset=1]
+include::kapitel/Frontend.adoc[offset=1]
+include::kapitel/Controller.adoc[offset=1]
+include::kapitel/Services.adoc[offset=1]
+include::kapitel/API.adoc[offset=1]
+include::kapitel/Fragen.adoc[offset=1]

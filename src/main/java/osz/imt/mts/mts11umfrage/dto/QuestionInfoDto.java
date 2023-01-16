@@ -1,7 +1,7 @@
 package osz.imt.mts.mts11umfrage.dto;
 
 import java.util.List;
-import osz.imt.mts.mts11umfrage.data.QuestionTypes;
+import osz.imt.mts.mts11umfrage.dto.util.QuestionTypes;
 
 /**
  * .

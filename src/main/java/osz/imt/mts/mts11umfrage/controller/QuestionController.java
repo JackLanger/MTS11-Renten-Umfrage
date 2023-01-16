@@ -22,13 +22,36 @@ import osz.imt.mts.mts11umfrage.dto.SurveyDto;
 import osz.imt.mts.mts11umfrage.dto.UserAnswerDto;
 import osz.imt.mts.mts11umfrage.service.QuestionService;
 
+/**
+ * Controller responsible for saving and retrieving questions. In general processing all question
+ * related endpoints.
+ *
+ * @author Jacek Langer
+ */
 @Controller
 public class QuestionController {
 
+  /**
+   * Logger for this class.
+   * todo: no yet in use. use logger to create a permanent log.
+   */
   private static final Logger LOGGER = LoggerFactory.getLogger(QuestionController.class);
 
+  /**
+   * Creates a new Controller object and autowires the services.
+   *
+   * @param service the question service.
+   */
   @Autowired
-  QuestionService service;
+  public QuestionController(QuestionService service) {
+
+    this.service = service;
+  }
+
+  /**
+   * {@link QuestionService} for handling question data.
+   */
+  private final transient QuestionService service;
 
 
   /**
@@ -80,12 +103,14 @@ public class QuestionController {
    * Endpoint for saving the data to the database.
    *
    * @param surveyAnswers the answers retrieved from the server
+   * @param sessionId     the user session id
    * @return goodbye and thank you endpoint.
    */
   @PostMapping("/saveData")
   public ModelAndView saveData(@ModelAttribute final SurveyDto surveyAnswers,
                                @Nullable @CookieValue("mts11-umfrage-session") String sessionId) {
-    String session = Objects.isNull(sessionId) ? UUID.randomUUID().toString() :sessionId;
+
+    String session = Objects.isNull(sessionId) ? UUID.randomUUID().toString() : sessionId;
 
     final var answerList = surveyAnswers.getAnswers();
 
@@ -112,7 +137,12 @@ public class QuestionController {
   }
 
 
-  @GetMapping("/Finish")
+  /**
+   * Redirection route to the finished survey page.
+   *
+   * @return The {@link ModelAndView} object leading to finished survey page.
+   */
+  @GetMapping("/finish")
   public ModelAndView finishedSurvey() {
 
     return new ModelAndView("finish");

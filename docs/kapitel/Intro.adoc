@@ -1,0 +1,81 @@
+== Einführung
+:author: Jacek Langer
+:email: Jacek.langer@tu-darmstadt.de
+
+=== Aufgabenstellung
+
+Gegeben war die Aufgabe eine Umfrage zu einem gewählten Thema zu Erstellen und auszuwerten.
+Beim gewählten Thema handelt es sich um die Rente in Deutschland.
+Um ein Aussagekräftiges Umfrageergebnis zu erlangen ist es wichtig anonyme Datensätze unterschiedlicher Alters-, Einkommens- und Bildungsgruppen zu erlangen.
+
+Aufgrund dieser Aufgabenstellung hat man sich entschieden eine Webplattform zu erstellen über welche Datensätze gesammelt und zur Auswertung bereitgestellt werden können.
+
+=== Implementation
+
+Die Implementation der Webplattform ist in Java mit Springboot und Hibernate umgesetzt.
+Für die Sicherung von Daten ist eine MSSQL-Datenbank eingebunden.
+Applikation und Datenbank sind individuell in Containern bereitgestellt.
+
+Aufgrund dieser Modalisierung ist es möglich mit wenig Aufwand die Datenbank auszutauschen und/oder unabhängig von der Applikation zu verwalten.
+
+==== Techstack
+
+- *Java 17:* Als Programmiersprache wurde Java verwendet.
+
+- *Docker:* Docker als Tool verwendet um Container zu erstellen und zu starten.
+Nähere infos finden sich auf der offiziellen  https://docs.docker.com/[Docker Dokumentation]
+
+- *SpringBoot:* Das SpringBoot Framework dient in erster line zur Konfiguration.
+Es bietet einen unkomplizierten und effizienten Weg eine Webapplikation mit einem Apache2 server zu starten und als Model View Controller (MVC) aufzubauen.
+SpringBoot bedient sich hierfür diverser Annotationen mehr dazu kann auf der offiziellen Seite https://spring.io/projects/spring-boot[SpringBoot] gefunden werden.
+
+- *Hibernate und JPA:* Hibernate und JPA sind verantwortlich für die Verwaltung von Daten verantwortlich.
+Dabei werden SQL Abfragen dynamisch erstellt.
+Dies hat häufig den Vorteil das SQL-Injection weniger ein Problem darstellt.
+Nähere informationen finden sich in der Dokumentation von https://hibernate.org/orm/documentation/6.1/[hibernate]
+
+- *Thymeleaf:* Thymeleaf ist für das Erstellen von Dynamischen HTML elementen verantwortlich.
+Dabei werden Templates erstellt die an mehreren Stellen verwendet werden können.
+Dies ermöglicht es den HTML Code auf ein minimum zu halten und häufig die Komplexität herauszunehmen.
+
+- *Python:* Python wird verwendet um Excel und CSV Dateien zu erstellen.
+Das Python Script wird über einen Wrapper im entsprechenden Download Endpoint aufgerufen.
+
+- *PMD*: Hierbei handelt es sich um ein Tool zum Überprüfen von Industriestandards.
+Darüber hinaus dient es dazu Fehlerquellen zu vermeiden.
+
+- *Checkstyle*: Checkstyle ist für die Einhaltung der vorgegebenen Code Stylerichtlinien verantwortlich.
+Dabei werden die angegebenen Richtlinien überprüft.
+
+==== System Anforderungen
+
+Minimum 2.5 GB RAM Docker
+
+Alle Abhängigkeiten sind in den bereitgestellten Containern enthalten.
+Sollte auf die verwendung von Containern verzichtet werden, müssen:
+
+- Java Runtime Environment 17 (JRE-17)
+- Python 3.10
+
+vorhanden sein.
+
+=== Repository und Codestyle
+
+Die Entwicklung der Anwendung wird in einem https://git-scm.com/[GIT] Repository verwaltet.
+Als externer Git-Server dient https://github.com/[github].
+
+==== Branching
+
+Als Git branching https://www.flagship.io/git-branching-strategies/[Strategie] wird *Gitflow* verwendet.
+Dabei wird großteils auf die Einhaltung der https://www.conventionalcommits.org/en/v1.0.0/[Conventional Commits] richtlinien geachtet.
+
+==== Codestyle
+
+Die Richtlinie für den Codestyle stellen die von Google bereitgestellten https://google.github.io/styleguide/javaguide.html[Google Guidelines] für Java dar.
+Diese werden über das https://checkstyle.sourceforge.io/[Checkstyle] plugin kontrolliert.
+Darüber hinaus dient https://pmd.github.io/[PMD] zur vermeidung von diversen Fehlerquellen und einhaltung von Industriestandards.
+
+Über das Erstellen und verwenden von https://git-scm.com/docs/githooks[GitHooks] können sowohl die Einhaltung von Checkstyle Richtlinien und Industriestandards forciert werden.
+
+Das Repository zur Applikation findet sich https://github.com/jaceklangertuda/mts11-renten-umfrage/[hier].
+

@@ -19,6 +19,8 @@ import osz.imt.mts.mts11umfrage.dto.UserAnswerDto;
 
 /**
  * User answer entity. Answers given by the user.
+ *
+ * @author Jacke Langer
  */
 @Builder
 @AllArgsConstructor
@@ -56,6 +58,18 @@ public class UserAnswer implements DtoTransorm<UserAnswerDto> {
   @ColumnDefault("GETDATE()")
   private LocalDateTime date;
 
+  /**
+   * Creates a default {@link UserAnswer} for a given user and a Question.
+   *
+   * @param userid   the user session id
+   * @param question the question respective to the answer
+   * @return A User Answer object with default values
+   */
+  public static UserAnswer none(UUID userid, Question question) {
+
+    return new UserAnswer(UUID.randomUUID(), QuestionAnswer.defaultFor(question), userid,
+                          LocalDateTime.now());
+  }
 
   @Override
   public UserAnswerDto toDto() {

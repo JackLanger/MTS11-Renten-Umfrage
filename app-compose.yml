@@ -46,7 +46,7 @@ services:
 
   umfrage:
     container_name: mts11.lf7.umfrage.app
-    build: .
+    #    build: .
     image: ghcr.io/jaceklangertuda/mts11.lf7.umfrage.app:latest
     #    image: moritz.dont.break.it
     #    pull_policy: always
@@ -80,7 +80,7 @@ services:
 #    depends_on:
 #      - umfrage
 #    ports:
-#      - 443:443
+#      - 444:443
 
 volumes:
   umfrage-db-backup:

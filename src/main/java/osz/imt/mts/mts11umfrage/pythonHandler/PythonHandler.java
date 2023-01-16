@@ -1,57 +1,79 @@
 package osz.imt.mts.mts11umfrage.pythonHandler;
 
 
+import static osz.imt.mts.mts11umfrage.utils.PathConstants.CSV_PY;
+import static osz.imt.mts.mts11umfrage.utils.PathConstants.DATA_JSON_PATH_CACHE;
+import static osz.imt.mts.mts11umfrage.utils.PathConstants.EXCEL_PY;
+
 import com.google.gson.Gson;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import osz.imt.mts.mts11umfrage.dto.EvaluationDto;
-import osz.imt.mts.mts11umfrage.dto.UserAnswerDto;
-import osz.imt.mts.mts11umfrage.models.UserAnswer;
-import osz.imt.mts.mts11umfrage.repository.UserAnswersRepository;
-import osz.imt.mts.mts11umfrage.service.EvaluationService;
-import osz.imt.mts.mts11umfrage.utils.JsonResponse;
-import osz.imt.mts.mts11umfrage.utils.PathUtils;
-
-import static osz.imt.mts.mts11umfrage.utils.OsInformation.OS;
-import static osz.imt.mts.mts11umfrage.utils.PathUtils.*;
-import static osz.imt.mts.mts11umfrage.utils.PathUtils.DATA_JSON_PATH_CACHE;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import osz.imt.mts.mts11umfrage.service.EvaluationService;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
+/**
+ * Service to Handle Python tasks in Java. Basically a wrapper around a python script.
+ *
+ * @author Moritz Hartmann
+ */
 @Service
-public class PythonHandler{
+public class PythonHandler {
+
+  /**
+   * Evaluation Service to be autowired.
+   */
+  private final transient EvaluationService evaluationService;
+
+  /**
+   * Creates and autowires a new PythonHandler object.
+   *
+   * @param evaluationService the evaluation service.
+   */
   @Autowired
-  private EvaluationService evaluationService;
+  public PythonHandler(EvaluationService evaluationService) {
 
+    this.evaluationService = evaluationService;
+  }
 
+  /**
+   * Creates a new File with the given content and saves it at the provided path.
+   *
+   * @param content The contents of the File
+   * @param path    the path where to save the file
+   * @throws IOException If path is unreachable
+   */
   public static void create_file(String content, String path) throws IOException {
 
     Files.writeString(
-            Paths.get(path).toAbsolutePath(),
-            content);
+        Paths.get(path).toAbsolutePath(),
+        content);
   }
 
-  public PythonHandler() {
-  }
 
-  public void runScript() {
-    //TODO: Hier muss dto übergeben werden
+  /**
+   * Executes the python script.
+   *
+   * @param type The type of file to be generated
+   */
+  public void runScript(String type) {  // todo: replace with enum.
+
+    String command = "python3 ";
+    switch (type) {
+      case "csv" -> command += CSV_PY;
+      case "xlsx" -> command += EXCEL_PY;
+      default -> throw new IllegalStateException("Unexpected value: " + type);
+    }
+
     Gson gson = new Gson();
 
     String json = gson.toJson(evaluationService.findAll());
-    try{
-      create_file(json,DATA_JSON_PATH_CACHE);
-    }
-    catch (IOException e) {
+    try {
+      create_file(json, DATA_JSON_PATH_CACHE);
+    } catch (IOException e) {
       e.printStackTrace();
     }
 
@@ -59,52 +81,17 @@ public class PythonHandler{
     Process process = null;
 
 
-    // Python script file path
-    String python_file_path = OS.contains("Windows") ? Paths.get("").toAbsolutePath() + MAIN_PY: MAIN_PY;
-
-
-    String python_venv_path = OS.contains("Windows") ? Paths.get("").toAbsolutePath() + SCRIPTS: SCRIPTS;
-
-
-    if (OS.contains("Windows")) {
-      python_venv_path += "/activate.bat";
-    } else {
-      python_venv_path += "/activate";
-      python_venv_path = ". " + python_venv_path;
-    }
-
-    //check if os is windows or linux
-    String command = "";
-
-    if (OS.contains("Windows")) {
-      command = "py " + python_file_path;
-    } else {
-      command = "python3 " + python_file_path;
-    }
-
     try {
       ProcessBuilder builder = new ProcessBuilder();
-      if (OS.contains("Windows")) {
-        builder.command("cmd.exe", "/c", python_venv_path
-                                        +
-                                        " && "
-                                        +
-                                        command
-                                        +
-                                        " "
-                                        +
-                                        DOWNLOAD_PATH);
 
-      } else {
-        builder.command("bash", "-c",
-                                        command
-                                        +
+      builder.command("bash", "-c",
+                      command); //
+                                        /*+
                                         " "
                                         +"-downloadpath " +
-                                        DOWNLOAD_PATH+"//"+FILENAME+".xlsx"
-                                        +" -datapath " + DATA_JSON_PATH_CACHE);
+                                        "/bin/venv/media/python/"+FILENAME+".xlsx"
+                                        +" -datapath " + "/bin/venv/media/python/cache/data.json"*/
 
-      }
 
       builder.redirectErrorStream(true);
       process = builder.start();
@@ -120,5 +107,6 @@ public class PythonHandler{
       e.printStackTrace();
     }
   }
+
 
 }

@@ -15,6 +15,10 @@ RUN apt-get install dos2unix
 COPY ./init /init/sql/
 COPY ./entry /entry
 
+USER mssql
+USER root
+RUN mkdir /logs/
+RUN chown -R mssql /logs/
 
 RUN dos2unix /entry/create.sh
 RUN dos2unix /entry/entrypoint.sh

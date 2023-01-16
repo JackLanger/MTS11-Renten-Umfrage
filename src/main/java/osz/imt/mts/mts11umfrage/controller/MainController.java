@@ -1,25 +1,18 @@
 package osz.imt.mts.mts11umfrage.controller;
 
 import static osz.imt.mts.mts11umfrage.controller.utils.Endpoints.DOWNLOAD_ENDPOINT;
-import static osz.imt.mts.mts11umfrage.controller.utils.Endpoints.ENDPOINT_JSON;
 import static osz.imt.mts.mts11umfrage.controller.utils.Endpoints.HOME_ENDPOINT;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import osz.imt.mts.mts11umfrage.dto.EvaluationDto;
-import osz.imt.mts.mts11umfrage.models.UserAnswer;
+import osz.imt.mts.mts11umfrage.dto.DownloadForm;
+import osz.imt.mts.mts11umfrage.models.Question;
 import osz.imt.mts.mts11umfrage.repository.QuestionAnswerRepository;
 import osz.imt.mts.mts11umfrage.repository.QuestionRepository;
 import osz.imt.mts.mts11umfrage.repository.UserAnswersRepository;
-import osz.imt.mts.mts11umfrage.service.EvaluationService;
-import osz.imt.mts.mts11umfrage.utils.JsonResponse;
 
 
 /**
@@ -27,6 +20,8 @@ import osz.imt.mts.mts11umfrage.utils.JsonResponse;
  *
  * <p>Created by: Jack</p>
  * <p>Date: 10.10.2022</p>
+ *
+ * @author Jacek Langer
  */
 @Controller
 @SuppressWarnings("PMD.AvoidFieldNameMatchingMethodName")
@@ -45,7 +40,6 @@ public class MainController {
    * Repository for userAnswers.
    */
   final UserAnswersRepository userAnswersRepository;
-  private final EvaluationService evaluationService;
 
   /**
    * Initializes the respective repositories used for fetching data.
@@ -53,18 +47,15 @@ public class MainController {
    * @param questionRepository       the {@link QuestionRepository}
    * @param questionAnswerRepository the {@link QuestionAnswerRepository}
    * @param userAnswersRepository    the {@link UserAnswersRepository}
-   * @param evaluationService         the {@link EvaluationService}
    */
   @Autowired
   public MainController(QuestionRepository questionRepository,
                         QuestionAnswerRepository questionAnswerRepository,
-                        UserAnswersRepository userAnswersRepository,
-                        EvaluationService evaluationService) {
+                        UserAnswersRepository userAnswersRepository) {
 
     this.questionRepository = questionRepository;
     this.questionAnswerRepository = questionAnswerRepository;
     this.userAnswersRepository = userAnswersRepository;
-    this.evaluationService = evaluationService;
   }
 
   /**
@@ -82,44 +73,50 @@ public class MainController {
   }
 
   /**
-   * Download UserAnswers.
+   * Endpoint leading to the download page (download.html).
    *
-   * @return
+   * @return {@link ModelAndView} containing a questions and form objects as well as the total
+   *     answer count.
    */
   @GetMapping(DOWNLOAD_ENDPOINT)
   public ModelAndView download() {
 
     final ModelAndView mav = new ModelAndView("download");
+    mav.addObject("count", userAnswersRepository.findAllUserAnswerCount());
+    List<Question> questions = questionRepository.findAll();
+    mav.addObject("questions", questions);
+    mav.addObject("indizes", new DownloadForm());
     return mav;
   }
 
-  //An download Endpoint
-  /*@RequestMapping(value="/download", method= RequestMethod.GET)
-  public void downloadFile(HttpServletResponse response) throws IOException {
-    File file = new File("src/main/resources/cookie-disclaimer.txt");
-    InputStream inputStream = new FileInputStream(file);
-    response.setContentType("application/octet-stream");
-    response.setHeader("Content-Disposition", "attachment; filename=" + file.getName());
-    response.setContentLength((int) file.length());
-    FileCopyUtils.copy(inputStream, response.getOutputStream());
-  }*/
-
   /**
-   * JSON Endpoint to return all {@link UserAnswer}s as json data.
+   * Endpoint leading to the download page (download.html).
    *
-   * @return List of {@link UserAnswer} as json
+   * @return {@link ModelAndView} containing a questions and form objects as well as the total
+   *     answer count.
    */
-  @RequestMapping(value = ENDPOINT_JSON, method = RequestMethod.GET, produces = JSON)
-  @ResponseBody
-  public List<Object> json() {
-
-    return evaluationService.findAll();
+  @GetMapping("/download/data")
+  @Deprecated
+  public ModelAndView downloadData() {
+    // This method is not yet working
+    final ModelAndView mav = new ModelAndView("downloadv2");
+    mav.addObject("count", userAnswersRepository.findAllUserAnswerCount());
+    List<Question> questions = questionRepository.findAll();
+    mav.addObject("questions", questions);
+    mav.addObject("form", new DownloadForm());
+    return mav;
   }
 
-  @GetMapping("/agreement")
+  /**
+   * Endpoint for the impressum page. Impressum is seperated from pages but still has to be
+   * accessible.
+   *
+   * @return Impressum.html
+   */
+  @GetMapping("/impressum")
   public String agreement() {
 
-    return "agreement";
+    return "impressum";
   }
 
 

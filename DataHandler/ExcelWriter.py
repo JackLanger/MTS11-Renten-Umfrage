@@ -167,7 +167,7 @@ class ExcelWriter:
             answer_options_count = len(data[x]["answer_options"])
 
             cell = self.worksheet.cell(row, question_cell)
-            cell.value = x
+            cell.value = data[x]["question_text"]#x
             cell.font = openpyxl.styles.Font(bold=True, size=12)
             self.worksheet.merge_cells(start_row=row, start_column=question_cell, end_row=row + answer_options_count, end_column=question_merge_end_column)
 
@@ -238,6 +238,5 @@ class ExcelWriter:
                 string = string.replace("[", "")
                 string = string.replace("]", "")
                 self.worksheet.cell(row=row + 1, column=int(question)).value = f"[{string}]"
-                self.worksheet.cell(row=row, column=int(question)).alignment = openpyxl.styles.Alignment(horizontal="fill")
                 column += 1
             row += 1
