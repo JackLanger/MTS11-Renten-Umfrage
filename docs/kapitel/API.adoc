@@ -2,3 +2,12 @@
 :author: Moritz Hartman
 
 === Token
+
+Downloads
+
+Aus Datenschutzgründen mussten die Downloads gesichert werden. Dies geschah mittels eines 64-byte langen Tokens, welcher jedem Schüler der Klasse zur Verfügung gestellt wurde.Die Überprüfung wird durch die Methode `verifyToken` der Klasse `AuthService` durchgeführt.
+Dazu wird der Hash aus der konkatenierten Kombination von Token und Salt mittels einer built-in Hashfunktion (typ: SHA-256) berechnet. Anschließend wird die Relation `t_token_authentifizierung` gleichzeitig nach Salt und Hash über die „UND“ Verknüpfung gefiltert. Bei einer oder mehreren Übereinstimmungen wird eine erfolgreiche Authentifizierung an die Downloadfunktion zurückgegeben. 
+
+Limitierung:
+Da die Möglichkeit besteht, für jeden Hash einen eigenen Salt zu erstellen, muss bei jeder Authentifizierung, jede Kombination aus Token und Salt getestet werden. Dies führt bei Verwendung mehrerer Salts schnell zu einem hohem Rechenaufwand. Dieser ist jedoch bei der originalen MTS-11 Umfrage  zu vernachlässigen, da lediglich ein Token und somit nur ein Salt verwendet wurde.
+
